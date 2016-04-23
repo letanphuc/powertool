@@ -12,32 +12,23 @@
           <div class="col-sm-6 ">
            <p>
             <label for="X">X :</label>
-            <select>
+            <select disabled>
               <option value="time">time</option>
-              <option value="X1">X1</option>
-              <option value="V1">V1</option>
-              <option value="X2">X2</option>
             </select>
           </p>
-          <p>
-            <label for="Y">Y :</label>
-            <select>
-              <option value="time">time</option>
-              <option value="X1">X1</option>
-              <option value="V1">V1</option>
-              <option value="X2">X2</option>
-            </select>
-            <input type="color" />
-          </p>
-          <p>
-            <label for="Y1">Y1:</label>
-            <select>
-              <option value="time">time</option>
-              <option value="X1">X1</option>
-              <option value="V1">V1</option>
-              <option value="X2">X2</option>
-            </select>
-            <input type="color" />
-          </p>
+          <div id="comboBox"></div>
+          <script type="text/javascript">
+            var comboContent ="";
+            for(var j = 1; j <=3 ; j ++)
+            {
+              comboContent+="<p><label for=\"Value\"" + j + ">Y " + j + " :</label><select id=\"ComboBoxValue" +j+"\">";
+              for(var i=0; i<parent.totalSensorAvailable; i++)
+              {
+                comboContent+="<option value=" + parent.tableLable[i] +">" + parent.tableLable[i] +"</option>";
+              }
+              comboContent+="</select></p>";
+            }
+            document.getElementById("comboBox").innerHTML = comboContent;
+          </script>
         </div>
       </div>

@@ -87,7 +87,6 @@
       <div id="addGraphDialog">  </div>
       <script type="text/javascript">
         var tabID = 0;
-        $( "#addGraphDialog" ).load( "addGraph.html" );
         $("#addGraphDialog").dialog({
           autoOpen: false,
           width: 500,
@@ -104,7 +103,12 @@
             Ok: function() {
               tabID++;
               $('#tab-list').append($('<li><a data-toggle="tab" href="#tab' + tabID + '">New Graph ' + tabID + '<button class="close" type="button" title="Remove this page">×</button></a></li>'));
-              $('#tabcontent').append($('<div class="tab-pane fade" id="tab' + tabID + '">Tab '+ tabID +' content</div>'));
+              $('#tabcontent').append($('<div class="tab-pane fade" id="tab' + tabID + '"><iframe id="newchart" src="newGraphContent.html" style="border:none" width="100%" height="100%" scrolling="no"></iframe></div>'));
+              $('#newchart').load(function () {
+              $(this).height($(this).contents().height());
+              $(this).width($(this).contents().width());
+            });
+              console.log($(this).comboBox);
               $(this).dialog("close");
             },
             Cancel: function () {
@@ -114,6 +118,7 @@
         });
 
         $("#btn-add-tab").click(function () {
+          $( "#addGraphDialog" ).load( "addGraph.html" );
           $("#addGraphDialog").dialog("open");
         });
       </script>
@@ -156,6 +161,8 @@
           var recordId = new Array();
           var totalSensorAvailable = 0;
           var totalValueRow = 0;
+          var tableLable =[];
+          var testText ="Hello";
         // $( "#DataTable" ).load( "Table/showTable.html" );
         $('#showData').load(function () {
           $(this).height($(this).contents().height());

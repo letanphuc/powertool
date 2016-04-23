@@ -1,0 +1,39 @@
+<script type="text/javascript">
+	window.onload = function() {
+	var dps =[]; // dataPoints
+	var dps2 = []; // dataPoints
+
+
+	console.log(parent.matrix);
+	for (var i=0; i<parent.totalValueRow; i++) {
+
+		// console.log(parent.matrix[i][0]);
+		// console.log(parent.matrix[i][1]);
+		// console.log(parent.matrix[i][2]);
+
+		dps.push({
+			x : parent.recordId[i],
+			y : parent.matrix[1][i]
+		}); 
+		dps2.push({
+			x : parent.recordId[i],
+			y : parent.matrix[2][i]
+		});
+	}
+	var chart = new CanvasJS.Chart("chartContainer2", {
+		title : {
+			text : "Live Random Data"
+		},
+		data : [ {
+			type : "line",
+			dataPoints : dps
+		}, {
+			type : "line",
+			dataPoints : dps2
+		} ]
+	});
+	chart.render();
+}
+</script>
+<script type="text/javascript" src="php_hello/canvasjs-1.8.0/canvasjs.min.js"></script>
+<div id="chartContainer2" style="height: 400px; width: 100%;"></div>
