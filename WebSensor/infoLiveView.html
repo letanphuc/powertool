@@ -1,0 +1,11 @@
+ <div id="infoLiveView" <div style="padding:10px ;background:#00ff99;webkit-border-radius: 20px;-moz-border-radius: 20px;border-radius: 20px;margin:0 auto;overflow:hidden;"> 
+ <?php include 'readSensorInfo.php';?> 
+  <h3>Live view properties</h3>
+  <div id="liveViewProperties" > </div>
+<script type="text/javascript">
+var liveViewContent ="";
+  for (i = 0; i < totalSensor; i++) { 
+    liveViewContent+="<div class=\"checkbox\"> <label><input type=\"checkbox\">"+ sensorName[sensorID[i]] +"</label></div>";
+  }
+  document.getElementById("liveViewProperties").innerHTML = liveViewContent;
+</script>

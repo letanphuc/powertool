@@ -1,0 +1,45 @@
+
+<head>
+	<style type="text/css">
+		label {
+			display: inline-block;
+			width: 50px;
+			text-align: right;
+		}​
+	</style>
+	<?php include 'readSensorInfo.php';?>   
+	<!-- <?php include 'Table/readData.php';?> -->
+</head>
+<div id="infoSensor" <div style="padding:15px ;background:#00ff99;webkit-border-radius: 20px;-moz-border-radius: 20px;border-radius: 20px;margin:0 auto;overflow:hidden;">  
+	<h3>System Infos</h3>
+	<button id="Sensor0" data-toggle="collapse" class="btn btn-success" value="0" disabled="true" style='background-color: red; width: 30px'>1</button>
+	<button id="Sensor1" data-toggle="collapse" class="btn btn-success" value="1" disabled="true" style='background-color: red; width: 30px'>2</button>
+	<button id="Sensor2" data-toggle="collapse" class="btn btn-success" value="2" disabled="true" style='background-color: red; width: 30px'>3</button>
+	<button id="Sensor3" data-toggle="collapse" class="btn btn-success" value="3" disabled="true" style='background-color: red; width: 30px'>4</button>
+	<button id="Sensor4" data-toggle="collapse" class="btn btn-success" value="4" disabled="true" style='background-color: red; width: 30px'>5</button>
+	<button id="Sensor5" data-toggle="collapse" class="btn btn-success" value="5" disabled="true" style='background-color: red; width: 30px'>6</button>
+	<button id="Sensor6" data-toggle="collapse" class="btn btn-success" value="6" disabled="true" style='background-color: red; width: 30px'>7</button>
+	<br><br>
+	<div class="collapse in active">
+		<label> Name: </label>
+		<input id="sensorName"> </input><br>
+		<label>Type:</label>
+		<input id="sensorType"></input><br>
+		<label>Time:</label>
+		<input ></input><br>
+	</div>
+</div> 
+<script type = "text/javascript">
+	for (i = 0; i < totalSensor; i++) { 
+		document.getElementById("Sensor"+sensorID[i]).disabled = false;
+	}
+	$(document).ready(function(){
+		//TODO: change the btn-success to another class
+		$(".btn-success").click(function(){ 
+			$(".collapse").collapse('show');
+			document.getElementById("sensorName").value = sensorName[this.value] ;
+			document.getElementById("sensorType").value = sensorType[this.value] ;
+		});
+	});
+
+</script> 
