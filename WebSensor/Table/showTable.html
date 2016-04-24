@@ -1,11 +1,11 @@
   
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="../Libs/bootstrap/css/bootstrap.min.css">
 <link href="../Libs/jquery-ui-1.11.4/jquery-ui.css" rel="stylesheet">
+<link rel="stylesheet" href="../Libs/bootstrap/css/bootstrap.min.css">
 <script src="../Libs/jquery/jquery-1.12.3.min.js"></script>
-<script src="../Libs/jquery-ui-1.11.4/jquery-ui.js"></script>
 <script src="../Libs/bootstrap/js/bootstrap.min.js"></script>
+<script src="../Libs/jquery-ui-1.11.4/jquery-ui.js"></script>
 <style type="text/css">
   tr {
 width: 100%;
@@ -51,13 +51,15 @@ tbody{
     </p>
     <label> Description:</label><br>
     <textarea id="description" rows="2" cols="60">more detail</textarea>
-    <br><label> Note:</label><br>
-    <textarea disabled rows="4" cols="60" >
-     -d(x): Derivative of x
-     -l(x): Integral of x
-     -const(A): Constant name A, which can be changed while drawing
-     -Operation: + (add), -(sub), *(mul), / (div)
-   </textarea>
+    <br><label> Note:
+    <pre>
+- d(x): Derivative of x
+- l(x): Integral of x
+- const(A): Constant name A, 
+            which can be changed while drawing
+- operation: + (add), -(sub), *(mul), / (div)
+    </pre>
+    </label>
  </form>
 </div>
 <script type="text/javascript">
@@ -99,9 +101,9 @@ tbody{
 <script type="text/javascript">
   var myTable= "<table  class=\"table table-striped\"><tr><td style='color: red;'>Time</td>";
   for (var i=0; i<parent.totalSensorAvailable; i++) {
-    myTable+= "<td style='color: red;'>Value" + parent.sensorID[i] +"</td>";
+    parent.tableLable[i] = parent.sensorName[parent.sensorID[i]];
+    myTable+= "<td style='color: red;'>" + parent.tableLable[i] +"</td>";
   } 
-  myTable+="</tr>";
 
   for (var j=0; j<parent.totalValueRow; j++) {
     myTable+="<tr>";

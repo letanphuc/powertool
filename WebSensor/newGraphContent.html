@@ -1,37 +1,44 @@
 <script type="text/javascript">
 	window.onload = function() {
 	var dps =[]; // dataPoints
-	var dps2 = []; // dataPoints
+	dps[0] = [];
+	dps[1] = [];
+	dps[2] = [];
 
-
-	console.log(parent.matrix);
 	for (var i=0; i<parent.totalValueRow; i++) {
-
-		// console.log(parent.matrix[i][0]);
-		// console.log(parent.matrix[i][1]);
-		// console.log(parent.matrix[i][2]);
-
-		dps.push({
-			x : parent.recordId[i],
-			y : parent.matrix[1][i]
-		}); 
-		dps2.push({
-			x : parent.recordId[i],
-			y : parent.matrix[2][i]
-		});
+		
+		parent.arrayGraphValue.forEach( 
+			function (item, index)
+			{
+				if(item!=-1)
+					dps[index].push({
+						x : parent.recordId[i],
+						y : parent.matrix[item][i]
+					}) 	; 
+			});
 	}
 	var chart = new CanvasJS.Chart("chartContainer2", {
 		title : {
-			text : "Live Random Data"
+			text : parent.nameOfGraph.value
 		},
 		data : [ {
 			type : "line",
-			dataPoints : dps
+			color: parent.colorForY1.value,
+			dataPoints : dps[0]
 		}, {
 			type : "line",
-			dataPoints : dps2
+			color: parent.colorForY2.value,
+			dataPoints : dps[1]
+		},
+		 {
+			type : "line",
+			color: parent.colorForY3.value,
+			dataPoints : dps[2]
 		} ]
 	});
+	console.log( parent.colorForY1.value);
+	console.log( parent.colorForY2.value);
+	console.log( parent.colorForY3.value);
 	chart.render();
 }
 </script>
