@@ -24,9 +24,7 @@
 		<label> Name: </label>
 		<input id="sensorName"> </input><br>
 		<label>Type:</label>
-		<input id="sensorType"></input><br>
-		<label>Time:</label>
-		<input ></input><br>
+		<input id="sensorType" disabled="true"></input><br>
 	</div>
 </div> 
 <script type = "text/javascript">
@@ -35,7 +33,8 @@
 	}
 	$(document).ready(function(){
 		//TODO: change the btn-success to another class
-		$(".btn-success").click(function(){ 
+		$(
+		"#Sensor0,#Sensor1,#Sensor2,#Sensor3,#Sensor4,#Sensor5,#Sensor6").click(function(){ 
 			$(".collapse").collapse('show');
 			document.getElementById("sensorName").value = sensorName[this.value] ;
 			document.getElementById("sensorType").value = sensorType[this.value] ;

@@ -3,7 +3,7 @@
             <form>
               <p>
                 <label for="nameOfGraph">Name:</label><br>
-                <input id="nameOfGraph" type="text">
+                <input id="nameOfGraph" type="text" value="New Graph"></input>
               </p>
               <label> Description:</label><br>
               <textarea id="description" rows="2" cols="25"></textarea>
@@ -22,11 +22,13 @@
             for(var j = 1; j <=3 ; j ++)
             {
               comboContent+="<p><label for=\"Value\"" + j + ">Y " + j + " :</label><select id=\"ComboBoxValue" +j+"\">";
+              comboContent+="<option value=\""+(-1)+"\">None</option>";
               for(var i=0; i<parent.totalSensorAvailable; i++)
               {
-                comboContent+="<option value=" + parent.tableLable[i] +">" + parent.tableLable[i] +"</option>";
+                comboContent+="<option value=\""+i+"\">" + parent.tableLable[i] +"</option>";
               }
-              comboContent+="</select></p>";
+              comboContent+="</select>";
+              comboContent+= "<input id =\"colorForY" + j+ "\"type=\"color\" value=\"#0000ff\"/></p>";
             }
             document.getElementById("comboBox").innerHTML = comboContent;
           </script>

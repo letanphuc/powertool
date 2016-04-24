@@ -87,6 +87,7 @@
       <div id="addGraphDialog">  </div>
       <script type="text/javascript">
         var tabID = 0;
+        var arrayGraphValue =[];
         $("#addGraphDialog").dialog({
           autoOpen: false,
           width: 500,
@@ -102,14 +103,24 @@
 
             Ok: function() {
               tabID++;
-              $('#tab-list').append($('<li><a data-toggle="tab" href="#tab' + tabID + '">New Graph ' + tabID + '<button class="close" type="button" title="Remove this page">×</button></a></li>'));
-              $('#tabcontent').append($('<div class="tab-pane fade" id="tab' + tabID + '"><iframe id="newchart" src="newGraphContent.html" style="border:none" width="100%" height="100%" scrolling="no"></iframe></div>'));
-              $('#newchart').load(function () {
-              $(this).height($(this).contents().height());
-              $(this).width($(this).contents().width());
-            });
-              console.log($(this).comboBox);
-              $(this).dialog("close");
+              arrayGraphValue =[];
+              for( var i = 1; i <=3; i++)
+              {
+                // if ($("#ComboBoxValue"+i).val() != -1)
+                  arrayGraphValue.push($("#ComboBoxValue"+i).val());
+              }
+
+              if((arrayGraphValue[0]!= -1) || (arrayGraphValue[1]!= -1) || (arrayGraphValue[2]!= -1))
+              {
+                $('#tab-list').append($('<li><a data-toggle="tab" href="#tab' + tabID + '">' + nameOfGraph.value + '<button class="close" type="button" title="Remove this page">×</button></a></li>'));
+                $('#tabcontent').append($('<div class="tab-pane fade" id="tab' + tabID + '"><iframe id="newchart' + tabID + '" src="newGraphContent.html" style="border:none" width="100%" height="100%" scrolling="no"></iframe></div>'));
+                $('#newchart'+tabID).load(function () {
+                  $(this).height($(this).contents().height());
+                  $(this).width($(this).contents().width());
+                });
+                $('#newchart'+tabID).tab('show');
+            }
+            $(this).dialog("close");
             },
             Cancel: function () {
               $(this).dialog("close");
@@ -121,26 +132,64 @@
           $( "#addGraphDialog" ).load( "addGraph.html" );
           $("#addGraphDialog").dialog("open");
         });
+         $('#tab-list').on('click','.close',function(){
+        var tabID = $(this).parents('a').attr('href');
+        $(this).parents('li').remove();
+        $(tabID).remove();
+        // tabID --;
+
+        //display first tab
+        var tabFirst = $('#tab-list a:first');
+        tabFirst.tab('show');
+    });
       </script>
       <div class="tab-content" id="tabcontent">
-          <div id="LiveView" class="tab-pane fade in active">
-            <iframe id="chart" src="php_hello/test.html" style="border:none" width="100%" height="100%" scrolling="no"></iframe> 
-            <input id="btn-start-capture" type="button" class="btn btn-success" style='background-color: #4CAF50' value="Start Capture"></input>
-          </div>
-          <script type="text/javascript">
-            $('#chart').load(function () {
-              $(this).height($(this).contents().height());
-              $(this).width($(this).contents().width());
-            });
-            var count = 0;
-            $("#btn-start-capture").click(function () {
-             if (count == 0) {
-              this.style.backgroundColor = "#f44336";
-              count = 1;
-              this.value ="Stop Capture";
-            }
-            else
-            {
+        <div id="LiveView" class="tab-pane fade in active">
+          <iframe id="chart" src="php_hello/test.html" style="border:none" width="100%" height="100%" scrolling="no"></iframe> 
+          <input id="btn-start-capture" type="button" class="btn btn-success" style='background-color: #4CAF50' value="Start Capture">
+            <label id="minutes">00</label>:<label id="seconds">00</label>
+        </div>
+        <!-- javascript to set timer counter -->
+        <script type="text/javascript">
+          var minutesLabel = document.getElementById("minutes");
+          var secondsLabel = document.getElementById("seconds");
+          var totalSeconds = 0;
+          setInterval(setTime, 1000);
+
+          function setTime()
+          {
+              ++totalSeconds;
+              secondsLabel.innerHTML = pad(totalSeconds%60);
+              minutesLabel.innerHTML = pad(parseInt(totalSeconds/60));
+          }
+
+          function pad(val)
+          {
+              var valString = val + "";
+              if(valString.length < 2)
+              {
+                  return "0" + valString;
+              }
+              else
+              {
+                  return valString;
+              }
+          }
+        </script>
+        <script type="text/javascript">
+          $('#chart').load(function () {
+            $(this).height($(this).contents().height());
+            $(this).width($(this).contents().width());
+          });
+          var count = 0;
+          $("#btn-start-capture").click(function () {
+           if (count == 0) {
+            this.style.backgroundColor = "#f44336";
+            count = 1;
+            this.value ="Stop Capture";
+          }
+          else
+          {
               // document.getElementById('showData').
               this.style.backgroundColor = "#4CAF50";
               count = 0;
@@ -149,11 +198,11 @@
             }
           });
         </script>
-      <div id="DataTable" class="tab-pane fade ">
-        <br>
-        <iframe id="showData" src="Table/showTable.html" style="border:none" width="100%" height="100%" scrolling="yes"></iframe> 
-      </div>
-          <script type="text/javascript">
+        <div id="DataTable" class="tab-pane fade ">
+          <br>
+          <iframe id="showData" src="Table/showTable.html" style="border:none" width="100%" height="100%" scrolling="yes"></iframe> 
+        </div>
+        <script type="text/javascript">
           var sensorID    = new Array();
           var sensorName = [];
           var sensorType = [];
@@ -168,7 +217,7 @@
           $(this).height($(this).contents().height());
           $(this).width($(this).contents().width());
         });
-        </script>
+      </script>
     </div>
   </div>
 </div>
