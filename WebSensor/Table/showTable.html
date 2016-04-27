@@ -28,6 +28,9 @@ td, th {
  width: 80px;
  text-align: center;
 }
+th {
+  color: red;
+}
 </style>
 <?php include 'readData.php';?>
 <div class="row content" style=" width:900px">
@@ -78,6 +81,7 @@ td, th {
     },
     buttons: { 
       Ok: function() {
+        addNewColumn();
         $(this).dialog("close");
       },
       Cancel: function () {
@@ -100,15 +104,40 @@ td, th {
   });
 
   function deleteConfirmFunction() {
+    $('#dataTableID th').each(function(index) {
+      $(this).click(function() {
+        selectCoulumnIndex = index;
+      });
+    });
     if(selectCoulumnIndex > 0)
-    var r = confirm("Are you sure you want to delete " + parent.tableLable[selectCoulumnIndex - 1] + " column");
-    if (r == true) {
+    {
+      var r = confirm("Are you sure you want to delete " + parent.tableLable[selectCoulumnIndex - 1] + " column");
+      if (r == true) {
         deleteSelectColumn(selectCoulumnIndex);
-    } else {
-      txt = "You pressed Cancel!";
+      } else {
+        txt = "You pressed Cancel!";
+      }
     }
     selectCoulumnIndex = -1;
-        $('#dataTableID th').each(function(index) {
+  }
+
+  function addNewColumn (){
+    parent.tableLable.splice(parent.tableLable.length,1,"NewColumn");
+    var newColumnValues =[];
+    var selectRow;
+    var newTH = document.createElement('th');
+    selectRow = document.getElementById("dataTableID").rows[0];
+    selectRow.appendChild(newTH);
+    newTH.innerHTML = parent.tableLable[parent.tableLable.length-1];
+    for(var i = 1; i <= parent.totalValueRow; i++)
+    {
+      selectRow = document.getElementById("dataTableID").rows[i];
+      selectRow.insertCell(parent.tableLable.length).innerHTML =parent.matrix[2][i] + parent.matrix[3][i];
+      newColumnValues.push(parent.matrix[2][i] + parent.matrix[3][i]);
+    }
+    parent.matrix.splice(parent.matrix.length,1,newColumnValues);
+    parent.totalSensorAvailable++;
+    $('#dataTableID th').each(function(index) {
       $(this).click(function() {
         selectCoulumnIndex = index;
       });
@@ -117,7 +146,11 @@ td, th {
 
   function deleteSelectColumn (index){
     parent.tableLable.splice(index-1, 1);
+    console.log(parent.matrix.length);
+    console.log(parent.matrix[index-1]);
     parent.matrix.splice(index-1,1);
+    console.log(parent.matrix.length);
+    console.log(parent.matrix[index-1]);
     var selectRow;
     for(var i = 0; i <= parent.totalValueRow; i++)
     {
@@ -127,21 +160,21 @@ td, th {
     parent.totalSensorAvailable--;
   }
 // load data from global variable
-    var myTable= "<table  id =\"dataTableID\" class=\"table table-striped table-hover\"><tr><th style='color: red;'>Time</th>";
-    for (var i=0; i<parent.totalSensorAvailable; i++) {
-      parent.tableLable[i] = parent.sensorName[parent.sensorID[i]];
-      myTable+= "<th style='color: red;'>" + parent.tableLable[i] +"</th>";
-    } 
-    myTable +="</tr>";
+var myTable= "<table  id =\"dataTableID\" class=\"table table-striped table-hover\"><tr><th style='color: red;'>Time</th>";
+for (var i=0; i<parent.totalSensorAvailable; i++) {
+  parent.tableLable[i] = parent.sensorName[parent.sensorID[i]];
+  myTable+= "<th style='color: red;'>" + parent.tableLable[i] +"</th>";
+} 
+myTable +="</tr>";
 
-    for (var j=0; j<parent.totalValueRow; j++) {
-      myTable+="<tr id=\""+parent.recordId[j] +"\">";
-      myTable+="<td>" +parent.recordId[j] + "</td>";
-      for (i=0; i<parent.totalSensorAvailable; i++) {
-        myTable+="<td>" + parent.matrix[i][j] + "</td>";
-      }
-      myTable+="</tr>";
-    }  
-    myTable+="</table>";
-    document.getElementById("showTable").innerHTML = myTable;
+for (var j=0; j<parent.totalValueRow; j++) {
+  myTable+="<tr id=\""+parent.recordId[j] +"\">";
+  myTable+="<td>" +parent.recordId[j] + "</td>";
+  for (i=0; i<parent.totalSensorAvailable; i++) {
+    myTable+="<td>" + parent.matrix[i][j] + "</td>";
+  }
+  myTable+="</tr>";
+}  
+myTable+="</table>";
+document.getElementById("showTable").innerHTML = myTable;
 </script>
