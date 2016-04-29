@@ -1,3 +1,8 @@
+<link href="Libs/jquery-ui-1.11.4/jquery-ui.css" rel="stylesheet">
+<script src="Libs/jquery/jquery-1.12.3.min.js"></script>
+<script src="Libs/jquery-ui-1.11.4/jquery-ui.js"></script>
+<link rel="stylesheet" href="Libs/bootstrap/css/bootstrap.min.css">
+<script src="Libs/bootstrap/js/bootstrap.min.js"></script>
 <script type="text/javascript">
 	window.onload = function() {
 	var dps =[]; // dataPoints
@@ -8,8 +13,7 @@
 	for (var i=0; i<parent.totalValueRow; i++) {
 		
 		parent.arrayGraphValue.forEach( 
-			function (item, index)
-			{
+			function (item, index){
 				if(item!=-1)
 					dps[index].push({
 						x : parent.recordId[i],
@@ -21,6 +25,7 @@
 		title : {
 			text : parent.nameOfGraph.value
 		},
+		exportEnabled: true,
 		data : [ {
 			type : "line",
 			color: parent.colorForY1.value,

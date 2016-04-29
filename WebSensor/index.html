@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="Libs/bootstrap/css/bootstrap.min.css">
   <link href="Libs/jquery-ui-1.11.4/jquery-ui.css" rel="stylesheet">
   <script src="Libs/jquery/jquery-1.12.3.min.js"></script>
   <script src="Libs/jquery-ui-1.11.4/jquery-ui.js"></script>
+  <link rel="stylesheet" href="Libs/bootstrap/css/bootstrap.min.css">
   <script src="Libs/bootstrap/js/bootstrap.min.js"></script>
   <style>
     /* Remove the navbar's default margin-bottom and rounded borders */ 
@@ -86,8 +86,10 @@
       </ul>
       <div id="addGraphDialog">  </div>
       <script type="text/javascript">
-        var tabID = 0;
+        var tabID = 1;
         var arrayGraphValue =[];
+        var GraphInfo = [];
+        var tabIndex = 0;
         $("#addGraphDialog").dialog({
           autoOpen: false,
           width: 500,
@@ -102,12 +104,11 @@
           buttons: { 
 
             Ok: function() {
-              tabID++;
               arrayGraphValue =[];
               for( var i = 1; i <=3; i++)
               {
                 // if ($("#ComboBoxValue"+i).val() != -1)
-                  arrayGraphValue.push($("#ComboBoxValue"+i).val());
+                arrayGraphValue.push($("#ComboBoxValue"+i).val());
               }
 
               if((arrayGraphValue[0]!= -1) || (arrayGraphValue[1]!= -1) || (arrayGraphValue[2]!= -1))
@@ -118,9 +119,22 @@
                   $(this).height($(this).contents().height());
                   $(this).width($(this).contents().width());
                 });
-                $('#newchart'+tabID).tab('show');
-            }
-            $(this).dialog("close");
+                tabID++;
+                GraphInfo.push( 
+                  {Name:nameOfGraph.value, 
+                        Description:graphDescription.value, 
+                        X:"Time",
+                        Y1:  arrayGraphValue[0],
+                        Y2: arrayGraphValue[1],
+                        Y3: arrayGraphValue[2],
+                        colorOfY1: colorForY1.value,
+                        colorOfY2: colorForY2.value,
+                        colorOfY3: colorForY3.value
+                }); 
+                console.log(GraphInfo);
+                // arrayGraphValue.push(1);
+              }
+              $(this).dialog("close");
             },
             Cancel: function () {
               $(this).dialog("close");
@@ -132,64 +146,78 @@
           $( "#addGraphDialog" ).load( "addGraph.html" );
           $("#addGraphDialog").dialog("open");
         });
-         $('#tab-list').on('click','.close',function(){
-        var tabID = $(this).parents('a').attr('href');
-        $(this).parents('li').remove();
-        $(tabID).remove();
+        $('#tab-list').on('click','.close',function(){
+          var tabID = $(this).parents('a').attr('href');
+          $(this).parents('li').remove();
+          $(tabID).remove();
         // tabID --;
 
         //display first tab
         var tabFirst = $('#tab-list a:first');
         tabFirst.tab('show');
-    });
-      </script>
-      <div class="tab-content" id="tabcontent">
-        <div id="LiveView" class="tab-pane fade in active">
-          <iframe id="chart" src="php_hello/test.html" style="border:none" width="100%" height="100%" scrolling="no"></iframe> 
-          <input id="btn-start-capture" type="button" class="btn btn-success" style='background-color: #4CAF50' value="Start Capture">
-            <label id="minutes">00</label>:<label id="seconds">00</label>
-        </div>
-        <!-- javascript to set timer counter -->
-        <script type="text/javascript">
-          var minutesLabel = document.getElementById("minutes");
-          var secondsLabel = document.getElementById("seconds");
-          var totalSeconds = 0;
-          setInterval(setTime, 1000);
+      });
+    </script>
+    <div class="tab-content" id="tabcontent">
+      <div id="LiveView" class="tab-pane fade in active">
+        <iframe id="chart" src="php_hello/test.html" style="border:none" width="100%" height="100%" scrolling="no"></iframe> 
+        <input id="btn-start-capture" type="button" class="btn btn-success" style='background-color: #4CAF50' value="Start Capture">
+        <label id="minutes">00</label>:<label id="seconds">00</label>
+      </div>
+      <!-- javascript to set timer counter -->
+      <script type="text/javascript">
+        var minutesLabel = document.getElementById("minutes");
+        var secondsLabel = document.getElementById("seconds");
+        var totalSeconds = 0;
+        setInterval(setTime, 1000);
 
-          function setTime()
-          {
-              ++totalSeconds;
-              secondsLabel.innerHTML = pad(totalSeconds%60);
-              minutesLabel.innerHTML = pad(parseInt(totalSeconds/60));
-          }
+        function setTime()
+        {
+          ++totalSeconds;
+          secondsLabel.innerHTML = pad(totalSeconds%60);
+          minutesLabel.innerHTML = pad(parseInt(totalSeconds/60));
+        }
 
-          function pad(val)
+        function pad(val)
+        {
+          var valString = val + "";
+          if(valString.length < 2)
           {
-              var valString = val + "";
-              if(valString.length < 2)
-              {
-                  return "0" + valString;
-              }
-              else
-              {
-                  return valString;
-              }
-          }
-        </script>
-        <script type="text/javascript">
-          $('#chart').load(function () {
-            $(this).height($(this).contents().height());
-            $(this).width($(this).contents().width());
-          });
-          var count = 0;
-          $("#btn-start-capture").click(function () {
-           if (count == 0) {
-            this.style.backgroundColor = "#f44336";
-            count = 1;
-            this.value ="Stop Capture";
+            return "0" + valString;
           }
           else
           {
+            return valString;
+          }
+        }
+      </script>
+      <script type="text/javascript">
+        $('#chart').load(function () {
+          $(this).height($(this).contents().height());
+          $(this).width($(this).contents().width());
+        });
+ 
+          $('#tab-list').on('shown.bs.tab', function (e) {
+             var x = $(e.target).text();
+             var y = $(e.target).attr( 'href');   
+             console.log(y);
+            if(y =="#LiveView"){
+              $( "#infoLiveView" ).load( "infoLiveView.html" );
+            }
+            else if (y.indexOf("tab") > -1){
+              tabIndex = y.slice(y.length-1);
+              console.log(tabIndex);
+              $( "#infoLiveView" ).load( "infoNewGraph.html" );
+            }
+          });
+        var count = 0;
+        $("#btn-start-capture").click(function () {
+         if (count == 0) {
+          this.style.backgroundColor = "#f44336";
+          count = 1;
+          this.value ="Stop Capture";
+        }
+        else
+        {
               // document.getElementById('showData').
               this.style.backgroundColor = "#4CAF50";
               count = 0;

@@ -1,0 +1,58 @@
+ 	<style type="text/css">
+		label {
+			display: inline-block;
+			width: 50px;
+			text-align: right;
+		}​
+	</style>
+ <div id="infoNewGraph" <div style="padding:10px ;background:#00ff99;webkit-border-radius: 20px;-moz-border-radius: 20px;border-radius: 20px;margin:0 auto;overflow:hidden;"> 
+ <?php include 'readSensorInfo.php';?> 
+  <h3>Graph Properties</h3>
+  <div id="InfoGraphProperties" > 
+  <label> Name:</label>
+  <input id="InfoNameOfGraph" disabled="true" ></input><br>
+  <label> Description:</label><br>
+  <label></label>
+  <textarea  id="descriptionOfGraph" disabled="true" rows="2" cols="22" ></textarea>
+  <br>
+  <label> X:</label>
+  <input id="InfoXOfNewGraph" value="Time" disabled="true"></input><br>
+  <label> Y1:</label>
+  <input id="InfoY1OfNewGraph" value="None" disabled="true"></input>
+  <input type="color" id="InfoColorForY1" value="#0000ff"  disabled="true"/><br>
+  <label> Y2:</label>
+  <input id="InfoY2OfNewGraph" value="None" disabled="true"></input>
+  <input type="color" id="InfoColorForY2" value="#0000ff" disabled="true" /><br>
+  <label> Y3:</label>
+  <input id="InfoY3OfNewGraph" value="None" disabled="true"></input>
+  <input type="color" id="InfoColorForY3" value="#0000ff" disabled="true" /><br>
+  </div>
+  <script type="text/javascript">
+  	document.getElementById("InfoNameOfGraph").value =GraphInfo[tabIndex-1].Name;
+  	document.getElementById("descriptionOfGraph").value =GraphInfo[tabIndex-1].Description;
+  	document.getElementById("InfoXOfNewGraph").value =GraphInfo[tabIndex-1].X;
+  	if(GraphInfo[tabIndex-1].Y1 == -1){
+  		document.getElementById("InfoY1OfNewGraph").value ="None";
+  	}
+  	else{
+  		document.getElementById("InfoY1OfNewGraph").value =tableLable[GraphInfo[tabIndex-1].Y1];
+  	}
+  	if(GraphInfo[tabIndex-1].Y2 == -1){
+  		document.getElementById("InfoY2OfNewGraph").value ="None";
+  	}
+  	else{
+  		document.getElementById("InfoY2OfNewGraph").value =tableLable[GraphInfo[tabIndex-1].Y2];
+  	}
+  	if(GraphInfo[tabIndex-1].Y3 == -1){
+  		document.getElementById("InfoY3OfNewGraph").value ="None";
+  	}
+  	else{
+  		document.getElementById("InfoY3OfNewGraph").value =tableLable[GraphInfo[tabIndex-1].Y3];
+  	}
+
+  	document.getElementById("InfoColorForY1").value =GraphInfo[tabIndex-1].colorOfY1;
+  	document.getElementById("InfoColorForY2").value =GraphInfo[tabIndex-1].colorOfY2;
+  	document.getElementById("InfoColorForY3").value =GraphInfo[tabIndex-1].colorOfY3;
+
+
+  </script>
