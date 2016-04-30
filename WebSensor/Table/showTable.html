@@ -107,8 +107,8 @@ td, th {
   });
 
   var selectCoulumnIndex = -1;
-  $(document).ready(function() {
-    $('#dataTableID th').each(function(index) {
+  function setIndexAndHightlight(){
+        $('#dataTableID th').each(function(index) {
       $(this).click(function() {
         selectCoulumnIndex = index;
         console.log(index);
@@ -122,6 +122,9 @@ td, th {
         });
       });
     });
+  }
+  $(document).ready(function() {
+    setIndexAndHightlight();
   });
 
   $("#addColumnButton").click(function () {
@@ -129,11 +132,6 @@ td, th {
   });
 
   function deleteConfirmFunction() {
-    $('#dataTableID th').each(function(index) {
-      $(this).click(function() {
-        selectCoulumnIndex = index;
-      });
-    });
     if(selectCoulumnIndex > 0)
     {
       var r = confirm("Are you sure you want to delete " + parent.tableLable[selectCoulumnIndex - 1] + " column");
@@ -162,11 +160,7 @@ td, th {
     }
     parent.matrix.splice(parent.matrix.length,1,newColumnValues);
     parent.totalSensorAvailable++;
-    $('#dataTableID th').each(function(index) {
-      $(this).click(function() {
-        selectCoulumnIndex = index;
-      });
-    });
+    setIndexAndHightlight();
   }
 
   function deleteSelectColumn (index){
@@ -183,6 +177,7 @@ td, th {
       selectRow.deleteCell(index);
     }
     parent.totalSensorAvailable--;
+    setIndexAndHightlight();
   }
 // load data from global variable
 var myTable= "<table  id =\"dataTableID\" class=\"table table-hover\"><tr><th style='color: red;'>Time</th>";
