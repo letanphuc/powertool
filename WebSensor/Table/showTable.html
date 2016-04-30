@@ -67,7 +67,7 @@ td, th {
     </p>
     <p>
       <label> Equalition:</label><br>
-      <textarea id="equalition" rows="2" cols="60" placeholder="Enter equalition"></textarea>
+      <textarea id="ColumnEqualition" rows="2" cols="60" placeholder="Enter equalition"></textarea>
     </p>
     <label> Description:</label><br>
     <textarea id="ColumnDescription" rows="2" cols="60" placeholder="Enter description"></textarea>
@@ -108,15 +108,20 @@ td, th {
 
   var selectCoulumnIndex = -1;
   function setIndexAndHightlight(){
-        $('#dataTableID th').each(function(index) {
+    $('#dataTableID th').each(function(index) {
       $(this).click(function() {
         selectCoulumnIndex = index;
+        // $("#infoLiveView", window.parent.document).load("infoColumn.html");
+        if(index > 0){
+          parent.columnSelected = selectCoulumnIndex -1;
+          window.parent.reloadInfoColumn();
+        }
         console.log(index);
         $('tr').each(function() {
           if(index > 0){
             $(this).find('td').not(':eq(index)').removeClass('highlight');
-            $(this).find('td').eq(index).toggleClass('highlight');
             $(this).find('th').not(':eq(index)').removeClass('highlight');
+            $(this).find('td').eq(index).toggleClass('highlight');
             $(this).find('th').eq(index).toggleClass('highlight');
           }
         });
@@ -134,7 +139,7 @@ td, th {
   function deleteConfirmFunction() {
     if(selectCoulumnIndex > 0)
     {
-      var r = confirm("Are you sure you want to delete " + parent.tableLable[selectCoulumnIndex - 1] + " column");
+      var r = confirm("Are you sure you want to delete " + parent.tableLable[selectCoulumnIndex - 1] + " column?");
       if (r == true) {
         deleteSelectColumn(selectCoulumnIndex);
       } else {
@@ -145,7 +150,7 @@ td, th {
   }
 
   function addNewColumn (){
-    parent.tableLable.splice(parent.tableLable.length,1,nameOfNewColumn.value);
+    parent.tableLable.push(nameOfNewColumn.value);
     var newColumnValues =[];
     var selectRow;
     var newTH = document.createElement('th');
@@ -155,16 +160,26 @@ td, th {
     for(var i = 1; i <= parent.totalValueRow; i++)
     {
       selectRow = document.getElementById("dataTableID").rows[i];
-      selectRow.insertCell(parent.tableLable.length).innerHTML =parent.matrix[2][i] + parent.matrix[3][i];
-      newColumnValues.push(parent.matrix[2][i] + parent.matrix[3][i]);
+      selectRow.insertCell(parent.tableLable.length).innerHTML =parent.matrix[2][i-1] + parent.matrix[3][i-1];
+      newColumnValues.push(parent.matrix[2][i-1] + parent.matrix[3][i-1]);
     }
-    parent.matrix.splice(parent.matrix.length,1,newColumnValues);
+    parent.matrix.push(newColumnValues);
     parent.totalSensorAvailable++;
+    parent.columnInfo.push({
+      Name: nameOfNewColumn.value,
+      Type: "newColumn",
+      Average: getAverage(newColumnValues),
+      Max: getMax(newColumnValues),
+      Min: getMin(newColumnValues),
+      Description: ColumnDescription.value,
+      Equalition: ColumnEqualition.value,
+    });
     setIndexAndHightlight();
   }
 
   function deleteSelectColumn (index){
     parent.tableLable.splice(index-1, 1);
+    parent.columnInfo.splice(index-1, 1);
     console.log(parent.matrix.length);
     console.log(parent.matrix[index-1]);
     parent.matrix.splice(index-1,1);
@@ -178,6 +193,33 @@ td, th {
     }
     parent.totalSensorAvailable--;
     setIndexAndHightlight();
+  }
+
+  function getAverage(array)
+  {
+    var total = 0;
+    array.forEach( function (item, index){
+      total+=item;
+    });
+    return total/array.length;
+  }
+  function getMax(array)
+  {
+    var max = array[0];
+    array.forEach( function (item, index){
+      if(max <item)
+        max=item;
+    });
+    return max;
+  }
+  function getMin(array)
+  {
+    var min = array[0];
+    array.forEach( function (item, index){
+      if(min > item)
+        min=item;
+    });
+    return min;
   }
 // load data from global variable
 var myTable= "<table  id =\"dataTableID\" class=\"table table-hover\"><tr><th style='color: red;'>Time</th>";
@@ -197,4 +239,16 @@ for (var j=0; j<parent.totalValueRow; j++) {
 }  
 myTable+="</table>";
 document.getElementById("showTable").innerHTML = myTable;
+for (var i=0; i<parent.totalSensorAvailable; i++) {
+  parent.columnInfo.push({
+    Name: parent.sensorName[parent.sensorID[i]],
+    Type: parent.sensorType[parent.sensorID[i]],
+    Average: getAverage(parent.matrix[i]),
+    Max: getMax(parent.matrix[i]),
+    Min: getMin(parent.matrix[i]),
+    Description: "",
+    Equalition: "",
+  });
+}
+console.log(parent.columnInfo);
 </script>
