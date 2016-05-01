@@ -6,15 +6,19 @@
 <script src="../Libs/jquery/jquery-1.12.3.min.js"></script>
 <script src="../Libs/bootstrap/js/bootstrap.min.js"></script>
 <script src="../Libs/jquery-ui-1.11.4/jquery-ui.js"></script>
+<script src="./jquery.tabletoCSV.js" type="text/javascript" charset="utf-8"></script>
 <style type="text/css">
   tr {
     width: 100%;
     display: inline-table;
+    table-layout: fixed;
+    overflow: hidden;
   }
 
   table{
    height:300px; 
    table-layout: fixed;
+   width: 80px;
    /*border: 1px solid black;*/
  }
  tbody{
@@ -27,19 +31,12 @@ td, th {
  border: 1px solid black;
  width: 80px;
  text-align: center;
+ position: relative;
+outline: 0;
 }
 th {
   color: red;
-}
-
-table {
-  overflow: hidden;
-}
-
-td, th {
-  /*padding: 2px;*/
-  position: relative;
-  outline: 0;
+  background-color: #b3b3b3;
 }
 
 .highlight {
@@ -56,7 +53,8 @@ td, th {
   <div class="col-sm-3 ">
     <br>
     <button id="addColumnButton" value="Open Dialog" class="btn btn-success" style="height:30px;width:100px" >Add Column</button><br><br>
-    <button class="btn btn-success" style="height:30px;width:100px"  onclick="deleteConfirmFunction()">Delete</button>
+    <button class="btn btn-success" style="height:30px;width:100px"  onclick="deleteConfirmFunction()">Delete</button><br><br>
+    <button id ="btnExport"class="btn btn-success" style="height:30px;width:100px">Export</button>
   </div>
 </div>
 <div id="dialog">
@@ -83,7 +81,13 @@ td, th {
 </form>
 </div>
 <script type="text/javascript">
-
+  //Export to EXCEL
+        $(function(){
+            $("#btnExport").click(function(){
+                $("#dataTableID").tableToCSV();
+            });
+        });
+        
   $("#dialog").dialog({
     autoOpen: false,
     width: 500,
