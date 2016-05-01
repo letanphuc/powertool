@@ -5,9 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="Libs/jquery-ui-1.11.4/jquery-ui.css" rel="stylesheet">
   <script src="Libs/jquery/jquery-1.12.3.min.js"></script>
-  <script src="Libs/jquery-ui-1.11.4/jquery-ui.js"></script>
   <link rel="stylesheet" href="Libs/bootstrap/css/bootstrap.min.css">
   <script src="Libs/bootstrap/js/bootstrap.min.js"></script>
+  <script src="Libs/jquery-ui-1.11.4/jquery-ui.js"></script>
+
   <style>
     /* Remove the navbar's default margin-bottom and rounded borders */ 
     .navbar {
@@ -48,6 +49,9 @@
 
       .row.content {height:auto;} 
     }
+    h3 { 
+    font-weight: bold;
+    }
   </style>
   <script language="javascript" type="text/javascript">
     function resizeIframe(obj) {
@@ -80,10 +84,6 @@
       <p>
         <button id="btn-add-tab" type="button" class="btn btn-success pull-right">Add Graph</button>
       </p>
-      <ul class="nav nav-tabs" id="tab-list">
-        <li class="active"><a data-toggle="tab" href="#LiveView">Live View</a></li>
-        <li><a data-toggle="tab" href="#DataTable">Data table</a></li>
-      </ul>
       <div id="addGraphDialog">  </div>
       <script type="text/javascript">
         var tabID = 1;
@@ -132,7 +132,6 @@
                         colorOfY3: colorForY3.value
                 }); 
                 console.log(GraphInfo);
-                // arrayGraphValue.push(1);
               }
               $(this).dialog("close");
             },
@@ -157,6 +156,10 @@
         tabFirst.tab('show');
       });
     </script>
+      <ul class="nav nav-tabs" id="tab-list">
+        <li class="active"><a data-toggle="tab" href="#LiveView">Live View</a></li>
+        <li><a data-toggle="tab" href="#DataTable">Data table</a></li>
+      </ul>
     <div class="tab-content" id="tabcontent">
       <div id="LiveView" class="tab-pane fade in active">
         <iframe id="chart" src="php_hello/test.html" style="border:none" width="100%" height="100%" scrolling="no"></iframe> 
@@ -208,6 +211,10 @@
               console.log(tabIndex);
               $( "#infoLiveView" ).load( "infoNewGraph.html" );
             }
+            else if (y.indexOf("DataTable") > -1){
+              console.log ("load infoColumn");
+              $( "#infoLiveView" ).load( "Table/infoColumn.html" );
+            }
           });
         var count = 0;
         $("#btn-start-capture").click(function () {
@@ -231,20 +238,23 @@
           <iframe id="showData" src="Table/showTable.html" style="border:none" width="100%" height="100%" scrolling="yes"></iframe> 
         </div>
         <script type="text/javascript">
-          var sensorID    = new Array();
+          var sensorID    = [];
           var sensorName = [];
           var sensorType = [];
           var matrix = []; 
-          var recordId = new Array();
+          var recordId = [];
           var totalSensorAvailable = 0;
           var totalValueRow = 0;
           var tableLable =[];
-          var testText ="Hello";
-        // $( "#DataTable" ).load( "Table/showTable.html" );
+          var columnInfo =[];
+          var columnSelected = 0;
         $('#showData').load(function () {
           $(this).height($(this).contents().height());
           $(this).width($(this).contents().width());
         });
+        function reloadInfoColumn () {
+            $( "#infoLiveView" ).load( "Table/infoColumn.html" );
+          }
       </script>
     </div>
   </div>

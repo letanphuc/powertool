@@ -37,7 +37,7 @@ table {
 }
 
 td, th {
-  padding: 10px;
+  /*padding: 2px;*/
   position: relative;
   outline: 0;
 }
@@ -107,11 +107,10 @@ td, th {
   });
 
   var selectCoulumnIndex = -1;
-  function setIndexAndHightlight(){
+  function setIndexAndHighlight (){
     $('#dataTableID th').each(function(index) {
       $(this).click(function() {
         selectCoulumnIndex = index;
-        // $("#infoLiveView", window.parent.document).load("infoColumn.html");
         if(index > 0){
           parent.columnSelected = selectCoulumnIndex -1;
           window.parent.reloadInfoColumn();
@@ -129,7 +128,7 @@ td, th {
     });
   }
   $(document).ready(function() {
-    setIndexAndHightlight();
+    setIndexAndHighlight();
   });
 
   $("#addColumnButton").click(function () {
@@ -174,17 +173,17 @@ td, th {
       Description: ColumnDescription.value,
       Equalition: ColumnEqualition.value,
     });
-    setIndexAndHightlight();
+    setIndexAndHighlight();
   }
 
   function deleteSelectColumn (index){
     parent.tableLable.splice(index-1, 1);
     parent.columnInfo.splice(index-1, 1);
-    console.log(parent.matrix.length);
-    console.log(parent.matrix[index-1]);
+    // console.log(parent.matrix.length);
+    // console.log(parent.matrix[index-1]);
     parent.matrix.splice(index-1,1);
-    console.log(parent.matrix.length);
-    console.log(parent.matrix[index-1]);
+    // console.log(parent.matrix.length);
+    // console.log(parent.matrix[index-1]);
     var selectRow;
     for(var i = 0; i <= parent.totalValueRow; i++)
     {
@@ -192,7 +191,7 @@ td, th {
       selectRow.deleteCell(index);
     }
     parent.totalSensorAvailable--;
-    setIndexAndHightlight();
+    setIndexAndHighlight();
   }
 
   function getAverage(array)

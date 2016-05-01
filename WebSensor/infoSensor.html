@@ -12,13 +12,13 @@
 </head>
 <div id="infoSensor" <div style="padding:15px ;background:#00ff99;webkit-border-radius: 20px;-moz-border-radius: 20px;border-radius: 20px;margin:0 auto;overflow:hidden;">  
 	<h3>System Infos</h3>
-	<button id="Sensor0" data-toggle="collapse" class="btn btn-success" value="0" disabled="true" style='background-color: red; width: 30px'>1</button>
-	<button id="Sensor1" data-toggle="collapse" class="btn btn-success" value="1" disabled="true" style='background-color: red; width: 30px'>2</button>
-	<button id="Sensor2" data-toggle="collapse" class="btn btn-success" value="2" disabled="true" style='background-color: red; width: 30px'>3</button>
-	<button id="Sensor3" data-toggle="collapse" class="btn btn-success" value="3" disabled="true" style='background-color: red; width: 30px'>4</button>
-	<button id="Sensor4" data-toggle="collapse" class="btn btn-success" value="4" disabled="true" style='background-color: red; width: 30px'>5</button>
-	<button id="Sensor5" data-toggle="collapse" class="btn btn-success" value="5" disabled="true" style='background-color: red; width: 30px'>6</button>
-	<button id="Sensor6" data-toggle="collapse" class="btn btn-success" value="6" disabled="true" style='background-color: red; width: 30px'>7</button>
+	<input type="button"  id="Sensor0" data-toggle="collapse" class="btn btn-success" value="0"  style='background-color: blue; width: 30px;display:none'></input>
+	<input type="button"  id="Sensor1" data-toggle="collapse" class="btn btn-success" value="1"  style='background-color: blue; width: 30px;display:none'></input>
+	<input type="button"  id="Sensor2" data-toggle="collapse" class="btn btn-success" value="2"  style='background-color: blue; width: 30px;display:none'></input>
+	<input type="button"  id="Sensor3" data-toggle="collapse" class="btn btn-success" value="3"  style='background-color: blue; width: 30px;display:none'></input>
+	<input type="button"  id="Sensor4" data-toggle="collapse" class="btn btn-success" value="4"  style='background-color: blue; width: 30px;display:none'></input>
+	<input type="button"  id="Sensor5" data-toggle="collapse" class="btn btn-success" value="5"  style='background-color: blue; width: 30px;display:none'></input>
+	<input type="button"  id="Sensor6" data-toggle="collapse" class="btn btn-success" value="6"  style='background-color: blue; width: 30px;display:none'></input>
 	<br><br>
 	<div class="collapse in active">
 		<label> Name: </label>
@@ -28,16 +28,27 @@
 	</div>
 </div> 
 <script type = "text/javascript">
+	document.getElementById("sensorName").value = sensorName[sensorID[0]] ;
+	document.getElementById("sensorType").value = sensorType[sensorID[0]] ;
+	document.getElementById("Sensor"+sensorID[0]).style.backgroundColor = "red";
 	for (i = 0; i < totalSensor; i++) { 
-		document.getElementById("Sensor"+sensorID[i]).disabled = false;
+		document.getElementById("Sensor"+sensorID[i]).value = i;
+		document.getElementById("Sensor"+sensorID[i]).style.display = "inline"; 
+	}
+	function resetBackgroundColor()
+	{
+		for (i = 0; i < totalSensor; i++) { 
+		console.log(document.getElementById("Sensor"+sensorID[i]).value);
+		document.getElementById("Sensor"+sensorID[i]).style.backgroundColor = "blue"; 
+	}
 	}
 	$(document).ready(function(){
-		//TODO: change the btn-success to another class
-		$(
-		"#Sensor0,#Sensor1,#Sensor2,#Sensor3,#Sensor4,#Sensor5,#Sensor6").click(function(){ 
+		$("#Sensor0,#Sensor1,#Sensor2,#Sensor3,#Sensor4,#Sensor5,#Sensor6").click(function(){ 
 			$(".collapse").collapse('show');
-			document.getElementById("sensorName").value = sensorName[this.value] ;
-			document.getElementById("sensorType").value = sensorType[this.value] ;
+			resetBackgroundColor();
+			this.style.backgroundColor = "red";
+			document.getElementById("sensorName").value = sensorName[sensorID[this.value]] ;
+			document.getElementById("sensorType").value = sensorType[sensorID[this.value]] ;
 		});
 	});
 
