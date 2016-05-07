@@ -1,6 +1,10 @@
 
 <head>
 	<style type="text/css">
+		.displayValue { 
+			font-weight: bold;
+			background-color: #ffffff;
+		}
 		label {
 			display: inline-block;
 			width: 45px;
@@ -22,9 +26,9 @@
 	<br><br>
 	<div class="collapse in active">
 		<label> Name: </label>
-		<input id="sensorName"> </input><br>
+		<input id="sensorName"  class="displayValue"> </input><br>
 		<label>Type:</label>
-		<input id="sensorType" disabled="true"></input><br>
+		<input id="sensorType"  class="displayValue" disabled="true"></input><br>
 	</div>
 </div> 
 <script type = "text/javascript">
@@ -38,9 +42,9 @@
 	function resetBackgroundColor()
 	{
 		for (i = 0; i < totalSensor; i++) { 
-		console.log(document.getElementById("Sensor"+sensorID[i]).value);
-		document.getElementById("Sensor"+sensorID[i]).style.backgroundColor = "blue"; 
-	}
+			console.log(document.getElementById("Sensor"+sensorID[i]).value);
+			document.getElementById("Sensor"+sensorID[i]).style.backgroundColor = "blue"; 
+		}
 	}
 	$(document).ready(function(){
 		$("#Sensor0,#Sensor1,#Sensor2,#Sensor3,#Sensor4,#Sensor5,#Sensor6").click(function(){ 

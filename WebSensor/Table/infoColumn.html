@@ -3,7 +3,7 @@
     font-weight: bold;
     background-color: #ffffff;
     }
-    label {
+    .labelColumn {
       display: inline-block;
       width: 60px;
       text-align: right;
@@ -12,21 +12,21 @@
   </style>
   <div id="infoNewColumn" <div style="padding:10px ;background:#00ff99;webkit-border-radius: 20px;-moz-border-radius: 20px;border-radius: 20px;margin:0 auto;overflow:hidden;"> 
     <h3>Column Properties</h3>
-    <label> Name:</label>
+    <label class="labelColumn"> Name:</label>
     <input id="InfoNameOfColumn"  class="displayValue" disabled="true" ></input><br>
-    <label> Type:</label>
+    <label class="labelColumn"> Type:</label>
     <input id="InfoTypeOfColumn"  class="displayValue" disabled="true" ></input><br>
-    <label> Average:</label>
+    <label class="labelColumn"> Average:</label>
     <input id="InfoAverageOfColumn" class="displayValue" disabled="true" ></input><br>
-    <label> Max:</label>
+    <label class="labelColumn"> Max:</label>
     <input id="InfoMaxOfColumn" class="displayValue" disabled="true" ></input><br>
-    <label> Min:</label>
+    <label class="labelColumn"> Min:</label>
     <input id="InfoMinOfColumn" class="displayValue" disabled="true" ></input><br>
-    <label id="lableOfDescriptionOfColumn"> Description:</label><br>
+    <label  class="labelColumn" id="lableOfDescriptionOfColumn"> Description:</label><br>
     <label></label>
-    <textarea  id="descriptionOfColumn" disabled="true" rows="2" cols="22" ></textarea>
+    <textarea  id="descriptionOfColumn"  class="displayValue"  disabled="true" rows="2" cols="22" ></textarea>
     <br>
-    <label  id="lableOfEqualitionOfColumn"> Equalition:</label><br>
+    <label   class="labelColumn" id="lableOfEqualitionOfColumn"> Equalition:</label><br>
     <label></label>
     <textarea  id="equalitionOfColumn" class="displayValue" disabled="true" rows="2" cols="22" ></textarea>
     <br>
