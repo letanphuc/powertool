@@ -1,19 +1,40 @@
 <script type="text/javascript">
-    window.onload = function() {
+	window.onload = function() {
 	var dps = []; // dataPoints
-	var dps2 = []; // dataPoints
+	dps[0] = []; // dataPoints
+	dps[1] = []; // dataPoints
+	dps[2] = []; // dataPoints
+	dps[3] = []; // dataPoints
+	dps[4] = []; // dataPoints
+	dps[5] = []; // dataPoints
+	dps[6] = []; // dataPoints
 	
 	var chart = new CanvasJS.Chart("chartContainer", {
-	    title : {
-		text : "Live Random Data"
-	    },
-	    data : [ {
+		title : {
+			text : "Live Random Data"
+		},
+		data : [ {
 			type : "line",
-			dataPoints : dps
-	    }, {
+			dataPoints : dps[0]
+		}, {
 			type : "line",
-			dataPoints : dps2
-	    } ]
+			dataPoints : dps[1]
+		} , {
+			type : "line",
+			dataPoints : dps[2]
+		}, {
+			type : "line",
+			dataPoints : dps[3]
+		}, {
+			type : "line",
+			dataPoints : dps[4]
+		}, {
+			type : "line",
+			dataPoints : dps[5]
+		} , {
+			type : "line",
+			dataPoints : dps[6]
+		} ]
 	});
 
 	var xVal = 0;
@@ -21,30 +42,41 @@
 	var updateInterval = 10;
 	var dataLength = 1000; // number of dataPoints visible at any point
 
+function delectArray (array)
+{
+}
 	var updateChart = function(count) {
-	    count = count || 1;
+		count = count || 1;
 	    // count is number of times loop runs to generate random dataPoints.
-
+		window.parent.updateLiveViewValues();
+		console.log(" Update funtion");
 	    for (var j = 0; j < count; j++) {
-
-			dps.push({
-			    x : xVal,
-			    y : Math.sin(xVal / 100)
-			});
-			
-			dps2.push({
-			    x : xVal,
-			    y : 2+Math.cos(xVal / 5)
-			});
-			
-			xVal++;
+	    	for (var i = 0; i < parent.totalSensor; i++) { 
+	    		if (parent.liveViewSelected[i])
+	    		{
+	    			// console.log("print someThing");
+	    			dps[i].push({
+	    				x : xVal,
+	    				y : 2*i + Math.sin(xVal / 10)
+	    			});
+	    		}
+	    		else
+	    		{
+	    // 			while(dps[i].length > 0) {
+    	// 					dps[i].pop();
+					// }
+					dps[i].length = 0;
+	    		}
+	    	}
+	    	xVal++;
 	    }
-	    if (dps.length > dataLength) {
-			dps.shift();
-			dps2.shift();
-	    }
+    	for(var i = 0; i< 7; i++)
+    	{	
+    		if(dps[i].length>dataLength)
+    			dps[i].shift();
+    	}
 
-	    chart.render();
+	chart.render();
 	    // chart2.render();
 
 	};
@@ -54,10 +86,10 @@
 
 	// update chart after specified time. 
 	setInterval(function() {
-	    updateChart()
+		updateChart()
 	}, updateInterval);
 
-    }
+}
 </script>
 <script type="text/javascript" src="canvasjs-1.8.0/canvasjs.min.js"></script>
-	<div id="chartContainer" style="height: 400px; width: 100%;"></div>
+<div id="chartContainer" style="height: 400px; width: 100%;"></div>
