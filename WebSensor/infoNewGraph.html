@@ -3,7 +3,7 @@
     font-weight: bold;
     background-color: #ffffff;
     }
-    label {
+    .labelForGraphInfo {
       display: inline-block;
       width: 45px;
       text-align: right;
@@ -12,21 +12,21 @@
  <div id="infoNewGraph" <div style="padding:10px ;background:#00ff99;webkit-border-radius: 20px;-moz-border-radius: 20px;border-radius: 20px;margin:0 auto;overflow:hidden;"> 
   <h3>Graph Properties</h3>
   <div id="InfoGraphProperties" > 
-  <label> Name:</label>
+  <label class="labelForGraphInfo"> Name:</label>
   <input id="InfoNameOfGraph" class="displayValue" disabled="true" ></input><br>
-  <label> Description:</label><br>
+  <label class="labelForGraphInfo"> Description:</label><br>
   <label></label>
   <textarea  id="descriptionOfGraph" class="displayValue" disabled="true" rows="2" cols="22" ></textarea>
   <br>
-  <label> X:</label>
+  <label class="labelForGraphInfo"> X:</label>
   <input id="InfoXOfNewGraph" value="Time" class="displayValue" disabled="true"></input><br>
-  <label> Y1:</label>
+  <label class="labelForGraphInfo"> Y1:</label>
   <input id="InfoY1OfNewGraph" value="None" class="displayValue" disabled="true"></input>
   <input type="color" id="InfoColorForY1" value="#0000ff"  disabled="true"/><br>
-  <label> Y2:</label>
+  <label class="labelForGraphInfo"> Y2:</label>
   <input id="InfoY2OfNewGraph" value="None" class="displayValue" disabled="true"></input>
   <input type="color" id="InfoColorForY2" value="#0000ff" disabled="true" /><br>
-  <label> Y3:</label>
+  <label class="labelForGraphInfo"> Y3:</label>
   <input id="InfoY3OfNewGraph" value="None" class="displayValue" disabled="true"></input>
   <input type="color" id="InfoColorForY3" value="#0000ff" disabled="true" /><br>
   </div>

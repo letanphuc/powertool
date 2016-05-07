@@ -15,25 +15,33 @@
 		},
 		data : [ {
 			type : "line",
-			dataPoints : dps[0]
+			dataPoints : dps[0],
+			color: parent.arrayColorForLiveView[0]
 		}, {
 			type : "line",
-			dataPoints : dps[1]
+			dataPoints : dps[1],
+			color:  parent.arrayColorForLiveView[1]
 		} , {
 			type : "line",
-			dataPoints : dps[2]
+			dataPoints : dps[2],
+			color:  parent.arrayColorForLiveView[2]
+
 		}, {
 			type : "line",
-			dataPoints : dps[3]
+			dataPoints : dps[3],
+			color:  parent.arrayColorForLiveView[3]
 		}, {
 			type : "line",
-			dataPoints : dps[4]
+			dataPoints : dps[4],
+			color:  parent.arrayColorForLiveView[4]
 		}, {
 			type : "line",
-			dataPoints : dps[5]
+			dataPoints : dps[5],
+			color:  parent.arrayColorForLiveView[5]
 		} , {
 			type : "line",
-			dataPoints : dps[6]
+			dataPoints : dps[6],
+			color:  parent.arrayColorForLiveView[6]
 		} ]
 	});
 
@@ -48,8 +56,8 @@ function delectArray (array)
 	var updateChart = function(count) {
 		count = count || 1;
 	    // count is number of times loop runs to generate random dataPoints.
-		window.parent.updateLiveViewValues();
-		console.log(" Update funtion");
+	    if(parent.focusTab == 0)
+			window.parent.updateLiveViewValues();
 	    for (var j = 0; j < count; j++) {
 	    	for (var i = 0; i < parent.totalSensor; i++) { 
 	    		if (parent.liveViewSelected[i])

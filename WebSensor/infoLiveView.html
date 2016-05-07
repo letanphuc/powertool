@@ -7,7 +7,7 @@
 <script type="text/javascript">
 var liveViewContent ="";
   for (i = 0; i < totalSensor; i++) { 
-    liveViewContent+="<input type=\"checkbox\" id=\"liveViewCheckBox" + i +"\"><label>"+ sensorName[sensorID[i]] +"</label><br>";
+    liveViewContent+="<input type=\"checkbox\" id=\"liveViewCheckBox" + i +"\"><label style=\" margin-right : 20px; margin-left : 10px; \">"+ sensorName[sensorID[i]] +"</label><input type=\"color\" value=\""+ arrayColorForLiveView[i] + "\" disabled=\"true\" /><br>";
   }
   document.getElementById("liveViewProperties").innerHTML = liveViewContent;
   for (i = 0; i < totalSensor; i++) { 
