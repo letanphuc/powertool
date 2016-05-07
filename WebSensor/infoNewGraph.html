@@ -1,29 +1,33 @@
- 	<style type="text/css">
-		label {
-			display: inline-block;
-			width: 50px;
-			text-align: right;
-		}​
-	</style>
+  <style type="text/css">
+     .displayValue { 
+    font-weight: bold;
+    background-color: #ffffff;
+    }
+    label {
+      display: inline-block;
+      width: 45px;
+      text-align: right;
+    }​
+  </style>
  <div id="infoNewGraph" <div style="padding:10px ;background:#00ff99;webkit-border-radius: 20px;-moz-border-radius: 20px;border-radius: 20px;margin:0 auto;overflow:hidden;"> 
   <h3>Graph Properties</h3>
   <div id="InfoGraphProperties" > 
   <label> Name:</label>
-  <input id="InfoNameOfGraph" disabled="true" ></input><br>
+  <input id="InfoNameOfGraph" class="displayValue" disabled="true" ></input><br>
   <label> Description:</label><br>
   <label></label>
-  <textarea  id="descriptionOfGraph" disabled="true" rows="2" cols="22" ></textarea>
+  <textarea  id="descriptionOfGraph" class="displayValue" disabled="true" rows="2" cols="22" ></textarea>
   <br>
   <label> X:</label>
-  <input id="InfoXOfNewGraph" value="Time" disabled="true"></input><br>
+  <input id="InfoXOfNewGraph" value="Time" class="displayValue" disabled="true"></input><br>
   <label> Y1:</label>
-  <input id="InfoY1OfNewGraph" value="None" disabled="true"></input>
+  <input id="InfoY1OfNewGraph" value="None" class="displayValue" disabled="true"></input>
   <input type="color" id="InfoColorForY1" value="#0000ff"  disabled="true"/><br>
   <label> Y2:</label>
-  <input id="InfoY2OfNewGraph" value="None" disabled="true"></input>
+  <input id="InfoY2OfNewGraph" value="None" class="displayValue" disabled="true"></input>
   <input type="color" id="InfoColorForY2" value="#0000ff" disabled="true" /><br>
   <label> Y3:</label>
-  <input id="InfoY3OfNewGraph" value="None" disabled="true"></input>
+  <input id="InfoY3OfNewGraph" value="None" class="displayValue" disabled="true"></input>
   <input type="color" id="InfoColorForY3" value="#0000ff" disabled="true" /><br>
   </div>
   <script type="text/javascript">
@@ -32,18 +36,24 @@
   	document.getElementById("InfoXOfNewGraph").value =GraphInfo[tabIndex-1].X;
   	if(GraphInfo[tabIndex-1].Y1 == -1){
   		document.getElementById("InfoY1OfNewGraph").value ="None";
+      // document.getElementById("InfoY1OfNewGraph").style.display = "none"; 
+      document.getElementById("InfoColorForY1").style.display ="none";
   	}
   	else{
   		document.getElementById("InfoY1OfNewGraph").value =tableLable[GraphInfo[tabIndex-1].Y1];
   	}
   	if(GraphInfo[tabIndex-1].Y2 == -1){
   		document.getElementById("InfoY2OfNewGraph").value ="None";
+      // document.getElementById("InfoY2OfNewGraph").style.display = "none"; 
+      document.getElementById("InfoColorForY2").style.display ="none";
   	}
   	else{
   		document.getElementById("InfoY2OfNewGraph").value =tableLable[GraphInfo[tabIndex-1].Y2];
   	}
   	if(GraphInfo[tabIndex-1].Y3 == -1){
   		document.getElementById("InfoY3OfNewGraph").value ="None";
+      // document.getElementById("InfoY3OfNewGraph").style.display = "none"; 
+      document.getElementById("InfoColorForY3").style.display ="none";
   	}
   	else{
   		document.getElementById("InfoY3OfNewGraph").value =tableLable[GraphInfo[tabIndex-1].Y3];

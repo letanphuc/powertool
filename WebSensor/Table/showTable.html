@@ -53,7 +53,7 @@ th {
   <div class="col-sm-3 ">
     <br>
     <button id="addColumnButton" value="Open Dialog" class="btn btn-success" style="height:30px;width:100px" >Add Column</button><br><br>
-    <button class="btn btn-success" style="height:30px;width:100px"  onclick="deleteConfirmFunction()">Delete</button><br><br>
+    <button class="btn btn-success" style="height:30px;width:100px"  onclick="deleteConfirmFunction()">Delete</button><br><br><br><br>
     <button id ="btnExport"class="btn btn-success" style="height:30px;width:100px">Export</button>
   </div>
 </div>
@@ -82,12 +82,12 @@ th {
 </div>
 <script type="text/javascript">
   //Export to EXCEL
-        $(function(){
-            $("#btnExport").click(function(){
-                $("#dataTableID").tableToCSV();
-            });
-        });
-        
+  $(function(){
+      $("#btnExport").click(function(){
+          $("#dataTableID").tableToCSV();
+      });
+  });
+  
   $("#dialog").dialog({
     autoOpen: false,
     width: 500,
@@ -163,11 +163,12 @@ th {
     for(var i = 1; i <= parent.totalValueRow; i++)
     {
       selectRow = document.getElementById("dataTableID").rows[i];
-      selectRow.insertCell(parent.tableLable.length).innerHTML =parent.matrix[2][i-1] + parent.matrix[3][i-1];
-      newColumnValues.push(parent.matrix[2][i-1] + parent.matrix[3][i-1]);
+      selectRow.insertCell(parent.tableLable.length).innerHTML =parent.matrix[0][i-1]*2;
+      newColumnValues.push(parent.matrix[0][i-1]*2);
     }
     parent.matrix.push(newColumnValues);
     parent.totalSensorAvailable++;
+    console.log(parent.columnInfo);
     parent.columnInfo.push({
       Name: nameOfNewColumn.value,
       Type: "newColumn",
@@ -242,6 +243,8 @@ for (var j=0; j<parent.totalValueRow; j++) {
 }  
 myTable+="</table>";
 document.getElementById("showTable").innerHTML = myTable;
+// reset value of column Info when F5.
+parent.columnInfo =[];
 for (var i=0; i<parent.totalSensorAvailable; i++) {
   parent.columnInfo.push({
     Name: parent.sensorName[parent.sensorID[i]],
@@ -254,4 +257,5 @@ for (var i=0; i<parent.totalSensorAvailable; i++) {
   });
 }
 console.log(parent.columnInfo);
+console.log(parent.matrix);
 </script>

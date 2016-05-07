@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="Libs/bootstrap/css/bootstrap.min.css">
   <script src="Libs/bootstrap/js/bootstrap.min.js"></script>
   <script src="Libs/jquery-ui-1.11.4/jquery-ui.js"></script>
-
+  <?php include 'readSensorInfo.php';?>  
   <style>
     /* Remove the navbar's default margin-bottom and rounded borders */ 
     .navbar {
@@ -19,7 +19,7 @@
     }
     
     /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
-    .row.content {height: 450px}
+    /*.row.content {height: 450px}*/
     
     /* Set gray background color and 100% height */
     .sidenav {
@@ -33,7 +33,7 @@
     footer {
       background-color: #555;
       color: white;
-      padding: 15px;
+      /*padding: 15px;*/
     }
     
     /* On small screens, set height to 'auto' for sidenav and grid */
@@ -50,7 +50,7 @@
       .row.content {height:auto;} 
     }
     h3 { 
-    font-weight: bold;
+      font-weight: bold;
     }
   </style>
   <script language="javascript" type="text/javascript">
@@ -77,6 +77,16 @@
       <script type="text/javascript">
         $( "#infoSensor" ).load( "infoSensor.html" );
         $( "#infoLiveView" ).load( "infoLiveView.html" );
+        var liveViewSelected =[];
+        //init value
+        for (i = 0; i < totalSensor; i++) { 
+            liveViewSelected[i] = true;
+        }
+        function updateLiveViewValues () {
+          for (i = 0; i < totalSensor; i++) { 
+            liveViewSelected[i] = document.getElementById('liveViewCheckBox'+i).checked;
+          }
+        }
       </script> 
     </div>
     <div class="col-sm-8 text-left">
@@ -122,15 +132,15 @@
                 tabID++;
                 GraphInfo.push( 
                   {Name:nameOfGraph.value, 
-                        Description:graphDescription.value, 
-                        X:"Time",
-                        Y1:  arrayGraphValue[0],
-                        Y2: arrayGraphValue[1],
-                        Y3: arrayGraphValue[2],
-                        colorOfY1: colorForY1.value,
-                        colorOfY2: colorForY2.value,
-                        colorOfY3: colorForY3.value
-                }); 
+                    Description:graphDescription.value, 
+                    X:"Time",
+                    Y1:  arrayGraphValue[0],
+                    Y2: arrayGraphValue[1],
+                    Y3: arrayGraphValue[2],
+                    colorOfY1: colorForY1.value,
+                    colorOfY2: colorForY2.value,
+                    colorOfY3: colorForY3.value
+                  }); 
                 console.log(GraphInfo);
               }
               $(this).dialog("close");
@@ -156,28 +166,26 @@
         tabFirst.tab('show');
       });
     </script>
-      <ul class="nav nav-tabs" id="tab-list">
-        <li class="active"><a data-toggle="tab" href="#LiveView">Live View</a></li>
-        <li><a data-toggle="tab" href="#DataTable">Data table</a></li>
-      </ul>
+    <ul class="nav nav-tabs" id="tab-list">
+      <li class="active"><a data-toggle="tab" href="#LiveView">Live View</a></li>
+      <li><a data-toggle="tab" href="#DataTable" disabled="true">Data table</a></li>
+    </ul>
     <div class="tab-content" id="tabcontent">
       <div id="LiveView" class="tab-pane fade in active">
         <iframe id="chart" src="php_hello/test.html" style="border:none" width="100%" height="100%" scrolling="no"></iframe> 
         <input id="btn-start-capture" type="button" class="btn btn-success" style='background-color: #4CAF50' value="Start Capture">
-        <label id="minutes">00</label>:<label id="seconds">00</label>
+        <span id="timeLabel" class="label label-pill label-success" style="height:35px;width:100px;display:inline-block;font-size:15pt;text-align:center">00 : 00</span>
       </div>
       <!-- javascript to set timer counter -->
       <script type="text/javascript">
-        var minutesLabel = document.getElementById("minutes");
-        var secondsLabel = document.getElementById("seconds");
+        var timeLable = document.getElementById("timeLabel");
         var totalSeconds = 0;
-        setInterval(setTime, 1000);
-
+        var timerCounter;
         function setTime()
         {
           ++totalSeconds;
-          secondsLabel.innerHTML = pad(totalSeconds%60);
-          minutesLabel.innerHTML = pad(parseInt(totalSeconds/60));
+          timeLable.innerHTML = pad(parseInt(totalSeconds/60)) + " : ";
+          timeLable.innerHTML += pad(totalSeconds%60);
         }
 
         function pad(val)
@@ -192,36 +200,15 @@
             return valString;
           }
         }
-      </script>
-      <script type="text/javascript">
-        $('#chart').load(function () {
-          $(this).height($(this).contents().height());
-          $(this).width($(this).contents().width());
-        });
- 
-          $('#tab-list').on('shown.bs.tab', function (e) {
-             var x = $(e.target).text();
-             var y = $(e.target).attr( 'href');   
-             console.log(y);
-            if(y =="#LiveView"){
-              $( "#infoLiveView" ).load( "infoLiveView.html" );
-            }
-            else if (y.indexOf("tab") > -1){
-              tabIndex = y.slice(y.length-1);
-              console.log(tabIndex);
-              $( "#infoLiveView" ).load( "infoNewGraph.html" );
-            }
-            else if (y.indexOf("DataTable") > -1){
-              console.log ("load infoColumn");
-              $( "#infoLiveView" ).load( "Table/infoColumn.html" );
-            }
-          });
         var count = 0;
         $("#btn-start-capture").click(function () {
          if (count == 0) {
           this.style.backgroundColor = "#f44336";
           count = 1;
           this.value ="Stop Capture";
+          totalSeconds = 0;
+          timeLable.innerHTML="00 : 00";
+          timerCounter = setInterval(setTime, 1000);
         }
         else
         {
@@ -229,32 +216,56 @@
               this.style.backgroundColor = "#4CAF50";
               count = 0;
               this.value = "Start Capture";
+              clearInterval(timerCounter);
               document.getElementById('showData').src += '';
             }
           });
         </script>
-        <div id="DataTable" class="tab-pane fade ">
-          <br>
-          <iframe id="showData" src="Table/showTable.html" style="border:none" width="100%" height="100%" scrolling="yes"></iframe> 
-        </div>
         <script type="text/javascript">
-          var sensorID    = [];
-          var sensorName = [];
-          var sensorType = [];
-          var matrix = []; 
-          var recordId = [];
-          var totalSensorAvailable = 0;
-          var totalValueRow = 0;
-          var tableLable =[];
-          var columnInfo =[];
-          var columnSelected = 0;
+          $('#chart').load(function () {
+            $(this).height($(this).contents().height());
+            $(this).width($(this).contents().width());
+          });
+
+          $('#tab-list').on('shown.bs.tab', function (e) {
+           var y = $(e.target).attr( 'href');   
+           console.log(y);
+           if(y =="#LiveView"){
+            $( "#infoLiveView" ).load( "infoLiveView.html" );
+          }
+          else if (y.indexOf("tab") > -1){
+            tabIndex = y.slice(y.length-1);
+            console.log(tabIndex);
+            $( "#infoLiveView" ).load( "infoNewGraph.html" );
+          }
+          else if (y.indexOf("DataTable") > -1){
+            console.log ("load infoColumn");
+            $( "#infoLiveView" ).load( "Table/infoColumn.html" );
+          }
+        });
+      </script>
+      <div id="DataTable" class="tab-pane fade ">
+        <br>
+        <iframe id="showData" src="Table/showTable.html" style="border:none" width="100%" height="100%" scrolling="yes"></iframe> 
+      </div>
+      <script type="text/javascript">
+        var sensorID    = [];
+        var sensorName = [];
+        var sensorType = [];
+        var matrix = []; 
+        var recordId = [];
+        var totalSensorAvailable = 0;
+        var totalValueRow = 0;
+        var tableLable =[];
+        var columnInfo =[];
+        var columnSelected = 0;
         $('#showData').load(function () {
           $(this).height($(this).contents().height());
           $(this).width($(this).contents().width());
         });
         function reloadInfoColumn () {
-            $( "#infoLiveView" ).load( "Table/infoColumn.html" );
-          }
+          $( "#infoLiveView" ).load( "Table/infoColumn.html" );
+        }
       </script>
     </div>
   </div>
