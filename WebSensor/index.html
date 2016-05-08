@@ -127,11 +127,11 @@
               {
                 $('#tab-list').append($('<li><a data-toggle="tab" href="#tab' + tabID + '">' + nameOfGraph.value + '<button class="close" type="button" title="Remove this page">×</button></a></li>'));
                 $('#tabcontent').append($('<div class="tab-pane fade" id="tab' + tabID + '"><iframe id="newchart' + tabID + '" src="newGraphContent.html" style="border:none" width="100%" height="100%" scrolling="no"></iframe></div>'));
-                $('#newchart'+tabID).load(function () {
-                  $(this).height($(this).contents().height());
-                  $(this).width($(this).contents().width());
-                });
-                tabID++;
+                  // show full screen for new chard
+                  $('#newchart'+tabID).load(function () {
+                      $(this).height($(this).contents().height());
+                      // $(this).width($(this).contents().width());
+                    });
                 GraphInfo.push( 
                   {Name:nameOfGraph.value, 
                     Description:graphDescription.value, 
@@ -143,6 +143,7 @@
                     colorOfY2: colorForY2.value,
                     colorOfY3: colorForY3.value
                   }); 
+                tabID++;
                 console.log(GraphInfo);
               }
               $(this).dialog("close");
@@ -226,7 +227,6 @@
           var tabFirst = $('#tab-list a:first');
           tabFirst.tab('show');
         });
-
         //Check show tab to show the information properties
         $('#tab-list').on('shown.bs.tab', function (e) {
          var y = $(e.target).attr( 'href');   
