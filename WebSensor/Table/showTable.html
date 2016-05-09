@@ -6,6 +6,11 @@
 <script src="../Libs/jquery/jquery-1.12.3.min.js"></script>
 <script src="../Libs/bootstrap/js/bootstrap.min.js"></script>
 <script src="../Libs/jquery-ui-1.11.4/jquery-ui.js"></script>
+
+<script src="../Libs/expression.js"></script>
+<script src="../Libs/math.min.js"></script>
+
+
 <script src="./jquery.tabletoCSV.js" type="text/javascript" charset="utf-8"></script>
 <style type="text/css">
   tr {
@@ -154,18 +159,29 @@ th {
 
   function addNewColumn (){
     parent.tableLable.push(nameOfNewColumn.value);
-    var newColumnValues =[];
     var selectRow;
     var newTH = document.createElement('th');
     selectRow = document.getElementById("dataTableID").rows[0];
     selectRow.appendChild(newTH);
     newTH.innerHTML = parent.tableLable[parent.tableLable.length-1];
+    
+    
+    listOfSymbol = []
+    parent.tableLable.forEach(function myFunction(item, index) {
+    	listOfSymbol[item.replace(/\s/g, '')] = parent.matrix[index]
+	})
+    
+	var ex = formatExpression(ColumnEqualition.value)
+	console.log(ex)
+	newColumnValues = compute(ex)
+	console.log(newColumnValues)
+	
     for(var i = 1; i <= parent.totalValueRow; i++)
     {
       selectRow = document.getElementById("dataTableID").rows[i];
-      selectRow.insertCell(parent.tableLable.length).innerHTML =parent.matrix[0][i-1]*2;
-      newColumnValues.push(parent.matrix[0][i-1]*2);
+      selectRow.insertCell(parent.tableLable.length).innerHTML =newColumnValues[i - 1];
     }
+    
     parent.matrix.push(newColumnValues);
     parent.totalSensorAvailable++;
     console.log(parent.columnInfo);
