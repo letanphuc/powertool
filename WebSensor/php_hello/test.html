@@ -1,46 +1,59 @@
 <script type="text/javascript">
 	window.onload = function() {
-	var dps = []; // dataPoints
-	dps[0] = []; // dataPoints
-	dps[1] = []; // dataPoints
-	dps[2] = []; // dataPoints
-	dps[3] = []; // dataPoints
-	dps[4] = []; // dataPoints
-	dps[5] = []; // dataPoints
-	dps[6] = []; // dataPoints
+	parent.dpsForLiveView[0] = []; // dataPoints
+	parent.dpsForLiveView[1] = []; // dataPoints
+	parent.dpsForLiveView[2] = []; // dataPoints
+	parent.dpsForLiveView[3] = []; // dataPoints
+	parent.dpsForLiveView[4] = []; // dataPoints
+	parent.dpsForLiveView[5] = []; // dataPoints
+	parent.dpsForLiveView[6] = []; // dataPoints
 	
 	var chart = new CanvasJS.Chart("chartContainer", {
 		title : {
 			text : "Live Random Data"
 		},
+		axisY:{
+	        // interlacedColor: "#FFBFD5",
+	        gridColor: "#ebebe0",
+	        lineColor: "#0f0f0a",
+	        tickColor: "#0f0f0a",
+	        labelFontColor:"#0f0f0a",
+      	},
+      	axisX:{
+	        // interlacedColor: "#FFBFD5",
+	        // gridColor: "#FFBFD5",
+	        lineColor: "#0f0f0a",
+	        tickColor: "#0f0f0a",
+	        labelFontColor:"#0f0f0a",
+      	},
 		data : [ {
 			type : "line",
-			dataPoints : dps[0],
+			dataPoints : parent.dpsForLiveView[0],
 			color: parent.arrayColorForLiveView[0]
 		}, {
 			type : "line",
-			dataPoints : dps[1],
+			dataPoints : parent.dpsForLiveView[1],
 			color:  parent.arrayColorForLiveView[1]
 		} , {
 			type : "line",
-			dataPoints : dps[2],
+			dataPoints : parent.dpsForLiveView[2],
 			color:  parent.arrayColorForLiveView[2]
 
 		}, {
 			type : "line",
-			dataPoints : dps[3],
+			dataPoints : parent.dpsForLiveView[3],
 			color:  parent.arrayColorForLiveView[3]
 		}, {
 			type : "line",
-			dataPoints : dps[4],
+			dataPoints : parent.dpsForLiveView[4],
 			color:  parent.arrayColorForLiveView[4]
 		}, {
 			type : "line",
-			dataPoints : dps[5],
+			dataPoints : parent.dpsForLiveView[5],
 			color:  parent.arrayColorForLiveView[5]
 		} , {
 			type : "line",
-			dataPoints : dps[6],
+			dataPoints : parent.dpsForLiveView[6],
 			color:  parent.arrayColorForLiveView[6]
 		} ]
 	});
@@ -49,10 +62,6 @@
 	var yVal = 100;
 	var updateInterval = 10;
 	var dataLength = 1000; // number of dataPoints visible at any point
-
-function delectArray (array)
-{
-}
 	var updateChart = function(count) {
 		count = count || 1;
 	    // count is number of times loop runs to generate random dataPoints.
@@ -62,30 +71,25 @@ function delectArray (array)
 	    	for (var i = 0; i < parent.totalSensor; i++) { 
 	    		if (parent.liveViewSelected[i])
 	    		{
-	    			// console.log("print someThing");
-	    			dps[i].push({
+	    			parent.dpsForLiveView[i].push({
 	    				x : xVal,
-	    				y : 2*i + Math.sin(xVal / 10)
+	    				y : 2*i + Math.sin(xVal / 10) - parent.maginData[i]
 	    			});
 	    		}
 	    		else
 	    		{
-	    // 			while(dps[i].length > 0) {
-    	// 					dps[i].pop();
-					// }
-					dps[i].length = 0;
+					parent.dpsForLiveView[i].length = 0;
 	    		}
 	    	}
 	    	xVal++;
 	    }
     	for(var i = 0; i< 7; i++)
     	{	
-    		if(dps[i].length>dataLength)
-    			dps[i].shift();
+    		if(parent.dpsForLiveView[i].length>dataLength)
+    			parent.dpsForLiveView[i].shift();
     	}
 
 	chart.render();
-	    // chart2.render();
 
 	};
 

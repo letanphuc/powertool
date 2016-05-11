@@ -21,6 +21,21 @@
 			text : parent.nameOfGraph.value
 		},
 		exportEnabled: true,
+		 zoomEnabled: true, 
+		 includeZero: false,
+		axisY:{
+	        // interlacedColor: "#FFBFD5",
+	        gridColor: "#f5f5f0",
+	        lineColor: "#0f0f0a",
+	        tickColor: "#0f0f0a",
+	        labelFontColor:"#0f0f0a",
+      	},
+      	axisX:{
+	        // interlacedColor: "#FFBFD5",
+	        lineColor: "#0f0f0a",
+	        tickColor: "#0f0f0a",
+	        labelFontColor:"#0f0f0a",
+      	},
 		data : [ {
 			type : "line",
 			color: parent.colorForY1.value,
@@ -34,7 +49,7 @@
 			type : "line",
 			color: parent.colorForY3.value,
 			dataPoints : dps[2]
-		} ]
+		}, ]
 	});
 	console.log( parent.colorForY1.value);
 	console.log( parent.colorForY2.value);

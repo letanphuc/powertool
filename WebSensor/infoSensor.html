@@ -29,9 +29,14 @@
 		<input id="sensorName"  class="displayValue"> </input><br>
 		<label>Type:</label>
 		<input id="sensorType"  class="displayValue" disabled="true"></input><br>
+		<label> Description:</label><br>
+	  	<label></label>
+	  	<textarea  id="sensorDescription" rows="2" cols="24" value="hello"></textarea>
+	  	<br>
 	</div>
 </div> 
 <script type = "text/javascript">
+var hightlightIndex =0;
 	document.getElementById("sensorName").value = sensorName[sensorID[0]] ;
 	document.getElementById("sensorType").value = sensorType[sensorID[0]] ;
 	document.getElementById("Sensor"+sensorID[0]).style.backgroundColor = "red";
@@ -51,8 +56,18 @@
 			$(".collapse").collapse('show');
 			resetBackgroundColor();
 			this.style.backgroundColor = "red";
+			hightlightIndex =this.value;
 			document.getElementById("sensorName").value = sensorName[sensorID[this.value]] ;
 			document.getElementById("sensorType").value = sensorType[sensorID[this.value]] ;
+			// document.getElementById("descriptionSensor").value = sensorDescription[sensorID[this.value]] ;
+		});
+		$("#sensorName").change(function() {
+		   console.log(" call change event");
+		  sensorName[sensorID[hightlightIndex]] = $(this).val();
+		});
+		$("#sensorDescription").change(function() {
+		   console.log(" description changed");
+		  sensorDescription[sensorID[hightlightIndex]] = $(this).val();
 		});
 	});
 
