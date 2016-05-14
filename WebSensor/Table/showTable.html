@@ -166,13 +166,16 @@ th {
     newTH.innerHTML = parent.tableLable[parent.tableLable.length-1];
     
     
-    listOfSymbol = []
+    listOfSymbol = {}
+	listOfConst = {}
     parent.tableLable.forEach(function myFunction(item, index) {
     	listOfSymbol[item.replace(/\s/g, '')] = parent.matrix[index]
 	})
     
 	var ex = formatExpression(ColumnEqualition.value)
 	console.log(ex)
+	console.log(listOfConst)
+	
 	newColumnValues = compute(ex)
 	console.log(newColumnValues)
 	

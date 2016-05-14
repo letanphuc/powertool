@@ -1,12 +1,18 @@
 var LENGHT = 100
 var x = []
 var listOfSymbol = {}
+var listOfConst = {}
+
 
 function value(symbol, index) {
 
 	/** variables */
 	if (symbol in listOfSymbol) {
-		return listOfSymbol[symbol][index]
+		var s = listOfSymbol[symbol]
+		if (Array.isArray(s))
+			return s[index]
+		else
+			return s
 	}
 
 	/** function */
@@ -86,6 +92,16 @@ function replaceCustomFunc(ex, func) {
 		ex = ex.replaceAt(indexOpen, '_')
 		var nextClose = ex.indexOf(')', index)
 		ex = ex.replaceAt(nextClose, '')
+		
+		if (func == 'const'){
+			var s = ex.substring(indexOpen + 1, nextClose)
+			if (!(s in listOfConst)){
+				listOfConst[s]=1
+			}
+			listOfSymbol['const_'+s]=listOfConst[s]
+		}
+		
+		/* next function */
 		index = ex.indexOf(func + '(')
 	}
 
@@ -96,13 +112,17 @@ function formatExpression(ex) {
 	ex = ex.replace(/\s/g, '')
 	ex = replaceCustomFunc(ex, 'inf')
 	ex = replaceCustomFunc(ex, 'dis')
+	ex = replaceCustomFunc(ex, 'const')
 	return ex
 }
 
 function main() {
 	init()
-	var ex = "inf(x)"
+	var ex = "inf(x) + const(A) - const(AA)"
+	ex = formatExpression(ex)
 	console.log(ex)
 	var result = compute(ex)
 	console.log(result)
+	console.log(listOfConst)
+	
 }
