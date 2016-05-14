@@ -1,92 +1,91 @@
   <style type="text/css">
-   .displayValue { 
-    font-weight: bold;
-    background-color: #ffffff;
-  }
-  .labelColumn {
-    display: inline-block;
-    width: 60px;
-    text-align: right;
-  }​
-  .constantValue { 
-    font-weight: bold;
-    background-color: #ffffff;
-    width: 80px;
-  }
-  .decrease {
-  }
-  .increase {
+  	.displayValue { 
+  		font-weight: bold;
+  		background-color: #ffffff;
+  	}
+  	.labelColumn {
+  		display: inline-block;
+  		width: 60px;
+  		text-align: right;
+  	}​
+  	.constantValue { 
+  		font-weight: bold;
+  		background-color: #ffffff;
+  		width: 80px;
+  	}
+  	.decrease {
+  	}
+  	.increase {
 
-  }
-</style>
-<div id="infoNewColumn" <div style="padding:10px ;background:#00ff99;webkit-border-radius: 20px;-moz-border-radius: 20px;border-radius: 20px;margin:0 auto;overflow:hidden;"> 
-  <h3>Column Properties</h3>
-  <label class="labelColumn"> Name:</label>
-  <input id="InfoNameOfColumn"  class="displayValue" disabled="true" ></input><br>
-  <label class="labelColumn"> Type:</label>
-  <input id="InfoTypeOfColumn"  class="displayValue" disabled="true" ></input><br>
-  <label class="labelColumn"> Average:</label>
-  <input id="InfoAverageOfColumn" class="displayValue" disabled="true" ></input><br>
-  <label class="labelColumn"> Max:</label>
-  <input id="InfoMaxOfColumn" class="displayValue" disabled="true" ></input><br>
-  <label class="labelColumn"> Min:</label>
-  <input id="InfoMinOfColumn" class="displayValue" disabled="true" ></input><br>
-  <div id="ConstantDisplay"></div>
-  <label  class="labelColumn" id="lableOfDescriptionOfColumn"> Description:</label><br>
-  <label></label>
-  <textarea  id="descriptionOfColumn"  class="displayValue"  disabled="true" rows="2" cols="22" ></textarea>
-  <br>
-  <label   class="labelColumn" id="lableOfEqualitionOfColumn"> Equalition:</label><br>
-  <label></label>
-  <textarea  id="equalitionOfColumn" class="displayValue" disabled="true" rows="2" cols="22" ></textarea>
-  <br>
-  <script type="text/javascript">
-function reCompute(index){
-    var newColumnValues = []
-    listOfSymbol = {}
-    listOfConst = columnInfo[index].ConstantArray
-    LENGHT = totalValueRow
-    tableLable.forEach(function myFunction(item, index) {
-      listOfSymbol[item.replace(/\s/g, '')] = matrix[index]
-    })
+  	}
+  </style>
+  <div id="infoNewColumn" <div style="padding:10px ;background:#00ff99;webkit-border-radius: 20px;-moz-border-radius: 20px;border-radius: 20px;margin:0 auto;overflow:hidden;"> 
+  	<h3>Column Properties</h3>
+  	<label class="labelColumn"> Name:</label>
+  	<input id="InfoNameOfColumn"  class="displayValue" disabled="true" ></input><br>
+  	<label class="labelColumn"> Type:</label>
+  	<input id="InfoTypeOfColumn"  class="displayValue" disabled="true" ></input><br>
+  	<label class="labelColumn"> Average:</label>
+  	<input id="InfoAverageOfColumn" class="displayValue" disabled="true" ></input><br>
+  	<label class="labelColumn"> Max:</label>
+  	<input id="InfoMaxOfColumn" class="displayValue" disabled="true" ></input><br>
+  	<label class="labelColumn"> Min:</label>
+  	<input id="InfoMinOfColumn" class="displayValue" disabled="true" ></input><br>
+  	<div id="ConstantDisplay"></div>
+  	<label  class="labelColumn" id="lableOfDescriptionOfColumn"> Description:</label><br>
+  	<label></label>
+  	<textarea  id="descriptionOfColumn"  class="displayValue"  disabled="true" rows="2" cols="22" ></textarea>
+  	<br>
+  	<label   class="labelColumn" id="lableOfEqualitionOfColumn"> Equalition:</label><br>
+  	<label></label>
+  	<textarea  id="equalitionOfColumn" class="displayValue" disabled="true" rows="2" cols="22" ></textarea>
+  	<br>
+  	<script type="text/javascript">
+  		function reCompute(index){
+  			var newColumnValues = []
+  			listOfSymbol = {}
+  			listOfConst = columnInfo[index].ConstantArray
+  			LENGHT = totalValueRow
+  			tableLable.forEach(function myFunction(item, index) {
+  				listOfSymbol[item.replace(/\s/g, '')] = matrix[index]
+  			})
 
-    try{
-      var ex = formatExpression(columnInfo[index].Equalition)
-      console.log(ex)
-      console.log(listOfConst)
-      newColumnValues = compute(ex)
-      console.log(newColumnValues)
+  			try{
+  				var ex = formatExpression(columnInfo[index].Equalition)
+  				console.log(ex)
+  				console.log(listOfConst)
+  				newColumnValues = compute(ex)
+  				console.log(newColumnValues)
 
-    }
-    catch(e){
-      console.log(e)
-      alert("Syntax error : " + e.message);
-    }
+  			}
+  			catch(e){
+  				console.log(e)
+  				alert("Syntax error : " + e.message);
+  			}
 
-    return newColumnValues
+  			return newColumnValues
 
-  }
+  		}
 
-  function updateColumn(index)
-  {
-  	console.log("XXXXXX")
-    var newArray = reCompute(index);
-    console.log(newArray);
-    matrix[index] = newArray;
-    var iframe = document.getElementById('showData');
-	var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
-    var selectRow;
-	for(var i = 1; i <= totalValueRow; i++)
-	{
-		selectRow = innerDoc.getElementById("dataTableID").rows[i];
-		selectRow.cell[index+1].innerHTML =newArray[i - 1];
-	}
-	}
+  		function updateColumn(index)
+  		{
+  			var newArray = reCompute(index);
+  			console.log(newArray);
+  			matrix[index] = newArray;
+  			var iframe = document.getElementById('showData');
+  			var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
+  			var selectRow;
+  			for(var i = 1; i <= totalValueRow; i++)
+  			{
+  				selectRow = innerDoc.getElementById("dataTableID").rows[i];
+  				selectRow.cells[index+1].innerHTML =newArray[i - 1];
+  			}
+  		}
 
 
-    console.log("Info Column is called");
-    console.log(columnSelected);
-    console.log(columnInfo);
+  		console.log("Info Column is called");
+  		console.log(columnSelected);
+  		console.log(columnInfo);
     // document.getElementById("titleName").value = columnInfo[columnSelected].Name + " Property";
     document.getElementById("InfoNameOfColumn").value = columnInfo[columnSelected].Name;
     document.getElementById("InfoTypeOfColumn").value = columnInfo[columnSelected].Type;
@@ -94,61 +93,61 @@ function reCompute(index){
     document.getElementById("InfoMaxOfColumn").value = columnInfo[columnSelected].Max;
     document.getElementById("InfoMinOfColumn").value = columnInfo[columnSelected].Min;
     if(columnInfo[columnSelected].Description ==""){
-     document.getElementById("descriptionOfColumn").style.display = "none";
-     document.getElementById("lableOfDescriptionOfColumn").style.display = "none";
-   }
-   else{
-    document.getElementById("descriptionOfColumn").value = columnInfo[columnSelected].Description;
-  }
-  if(columnInfo[columnSelected].Equalition ==""){
-   document.getElementById("equalitionOfColumn").style.display = "none";
-   document.getElementById("lableOfEqualitionOfColumn").style.display = "none";
- }
- else{
-  document.getElementById("equalitionOfColumn").value = columnInfo[columnSelected].Equalition;
-}
-console.log( columnInfo[columnSelected].ConstantArray);
-var contentConstantDisplay = "";
-for (var key in columnInfo[columnSelected].ConstantArray) {
-  if (columnInfo[columnSelected].ConstantArray.hasOwnProperty(key)) {
-        console.log(key);
-    console.log(columnInfo[columnSelected].ConstantArray[key]);
-    contentConstantDisplay+="<label class=\"labelColumn\">" + key + ": </label>";
-    contentConstantDisplay+="<input id=\"value"+key+"\" class=\"constantValue\" value=\""+columnInfo[columnSelected].ConstantArray[key] +  "\"></input>";
-    contentConstantDisplay+="<input type=\"button\" class=\"increase\" id=\"increase" + key + "\" value=\"+\"></input><input type=\"button\" class=\"decrease\" id=\"decrease" + key + "\"value=\"-\"></input>";
+    	document.getElementById("descriptionOfColumn").style.display = "none";
+    	document.getElementById("lableOfDescriptionOfColumn").style.display = "none";
     }
-}
-document.getElementById("ConstantDisplay").innerHTML = contentConstantDisplay;
-$('.increase').click(function(){ 
-	var idtext=$(this).attr('id').substring(8, $(this).attr('id').length);
-	console.log(idtext);
-	console.log($('#value'+idtext).val());
-	var inputValue =Number( $('#value'+idtext).val());
-	inputValue+=inputValue*0.1;
-	$('#value'+idtext).val(inputValue);
-	columnInfo[columnSelected].ConstantArray[idtext] = inputValue;
-	console.log(columnInfo[columnSelected].ConstantArray[idtext]);
-	updateColumn(columnSelected);
-})
-$('.decrease').click(function(){ 
-	var idtext=$(this).attr('id').substring(8, $(this).attr('id').length);
-	console.log(idtext);
-	console.log($('#value'+idtext).val());
-	var inputValue =Number( $('#value'+idtext).val());
-	inputValue-=inputValue*0.1;
-	$('#value'+idtext).val(inputValue);
-    columnInfo[columnSelected].ConstantArray[idtext] = inputValue;
-    console.log(columnInfo[columnSelected].ConstantArray[idtext]);
-    updateColumn(columnSelected);
+    else{
+    	document.getElementById("descriptionOfColumn").value = columnInfo[columnSelected].Description;
+    }
+    if(columnInfo[columnSelected].Equalition ==""){
+    	document.getElementById("equalitionOfColumn").style.display = "none";
+    	document.getElementById("lableOfEqualitionOfColumn").style.display = "none";
+    }
+    else{
+    	document.getElementById("equalitionOfColumn").value = columnInfo[columnSelected].Equalition;
+    }
+    console.log( columnInfo[columnSelected].ConstantArray);
+    var contentConstantDisplay = "";
+    for (var key in columnInfo[columnSelected].ConstantArray) {
+    	if (columnInfo[columnSelected].ConstantArray.hasOwnProperty(key)) {
+    		console.log(key);
+    		console.log(columnInfo[columnSelected].ConstantArray[key]);
+    		contentConstantDisplay+="<label class=\"labelColumn\">" + key + ": </label>";
+    		contentConstantDisplay+="<input id=\"value"+key+"\" class=\"constantValue\" value=\""+columnInfo[columnSelected].ConstantArray[key] +  "\"></input>";
+    		contentConstantDisplay+="<input type=\"button\" class=\"increase\" id=\"increase" + key + "\" value=\"+\"></input><input type=\"button\" class=\"decrease\" id=\"decrease" + key + "\"value=\"-\"></input>";
+    	}
+    }
+    document.getElementById("ConstantDisplay").innerHTML = contentConstantDisplay;
+    $('.increase').click(function(){ 
+    	var idtext=$(this).attr('id').substring(8, $(this).attr('id').length);
+    	console.log(idtext);
+    	console.log($('#value'+idtext).val());
+    	var inputValue =Number( $('#value'+idtext).val());
+    	inputValue+=inputValue*0.1;
+    	$('#value'+idtext).val(inputValue);
+    	columnInfo[columnSelected].ConstantArray[idtext] = inputValue;
+    	console.log(columnInfo[columnSelected].ConstantArray[idtext]);
+    	updateColumn(columnSelected);
+    })
+    $('.decrease').click(function(){ 
+    	var idtext=$(this).attr('id').substring(8, $(this).attr('id').length);
+    	console.log(idtext);
+    	console.log($('#value'+idtext).val());
+    	var inputValue =Number( $('#value'+idtext).val());
+    	inputValue-=inputValue*0.1;
+    	$('#value'+idtext).val(inputValue);
+    	columnInfo[columnSelected].ConstantArray[idtext] = inputValue;
+    	console.log(columnInfo[columnSelected].ConstantArray[idtext]);
+    	updateColumn(columnSelected);
 
-})
+    })
 
-$('.constantValue').change(function() {
-	var idtext=$(this).attr('id').substring(5, $(this).attr('id').length);
-	console.log(idtext);
-	columnInfo[columnSelected].ConstantArray[idtext] = $(this).val();
-    console.log(columnInfo[columnSelected].ConstantArray[idtext]);
-	updateColumn(columnSelected);
-});
+    $('.constantValue').change(function() {
+    	var idtext=$(this).attr('id').substring(5, $(this).attr('id').length);
+    	console.log(idtext);
+    	columnInfo[columnSelected].ConstantArray[idtext] = $(this).val();
+    	console.log(columnInfo[columnSelected].ConstantArray[idtext]);
+    	updateColumn(columnSelected);
+    });
 
 </script>

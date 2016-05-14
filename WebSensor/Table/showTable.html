@@ -184,7 +184,7 @@ th {
 				selectRow = document.getElementById("dataTableID").rows[i];
 				selectRow.insertCell(parent.tableLable.length).innerHTML =newColumnValues[i - 1];
 			}
-		    
+      
 		    parent.matrix.push(newColumnValues);
 		    parent.totalSensorAvailable++;
 		    console.log(parent.columnInfo);
@@ -284,6 +284,4 @@ for (var i=0; i<parent.totalSensorAvailable; i++) {
     ConstantArray: {},
   });
 }
-// console.log(parent.columnInfo);
-// console.log(parent.matrix);
 </script>
