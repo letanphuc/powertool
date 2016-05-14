@@ -39,10 +39,12 @@ function value(symbol, index) {
 
 			else {
 				console.log('unknown function')
+				throw 'unknown function'
 				return -1
 			}
 		} else {
 			console.log('unknown function')
+			throw 'unknown function'
 			return -1
 		}
 	}
@@ -50,6 +52,7 @@ function value(symbol, index) {
 	/** Error */
 	else {
 		console.log('unknown symbol')
+		throw 'unknown symbol'
 		return -1
 	}
 }
@@ -99,6 +102,20 @@ function replaceCustomFunc(ex, func) {
 				listOfConst[s]=1
 			}
 			listOfSymbol['const_'+s]=listOfConst[s]
+		}
+		
+		/* Check syntax */
+		var insideFunc = ex.substring(indexOpen + 1, nextClose)
+		try {
+			var node = math.parse(insideFunc);
+			var filtered = node.filter(function(node) {
+				return node.isSymbolNode || node.type == ConstantNode || node.type == FunctionNode
+			});
+			if (filtered.length != 1)
+				throw 'Must be only one symbol inside inf, dis and const function'
+		}
+		catch (e) {
+			throw 'Must be only one symbol inside inf, dis and const function'
 		}
 		
 		/* next function */

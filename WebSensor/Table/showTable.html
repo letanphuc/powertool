@@ -1,4 +1,4 @@
-  
+
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="../Libs/jquery-ui-1.11.4/jquery-ui.css" rel="stylesheet">
@@ -157,48 +157,54 @@ th {
     selectCoulumnIndex = -1;
   }
 
-  function addNewColumn (){
-    parent.tableLable.push(nameOfNewColumn.value);
-    var selectRow;
-    var newTH = document.createElement('th');
-    selectRow = document.getElementById("dataTableID").rows[0];
-    selectRow.appendChild(newTH);
-    newTH.innerHTML = parent.tableLable[parent.tableLable.length-1];
-    
-    
-    listOfSymbol = {}
-	listOfConst = {}
-    parent.tableLable.forEach(function myFunction(item, index) {
-    	listOfSymbol[item.replace(/\s/g, '')] = parent.matrix[index]
-	})
-    
-	var ex = formatExpression(ColumnEqualition.value)
-	console.log(ex)
-	console.log(listOfConst)
-	
-	newColumnValues = compute(ex)
-	console.log(newColumnValues)
-	
-    for(var i = 1; i <= parent.totalValueRow; i++)
-    {
-      selectRow = document.getElementById("dataTableID").rows[i];
-      selectRow.insertCell(parent.tableLable.length).innerHTML =newColumnValues[i - 1];
-    }
-    
-    parent.matrix.push(newColumnValues);
-    parent.totalSensorAvailable++;
-    console.log(parent.columnInfo);
-    parent.columnInfo.push({
-      Name: nameOfNewColumn.value,
-      Type: "newColumn",
-      Average: getAverage(newColumnValues),
-      Max: getMax(newColumnValues),
-      Min: getMin(newColumnValues),
-      Description: ColumnDescription.value,
-      Equalition: ColumnEqualition.value,
-    });
-    setIndexAndHighlight();
-  }
+	function addNewColumn (){
+		listOfSymbol = {}
+		listOfConst = {}
+		parent.tableLable.forEach(function myFunction(item, index) {
+			listOfSymbol[item.replace(/\s/g, '')] = parent.matrix[index]
+		})
+
+
+		try{
+			var ex = formatExpression(ColumnEqualition.value)
+			console.log(ex)
+			console.log(listOfConst)
+			newColumnValues = compute(ex)
+			console.log(newColumnValues)
+
+			parent.tableLable.push(nameOfNewColumn.value);
+			var selectRow;
+			var newTH = document.createElement('th');
+			selectRow = document.getElementById("dataTableID").rows[0];
+			selectRow.appendChild(newTH);
+			newTH.innerHTML = parent.tableLable[parent.tableLable.length-1];
+			
+			for(var i = 1; i <= parent.totalValueRow; i++)
+			{
+				selectRow = document.getElementById("dataTableID").rows[i];
+				selectRow.insertCell(parent.tableLable.length).innerHTML =newColumnValues[i - 1];
+			}
+		    
+		    parent.matrix.push(newColumnValues);
+		    parent.totalSensorAvailable++;
+		    console.log(parent.columnInfo);
+		    parent.columnInfo.push({
+				Name: nameOfNewColumn.value,
+				Type: "newColumn",
+				Average: getAverage(newColumnValues),
+				Max: getMax(newColumnValues),
+				Min: getMin(newColumnValues),
+				Description: ColumnDescription.value,
+				Equalition: ColumnEqualition.value,
+				ConstantArray: listOfConst,
+		    });
+		    setIndexAndHighlight();
+		}
+		catch(e){
+			console.log(e)
+			alert("Syntax error : " + e.message);
+		}
+	}
 
   function deleteSelectColumn (index){
     parent.tableLable.splice(index-1, 1);
@@ -273,6 +279,7 @@ for (var i=0; i<parent.totalSensorAvailable; i++) {
     Min: getMin(parent.matrix[i]),
     Description: "",
     Equalition: "",
+    ConstantArray: {},
   });
 }
 // console.log(parent.columnInfo);
