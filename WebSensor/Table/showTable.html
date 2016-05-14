@@ -160,7 +160,6 @@ th {
 	function addNewColumn (){
 		listOfSymbol = {}
 		listOfConst = {}
-		LENGHT = parent.totalValueRow
 		parent.tableLable.forEach(function myFunction(item, index) {
 			listOfSymbol[item.replace(/\s/g, '')] = parent.matrix[index]
 		})
@@ -185,11 +184,11 @@ th {
 				selectRow = document.getElementById("dataTableID").rows[i];
 				selectRow.insertCell(parent.tableLable.length).innerHTML =newColumnValues[i - 1];
 			}
-
-			parent.matrix.push(newColumnValues);
-			parent.totalSensorAvailable++;
-			console.log(parent.columnInfo);
-			parent.columnInfo.push({
+		    
+		    parent.matrix.push(newColumnValues);
+		    parent.totalSensorAvailable++;
+		    console.log(parent.columnInfo);
+		    parent.columnInfo.push({
 				Name: nameOfNewColumn.value,
 				Type: "newColumn",
 				Average: getAverage(newColumnValues),
@@ -206,6 +205,8 @@ th {
 			alert("Syntax error : " + e.message);
 		}
 	}
+
+
 
   function deleteSelectColumn (index){
     parent.tableLable.splice(index-1, 1);

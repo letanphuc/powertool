@@ -11,6 +11,7 @@
   .constantValue { 
     font-weight: bold;
     background-color: #ffffff;
+    width: 80px;
   }
   .decrease {
   }
@@ -30,6 +31,7 @@
   <input id="InfoMaxOfColumn" class="displayValue" disabled="true" ></input><br>
   <label class="labelColumn"> Min:</label>
   <input id="InfoMinOfColumn" class="displayValue" disabled="true" ></input><br>
+  <div id="ConstantDisplay"></div>
   <label  class="labelColumn" id="lableOfDescriptionOfColumn"> Description:</label><br>
   <label></label>
   <textarea  id="descriptionOfColumn"  class="displayValue"  disabled="true" rows="2" cols="22" ></textarea>
@@ -38,7 +40,6 @@
   <label></label>
   <textarea  id="equalitionOfColumn" class="displayValue" disabled="true" rows="2" cols="22" ></textarea>
   <br>
-  <div id="ConstantDisplay"></div>
   <script type="text/javascript">
     console.log("Info Column is called");
     console.log(columnSelected);
@@ -84,6 +85,7 @@ $('.increase').click(function(){
 	$('#value'+idtext).val(inputValue);
 	columnInfo[columnSelected].ConstantArray[idtext] = inputValue;
 	console.log(columnInfo[columnSelected].ConstantArray[idtext]);
+	// updateColumn();
 })
 $('.decrease').click(function(){ 
 	var idtext=$(this).attr('id').substring(8, $(this).attr('id').length);
@@ -94,6 +96,8 @@ $('.decrease').click(function(){
 	$('#value'+idtext).val(inputValue);
     columnInfo[columnSelected].ConstantArray[idtext] = inputValue;
     console.log(columnInfo[columnSelected].ConstantArray[idtext]);
+    // updateColumn();
+
 })
 
 $('.constantValue').change(function() {
@@ -101,5 +105,40 @@ $('.constantValue').change(function() {
 	console.log(idtext);
 	columnInfo[columnSelected].ConstantArray[idtext] = $(this).val();
     console.log(columnInfo[columnSelected].ConstantArray[idtext]);
+	updateColumn(columnSelected);
 });
+
+
+function reCompute(index){
+    var newColumnValues = []
+    listOfSymbol = {}
+    listOfConst = columnInfo[index].ConstantArray
+    LENGHT = totalValueRow
+    tableLable.forEach(function myFunction(item, index) {
+      listOfSymbol[item.replace(/\s/g, '')] = matrix[index]
+    })
+
+    try{
+      var ex = formatExpression(columnInfo[index].Equalition)
+      console.log(ex)
+      console.log(listOfConst)
+      newColumnValues = compute(ex)
+      console.log(newColumnValues)
+
+    }
+    catch(e){
+      console.log(e)
+      alert("Syntax error : " + e.message);
+    }
+
+    return newColumnValues
+
+  }
+
+  function updateColumn(index)
+  {
+  	console.log("XXXXXX")
+    var newArray = reCompute(index);
+    console.log(newArray);
+  }
 </script>
