@@ -59,7 +59,7 @@ var hightlightIndex =0;
 			hightlightIndex =this.value;
 			document.getElementById("sensorName").value = sensorName[sensorID[this.value]] ;
 			document.getElementById("sensorType").value = sensorType[sensorID[this.value]] ;
-			// document.getElementById("descriptionSensor").value = sensorDescription[sensorID[this.value]] ;
+			document.getElementById("descriptionSensor").value = sensorDescription[sensorID[this.value]] ;
 		});
 		$("#sensorName").change(function() {
 		   console.log(" call change event");

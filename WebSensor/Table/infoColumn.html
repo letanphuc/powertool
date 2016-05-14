@@ -1,36 +1,44 @@
   <style type="text/css">
-     .displayValue { 
+   .displayValue { 
     font-weight: bold;
     background-color: #ffffff;
-    }
-    .labelColumn {
-      display: inline-block;
-      width: 60px;
-      text-align: right;
-    }​
+  }
+  .labelColumn {
+    display: inline-block;
+    width: 60px;
+    text-align: right;
+  }​
+  .constantValue { 
+    font-weight: bold;
+    background-color: #ffffff;
+  }
+  .decrease {
+  }
+  .increase {
 
-  </style>
-  <div id="infoNewColumn" <div style="padding:10px ;background:#00ff99;webkit-border-radius: 20px;-moz-border-radius: 20px;border-radius: 20px;margin:0 auto;overflow:hidden;"> 
-    <h3>Column Properties</h3>
-    <label class="labelColumn"> Name:</label>
-    <input id="InfoNameOfColumn"  class="displayValue" disabled="true" ></input><br>
-    <label class="labelColumn"> Type:</label>
-    <input id="InfoTypeOfColumn"  class="displayValue" disabled="true" ></input><br>
-    <label class="labelColumn"> Average:</label>
-    <input id="InfoAverageOfColumn" class="displayValue" disabled="true" ></input><br>
-    <label class="labelColumn"> Max:</label>
-    <input id="InfoMaxOfColumn" class="displayValue" disabled="true" ></input><br>
-    <label class="labelColumn"> Min:</label>
-    <input id="InfoMinOfColumn" class="displayValue" disabled="true" ></input><br>
-    <label  class="labelColumn" id="lableOfDescriptionOfColumn"> Description:</label><br>
-    <label></label>
-    <textarea  id="descriptionOfColumn"  class="displayValue"  disabled="true" rows="2" cols="22" ></textarea>
-    <br>
-    <label   class="labelColumn" id="lableOfEqualitionOfColumn"> Equalition:</label><br>
-    <label></label>
-    <textarea  id="equalitionOfColumn" class="displayValue" disabled="true" rows="2" cols="22" ></textarea>
-    <br>
-  </div>
+  }
+</style>
+<div id="infoNewColumn" <div style="padding:10px ;background:#00ff99;webkit-border-radius: 20px;-moz-border-radius: 20px;border-radius: 20px;margin:0 auto;overflow:hidden;"> 
+  <h3>Column Properties</h3>
+  <label class="labelColumn"> Name:</label>
+  <input id="InfoNameOfColumn"  class="displayValue" disabled="true" ></input><br>
+  <label class="labelColumn"> Type:</label>
+  <input id="InfoTypeOfColumn"  class="displayValue" disabled="true" ></input><br>
+  <label class="labelColumn"> Average:</label>
+  <input id="InfoAverageOfColumn" class="displayValue" disabled="true" ></input><br>
+  <label class="labelColumn"> Max:</label>
+  <input id="InfoMaxOfColumn" class="displayValue" disabled="true" ></input><br>
+  <label class="labelColumn"> Min:</label>
+  <input id="InfoMinOfColumn" class="displayValue" disabled="true" ></input><br>
+  <label  class="labelColumn" id="lableOfDescriptionOfColumn"> Description:</label><br>
+  <label></label>
+  <textarea  id="descriptionOfColumn"  class="displayValue"  disabled="true" rows="2" cols="22" ></textarea>
+  <br>
+  <label   class="labelColumn" id="lableOfEqualitionOfColumn"> Equalition:</label><br>
+  <label></label>
+  <textarea  id="equalitionOfColumn" class="displayValue" disabled="true" rows="2" cols="22" ></textarea>
+  <br>
+  <div id="ConstantDisplay"></div>
   <script type="text/javascript">
     console.log("Info Column is called");
     console.log(columnSelected);
@@ -51,8 +59,47 @@
   if(columnInfo[columnSelected].Equalition ==""){
    document.getElementById("equalitionOfColumn").style.display = "none";
    document.getElementById("lableOfEqualitionOfColumn").style.display = "none";
-  }
+ }
  else{
   document.getElementById("equalitionOfColumn").value = columnInfo[columnSelected].Equalition;
 }
+console.log( columnInfo[columnSelected].ConstantArray);
+var contentConstantDisplay = "";
+for (var key in columnInfo[columnSelected].ConstantArray) {
+  if (columnInfo[columnSelected].ConstantArray.hasOwnProperty(key)) {
+        console.log(key);
+    console.log(columnInfo[columnSelected].ConstantArray[key]);
+    contentConstantDisplay+="<label class=\"labelColumn\">" + key + ": </label>";
+    contentConstantDisplay+="<input id=\"value"+key+"\" class=\"constantValue\" value=\""+columnInfo[columnSelected].ConstantArray[key] +  "\"></input>";
+    contentConstantDisplay+="<input type=\"button\" class=\"increase\" id=\"increase" + key + "\" value=\"+\"></input><input type=\"button\" class=\"decrease\" id=\"decrease" + key + "\"value=\"-\"></input>";
+    }
+}
+document.getElementById("ConstantDisplay").innerHTML = contentConstantDisplay;
+$('.increase').click(function(){ 
+	var idtext=$(this).attr('id').substring(8, $(this).attr('id').length);
+	console.log(idtext);
+	console.log($('#value'+idtext).val());
+	var inputValue =Number( $('#value'+idtext).val());
+	inputValue+=inputValue*0.1;
+	$('#value'+idtext).val(inputValue);
+	columnInfo[columnSelected].ConstantArray[idtext] = inputValue;
+	console.log(columnInfo[columnSelected].ConstantArray[idtext]);
+})
+$('.decrease').click(function(){ 
+	var idtext=$(this).attr('id').substring(8, $(this).attr('id').length);
+	console.log(idtext);
+	console.log($('#value'+idtext).val());
+	var inputValue =Number( $('#value'+idtext).val());
+	inputValue-=inputValue*0.1;
+	$('#value'+idtext).val(inputValue);
+    columnInfo[columnSelected].ConstantArray[idtext] = inputValue;
+    console.log(columnInfo[columnSelected].ConstantArray[idtext]);
+})
+
+$('.constantValue').change(function() {
+	var idtext=$(this).attr('id').substring(5, $(this).attr('id').length);
+	console.log(idtext);
+	columnInfo[columnSelected].ConstantArray[idtext] = $(this).val();
+    console.log(columnInfo[columnSelected].ConstantArray[idtext]);
+});
 </script>
