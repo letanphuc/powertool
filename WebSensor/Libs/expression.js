@@ -3,7 +3,6 @@ var x = []
 var listOfSymbol = {}
 var listOfConst = {}
 
-
 function value(symbol, index) {
 
 	/** variables */
@@ -95,29 +94,29 @@ function replaceCustomFunc(ex, func) {
 		ex = ex.replaceAt(indexOpen, '_')
 		var nextClose = ex.indexOf(')', index)
 		ex = ex.replaceAt(nextClose, '')
-		
-		if (func == 'const'){
+
+		if (func == 'const') {
 			var s = ex.substring(indexOpen + 1, nextClose)
-			if (!(s in listOfConst)){
-				listOfConst[s]=1
+			if (!(s in listOfConst)) {
+				listOfConst[s] = 1
 			}
-			listOfSymbol['const_'+s]=listOfConst[s]
+			listOfSymbol['const_' + s] = listOfConst[s]
 		}
-		
+
 		/* Check syntax */
 		var insideFunc = ex.substring(indexOpen + 1, nextClose)
 		try {
 			var node = math.parse(insideFunc);
 			var filtered = node.filter(function(node) {
-				return node.isSymbolNode || node.type == ConstantNode || node.type == FunctionNode
+				return node.isSymbolNode || node.type == ConstantNode
+						|| node.type == FunctionNode
 			});
 			if (filtered.length != 1)
 				throw 'Must be only one symbol inside inf, dis and const function'
-		}
-		catch (e) {
+		} catch (e) {
 			throw 'Must be only one symbol inside inf, dis and const function'
 		}
-		
+
 		/* next function */
 		index = ex.indexOf(func + '(')
 	}
@@ -141,5 +140,5 @@ function main() {
 	var result = compute(ex)
 	console.log(result)
 	console.log(listOfConst)
-	
+
 }

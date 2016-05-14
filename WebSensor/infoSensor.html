@@ -1,74 +1,105 @@
 
 <head>
-	<style type="text/css">
-		.displayValue { 
-			font-weight: bold;
-			background-color: #ffffff;
-		}
-		label {
-			display: inline-block;
-			width: 45px;
-			text-align: right;
-		}​
-	</style>
-	<!-- <?php include 'readSensorInfo.php';?>    -->
-	<!-- <?php include 'Table/readData.php';?> -->
-</head>
-<div id="infoSensor" <div style="padding:15px ;background:#00ff99;webkit-border-radius: 20px;-moz-border-radius: 20px;border-radius: 20px;margin:0 auto;overflow:hidden;">  
-	<h3>System Infos</h3>
-	<input type="button"  id="Sensor0" data-toggle="collapse" class="btn btn-success" value="0"  style='background-color: blue; width: 30px;display:none'></input>
-	<input type="button"  id="Sensor1" data-toggle="collapse" class="btn btn-success" value="1"  style='background-color: blue; width: 30px;display:none'></input>
-	<input type="button"  id="Sensor2" data-toggle="collapse" class="btn btn-success" value="2"  style='background-color: blue; width: 30px;display:none'></input>
-	<input type="button"  id="Sensor3" data-toggle="collapse" class="btn btn-success" value="3"  style='background-color: blue; width: 30px;display:none'></input>
-	<input type="button"  id="Sensor4" data-toggle="collapse" class="btn btn-success" value="4"  style='background-color: blue; width: 30px;display:none'></input>
-	<input type="button"  id="Sensor5" data-toggle="collapse" class="btn btn-success" value="5"  style='background-color: blue; width: 30px;display:none'></input>
-	<input type="button"  id="Sensor6" data-toggle="collapse" class="btn btn-success" value="6"  style='background-color: blue; width: 30px;display:none'></input>
-	<br><br>
-	<div class="collapse in active">
-		<label> Name: </label>
-		<input id="sensorName"  class="displayValue"> </input><br>
-		<label>Type:</label>
-		<input id="sensorType"  class="displayValue" disabled="true"></input><br>
-		<label> Description:</label><br>
-	  	<label></label>
-	  	<textarea  id="sensorDescription" rows="2" cols="24" value="hello"></textarea>
-	  	<br>
-	</div>
-</div> 
-<script type = "text/javascript">
-var hightlightIndex =0;
-	document.getElementById("sensorName").value = sensorName[sensorID[0]] ;
-	document.getElementById("sensorType").value = sensorType[sensorID[0]] ;
-	document.getElementById("Sensor"+sensorID[0]).style.backgroundColor = "red";
-	for (i = 0; i < totalSensor; i++) { 
-		document.getElementById("Sensor"+sensorID[i]).value = i;
-		document.getElementById("Sensor"+sensorID[i]).style.display = "inline"; 
-	}
-	function resetBackgroundColor()
-	{
-		for (i = 0; i < totalSensor; i++) { 
-			console.log(document.getElementById("Sensor"+sensorID[i]).value);
-			document.getElementById("Sensor"+sensorID[i]).style.backgroundColor = "blue"; 
-		}
-	}
-	$(document).ready(function(){
-		$("#Sensor0,#Sensor1,#Sensor2,#Sensor3,#Sensor4,#Sensor5,#Sensor6").click(function(){ 
-			$(".collapse").collapse('show');
-			resetBackgroundColor();
-			this.style.backgroundColor = "red";
-			hightlightIndex =this.value;
-			document.getElementById("sensorName").value = sensorName[sensorID[this.value]] ;
-			document.getElementById("sensorType").value = sensorType[sensorID[this.value]] ;
-			document.getElementById("descriptionSensor").value = sensorDescription[sensorID[this.value]] ;
-		});
-		$("#sensorName").change(function() {
-		   console.log(" call change event");
-		  sensorName[sensorID[hightlightIndex]] = $(this).val();
-		});
-		$("#sensorDescription").change(function() {
-		   console.log(" description changed");
-		  sensorDescription[sensorID[hightlightIndex]] = $(this).val();
-		});
-	});
+<style type="text/css">
+.displayValue {
+	font-weight: bold;
+	background-color: #ffffff;
+}
 
-</script> 
+label {
+	display: inline-block;
+	width: 45px;
+	text-align: right;
+}
+​
+</style>
+<!-- <?php include 'readSensorInfo.php';?>    -->
+<!-- <?php include 'Table/readData.php';?> -->
+</head>
+<div id="infoSensor"
+	<div
+		style="padding: 15px; background: #00ff99; webkit-border-radius: 20px; -moz-border-radius: 20px; border-radius: 20px; margin: 0 auto; overflow: hidden;">
+		<h3>System Infos</h3>
+		<input type="button" id="Sensor0" data-toggle="collapse"
+			class="btn btn-success" value="0"
+			style='background-color: blue; width: 30px; display: none'></input> <input
+			type="button" id="Sensor1" data-toggle="collapse"
+			class="btn btn-success" value="1"
+			style='background-color: blue; width: 30px; display: none'></input> <input
+			type="button" id="Sensor2" data-toggle="collapse"
+			class="btn btn-success" value="2"
+			style='background-color: blue; width: 30px; display: none'></input> <input
+			type="button" id="Sensor3" data-toggle="collapse"
+			class="btn btn-success" value="3"
+			style='background-color: blue; width: 30px; display: none'></input> <input
+			type="button" id="Sensor4" data-toggle="collapse"
+			class="btn btn-success" value="4"
+			style='background-color: blue; width: 30px; display: none'></input> <input
+			type="button" id="Sensor5" data-toggle="collapse"
+			class="btn btn-success" value="5"
+			style='background-color: blue; width: 30px; display: none'></input> <input
+			type="button" id="Sensor6" data-toggle="collapse"
+			class="btn btn-success" value="6"
+			style='background-color: blue; width: 30px; display: none'></input> <br>
+		<br>
+		<div class="collapse in active">
+			<label> Name: </label> <input id="sensorName" class="displayValue">
+			</input><br> <label>Type:</label> <input id="sensorType"
+				class="displayValue" disabled="true"></input><br> <label>
+				Description:</label><br> <label></label>
+			<textarea id="sensorDescription" rows="2" cols="24" value="hello"></textarea>
+			<br>
+		</div>
+	</div>
+	<script type="text/javascript">
+		var hightlightIndex = 0;
+		document.getElementById("sensorName").value = sensorName[sensorID[0]];
+		document.getElementById("sensorType").value = sensorType[sensorID[0]];
+		document.getElementById("Sensor" + sensorID[0]).style.backgroundColor = "red";
+		for (i = 0; i < totalSensor; i++) {
+			document.getElementById("Sensor" + sensorID[i]).value = i;
+			document.getElementById("Sensor" + sensorID[i]).style.display = "inline";
+		}
+		function resetBackgroundColor() {
+			for (i = 0; i < totalSensor; i++) {
+				console
+						.log(document.getElementById("Sensor" + sensorID[i]).value);
+				document.getElementById("Sensor" + sensorID[i]).style.backgroundColor = "blue";
+			}
+		}
+		$(document)
+				.ready(
+						function() {
+							$(
+									"#Sensor0,#Sensor1,#Sensor2,#Sensor3,#Sensor4,#Sensor5,#Sensor6")
+									.click(
+											function() {
+												$(".collapse").collapse('show');
+												resetBackgroundColor();
+												this.style.backgroundColor = "red";
+												hightlightIndex = this.value;
+												document
+														.getElementById("sensorName").value = sensorName[sensorID[this.value]];
+												document
+														.getElementById("sensorType").value = sensorType[sensorID[this.value]];
+												document
+														.getElementById("descriptionSensor").value = sensorDescription[sensorID[this.value]];
+											});
+							$("#sensorName")
+									.change(
+											function() {
+												console
+														.log(" call change event");
+												sensorName[sensorID[hightlightIndex]] = $(
+														this).val();
+											});
+							$("#sensorDescription")
+									.change(
+											function() {
+												console
+														.log(" description changed");
+												sensorDescription[sensorID[hightlightIndex]] = $(
+														this).val();
+											});
+						});
+	</script>

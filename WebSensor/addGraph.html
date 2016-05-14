@@ -1,36 +1,37 @@
-      <div class="row content" style="border:none" width="450" height="450" >
-          <div class="col-sm-6 ">
-            <form>
-              <p>
-                <label for="nameOfGraph">Name:</label><br>
-                <input id="nameOfGraph" type="text" value="New Graph"></input>
-              </p>
-              <label> Description:</label><br>
-              <textarea id="graphDescription" rows="2" cols="25" placeholder="Enter description"></textarea>
-            </form>
-          </div>
-          <div class="col-sm-6 ">
-           <p>
-            <label for="X">X :</label>
-            <select disabled>
-              <option value="time">time</option>
-            </select>
-          </p>
-          <div id="comboBox"></div>
-          <script type="text/javascript">
-            var comboContent ="";
-            for(var j = 1; j <=3 ; j ++)
-            {
-              comboContent+="<p><label for=\"Value\"" + j + ">Y " + j + " :</label><select id=\"ComboBoxValue" +j+"\">";
-              comboContent+="<option value=\""+(-1)+"\">None</option>";
-              for(var i=0; i<parent.totalSensorAvailable; i++)
-              {
-                comboContent+="<option value=\""+i+"\">" + parent.tableLable[i] +"</option>";
-              }
-              comboContent+="</select>";
-              comboContent+= "<input id =\"colorForY" + j+ "\"type=\"color\" value=\"#0000ff\"/></p>";
-            }
-            document.getElementById("comboBox").innerHTML = comboContent;
-          </script>
-        </div>
-      </div>
+
+<div class="row content" style="border: none" width="450" height="450">
+	<div class="col-sm-6 ">
+		<form>
+			<p>
+				<label for="nameOfGraph">Name:</label><br> <input
+					id="nameOfGraph" type="text" value="New Graph"></input>
+			</p>
+			<label> Description:</label><br>
+			<textarea id="graphDescription" rows="2" cols="25"
+				placeholder="Enter description"></textarea>
+		</form>
+	</div>
+	<div class="col-sm-6 ">
+		<p>
+			<label for="X">X :</label> <select disabled>
+				<option value="time">time</option>
+			</select>
+		</p>
+		<div id="comboBox"></div>
+		<script type="text/javascript">
+			var comboContent = "";
+			for (var j = 1; j <= 3; j++) {
+				comboContent += "<p><label for=\"Value\"" + j + ">Y " + j
+						+ " :</label><select id=\"ComboBoxValue" +j+"\">";
+				comboContent += "<option value=\"" + (-1) + "\">None</option>";
+				for (var i = 0; i < parent.totalSensorAvailable; i++) {
+					comboContent += "<option value=\""+i+"\">"
+							+ parent.tableLable[i] + "</option>";
+				}
+				comboContent += "</select>";
+				comboContent += "<input id =\"colorForY" + j+ "\"type=\"color\" value=\"#0000ff\"/></p>";
+			}
+			document.getElementById("comboBox").innerHTML = comboContent;
+		</script>
+	</div>
+</div>

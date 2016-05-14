@@ -1,46 +1,49 @@
-<div id="infoLiveView" <div style="padding:10px ;background:#00ff99;webkit-border-radius: 20px;-moz-border-radius: 20px;border-radius: 20px;margin:0 auto;overflow:hidden;"> 
- <!-- <?php include 'readSensorInfo.php';?>  -->
- <h3>Live view properties</h3>
- <div id="liveViewProperties" > </div>
-</div>
+<div id="infoLiveView"
+	<div
+		style="padding: 10px; background: #00ff99; webkit-border-radius: 20px; -moz-border-radius: 20px; border-radius: 20px; margin: 0 auto; overflow: hidden;">
+		<!-- <?php include 'readSensorInfo.php';?>  -->
+		<h3>Live view properties</h3>
+		<div id="liveViewProperties"></div>
+	</div>
 
-<script type="text/javascript">
-  var liveViewContent ="";
-  for (i = 0; i < totalSensor; i++) { 
-    liveViewContent+="<input type=\"checkbox\" id=\"liveViewCheckBox" + i +"\"><label style=\" margin-right : 20px; margin-left : 10px;  margin-bottom: 10px;\">"+ sensorName[sensorID[i]] +"</label><input type=\"color\" value=\""+ arrayColorForLiveView[i] + "\" disabled=\"true\" /> <input type=\"button\"  id=\"SetZero" + i + "\"class=\"btn btn-info\" value=\"SetZero\"></input><br>";
-  }
-  document.getElementById("liveViewProperties").innerHTML = liveViewContent;
-  for (i = 0; i < totalSensor; i++) { 
-    document.getElementById("liveViewCheckBox"+i).checked = liveViewSelected[i];
-  }
-  $('.btn-info').click(function(){ 
-    var idname = $(this).attr('id');
-    var index = idname.substr(idname.length -1);
-    var total =0;
-    console.log(index);
-    if($(this).val() == "SetZero")
-    {
-      console.log("Set to Zero");
-      if(dpsForLiveView[index].length != 0)
-      {
-        $(this).val("Reset");
-        for (var j = 1;j <= 100; j ++){
-          if(dpsForLiveView[index].length < j)
-            break;
-          total += dpsForLiveView[index][dpsForLiveView[index].length - j].y;
-          console.log(dpsForLiveView[index][dpsForLiveView[index].length - j]);
-        }
-        maginData[index] = total/(j-1);
-        console.log(maginData[index]);
-      }
-    }
-    else
-    {
-      console.log("ReturnNormal");
-      $(this).val("SetZero");
-      maginData[index] = 0;
-    }
-  });
-
-</script>
-
+	<script type="text/javascript">
+		var liveViewContent = "";
+		for (i = 0; i < totalSensor; i++) {
+			liveViewContent += "<input type=\"checkbox\" id=\"liveViewCheckBox" + i +"\"><label style=\" margin-right : 20px; margin-left : 10px;  margin-bottom: 10px;\">"
+					+ sensorName[sensorID[i]]
+					+ "</label><input type=\"color\" value=\""+ arrayColorForLiveView[i] + "\" disabled=\"true\" /> <input type=\"button\"  id=\"SetZero" + i + "\"class=\"btn btn-info\" value=\"SetZero\"></input><br>";
+		}
+		document.getElementById("liveViewProperties").innerHTML = liveViewContent;
+		for (i = 0; i < totalSensor; i++) {
+			document.getElementById("liveViewCheckBox" + i).checked = liveViewSelected[i];
+		}
+		$('.btn-info')
+				.click(
+						function() {
+							var idname = $(this).attr('id');
+							var index = idname.substr(idname.length - 1);
+							var total = 0;
+							console.log(index);
+							if ($(this).val() == "SetZero") {
+								console.log("Set to Zero");
+								if (dpsForLiveView[index].length != 0) {
+									$(this).val("Reset");
+									for (var j = 1; j <= 100; j++) {
+										if (dpsForLiveView[index].length < j)
+											break;
+										total += dpsForLiveView[index][dpsForLiveView[index].length
+												- j].y;
+										console
+												.log(dpsForLiveView[index][dpsForLiveView[index].length
+														- j]);
+									}
+									maginData[index] = total / (j - 1);
+									console.log(maginData[index]);
+								}
+							} else {
+								console.log("ReturnNormal");
+								$(this).val("SetZero");
+								maginData[index] = 0;
+							}
+						});
+	</script>

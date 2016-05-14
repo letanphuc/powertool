@@ -1,107 +1,104 @@
 <script type="text/javascript">
 	window.onload = function() {
-	parent.dpsForLiveView[0] = []; // dataPoints
-	parent.dpsForLiveView[1] = []; // dataPoints
-	parent.dpsForLiveView[2] = []; // dataPoints
-	parent.dpsForLiveView[3] = []; // dataPoints
-	parent.dpsForLiveView[4] = []; // dataPoints
-	parent.dpsForLiveView[5] = []; // dataPoints
-	parent.dpsForLiveView[6] = []; // dataPoints
-	
-	var chart = new CanvasJS.Chart("chartContainer", {
-		title : {
-			text : "Live Random Data"
-		},
-		axisY:{
-	        // interlacedColor: "#FFBFD5",
-	        gridColor: "#ebebe0",
-	        lineColor: "#0f0f0a",
-	        tickColor: "#0f0f0a",
-	        labelFontColor:"#0f0f0a",
-      	},
-      	axisX:{
-	        // interlacedColor: "#FFBFD5",
-	        // gridColor: "#FFBFD5",
-	        lineColor: "#0f0f0a",
-	        tickColor: "#0f0f0a",
-	        labelFontColor:"#0f0f0a",
-      	},
-		data : [ {
-			type : "line",
-			dataPoints : parent.dpsForLiveView[0],
-			color: parent.arrayColorForLiveView[0]
-		}, {
-			type : "line",
-			dataPoints : parent.dpsForLiveView[1],
-			color:  parent.arrayColorForLiveView[1]
-		} , {
-			type : "line",
-			dataPoints : parent.dpsForLiveView[2],
-			color:  parent.arrayColorForLiveView[2]
+		parent.dpsForLiveView[0] = []; // dataPoints
+		parent.dpsForLiveView[1] = []; // dataPoints
+		parent.dpsForLiveView[2] = []; // dataPoints
+		parent.dpsForLiveView[3] = []; // dataPoints
+		parent.dpsForLiveView[4] = []; // dataPoints
+		parent.dpsForLiveView[5] = []; // dataPoints
+		parent.dpsForLiveView[6] = []; // dataPoints
 
-		}, {
-			type : "line",
-			dataPoints : parent.dpsForLiveView[3],
-			color:  parent.arrayColorForLiveView[3]
-		}, {
-			type : "line",
-			dataPoints : parent.dpsForLiveView[4],
-			color:  parent.arrayColorForLiveView[4]
-		}, {
-			type : "line",
-			dataPoints : parent.dpsForLiveView[5],
-			color:  parent.arrayColorForLiveView[5]
-		} , {
-			type : "line",
-			dataPoints : parent.dpsForLiveView[6],
-			color:  parent.arrayColorForLiveView[6]
-		} ]
-	});
+		var chart = new CanvasJS.Chart("chartContainer", {
+			title : {
+				text : "Live Random Data"
+			},
+			axisY : {
+				// interlacedColor: "#FFBFD5",
+				gridColor : "#ebebe0",
+				lineColor : "#0f0f0a",
+				tickColor : "#0f0f0a",
+				labelFontColor : "#0f0f0a",
+			},
+			axisX : {
+				// interlacedColor: "#FFBFD5",
+				// gridColor: "#FFBFD5",
+				lineColor : "#0f0f0a",
+				tickColor : "#0f0f0a",
+				labelFontColor : "#0f0f0a",
+			},
+			data : [ {
+				type : "line",
+				dataPoints : parent.dpsForLiveView[0],
+				color : parent.arrayColorForLiveView[0]
+			}, {
+				type : "line",
+				dataPoints : parent.dpsForLiveView[1],
+				color : parent.arrayColorForLiveView[1]
+			}, {
+				type : "line",
+				dataPoints : parent.dpsForLiveView[2],
+				color : parent.arrayColorForLiveView[2]
 
-	var xVal = 0;
-	var yVal = 100;
-	var updateInterval = 10;
-	var dataLength = 1000; // number of dataPoints visible at any point
-	var updateChart = function(count) {
-		count = count || 1;
-	    // count is number of times loop runs to generate random dataPoints.
-	    if(parent.focusTab == 0)
-			window.parent.updateLiveViewValues();
-	    for (var j = 0; j < count; j++) {
-	    	for (var i = 0; i < parent.totalSensor; i++) { 
-	    		if (parent.liveViewSelected[i])
-	    		{
-	    			parent.dpsForLiveView[i].push({
-	    				x : xVal,
-	    				y : 2*i + Math.sin(xVal / 10) - parent.maginData[i]
-	    			});
-	    		}
-	    		else
-	    		{
-					parent.dpsForLiveView[i].length = 0;
-	    		}
-	    	}
-	    	xVal++;
-	    }
-    	for(var i = 0; i< 7; i++)
-    	{	
-    		if(parent.dpsForLiveView[i].length>dataLength)
-    			parent.dpsForLiveView[i].shift();
-    	}
+			}, {
+				type : "line",
+				dataPoints : parent.dpsForLiveView[3],
+				color : parent.arrayColorForLiveView[3]
+			}, {
+				type : "line",
+				dataPoints : parent.dpsForLiveView[4],
+				color : parent.arrayColorForLiveView[4]
+			}, {
+				type : "line",
+				dataPoints : parent.dpsForLiveView[5],
+				color : parent.arrayColorForLiveView[5]
+			}, {
+				type : "line",
+				dataPoints : parent.dpsForLiveView[6],
+				color : parent.arrayColorForLiveView[6]
+			} ]
+		});
 
-	chart.render();
+		var xVal = 0;
+		var yVal = 100;
+		var updateInterval = 10;
+		var dataLength = 1000; // number of dataPoints visible at any point
+		var updateChart = function(count) {
+			count = count || 1;
+			// count is number of times loop runs to generate random dataPoints.
+			if (parent.focusTab == 0)
+				window.parent.updateLiveViewValues();
+			for (var j = 0; j < count; j++) {
+				for (var i = 0; i < parent.totalSensor; i++) {
+					if (parent.liveViewSelected[i]) {
+						parent.dpsForLiveView[i].push({
+							x : xVal,
+							y : 2 * i + Math.sin(xVal / 10)
+									- parent.maginData[i]
+						});
+					} else {
+						parent.dpsForLiveView[i].length = 0;
+					}
+				}
+				xVal++;
+			}
+			for (var i = 0; i < 7; i++) {
+				if (parent.dpsForLiveView[i].length > dataLength)
+					parent.dpsForLiveView[i].shift();
+			}
 
-	};
+			chart.render();
 
-	// generates first set of dataPoints
-	updateChart(dataLength);
+		};
 
-	// update chart after specified time. 
-	setInterval(function() {
-		updateChart()
-	}, updateInterval);
+		// generates first set of dataPoints
+		updateChart(dataLength);
 
-}
+		// update chart after specified time. 
+		setInterval(function() {
+			updateChart()
+		}, updateInterval);
+
+	}
 </script>
 <script type="text/javascript" src="canvasjs-1.8.0/canvasjs.min.js"></script>
 <div id="chartContainer" style="height: 400px; width: 100%;"></div>
