@@ -8,9 +8,6 @@
     $totalSensorAvailable = 0;
     $totalValueRow = 0;
     print "<script>";
-    print "parent.sensorID    = [];";
-    print "parent.sensorName = [];";
-    print "parent.sensorType = [];";
     print "parent.matrix = []; ";
     print "parent.recordId = [];";
 
@@ -21,9 +18,6 @@
       print "parent.matrix[".$totalSensorAvailable."] = value".$totalSensorAvailable.";";
       $sensorIDarray[$totalSensorAvailable]=$row['sensorID'];
       $totalSensorAvailable++;
-      print "parent.sensorID.push(".$row['sensorID'].");"; 
-      print "parent.sensorName[".$row['sensorID']."]=\" ".$row['sensorName']." \";";
-      print "parent.sensorType[".$row['sensorID']."]=\" ".$row['sensorType']." \";";
     }
 
 
@@ -36,7 +30,7 @@
         $value = "value";
         $value.=$sensorIDarray[$i];
         // $value = $row['.$value.'];
-        print "value".$i.".push(".$row[$value].");";
+        print "value".$i.".push(parseFloat((".$row[$value]."- parent.maginData[".$i."]).toFixed(4)));";
       }
       $totalValueRow++;
     }

@@ -10,12 +10,14 @@
 		var liveViewContent = "";
 		for (i = 0; i < totalSensor; i++) {
 			liveViewContent += "<input type=\"checkbox\" id=\"liveViewCheckBox" + i +"\"><label style=\" margin-right : 20px; margin-left : 10px;  margin-bottom: 10px;\">"
-					+ sensorName[sensorID[i]]
+					+ sensorInfo[i].sensorName
 					+ "</label><input type=\"color\" value=\""+ arrayColorForLiveView[i] + "\" disabled=\"true\" /> <input type=\"button\"  id=\"SetZero" + i + "\"class=\"btn btn-info\" value=\"SetZero\"></input><br>";
 		}
 		document.getElementById("liveViewProperties").innerHTML = liveViewContent;
 		for (i = 0; i < totalSensor; i++) {
 			document.getElementById("liveViewCheckBox" + i).checked = liveViewSelected[i];
+			if(maginData[i]!= 0)
+				$("#SetZero"+i).val("Reset");
 		}
 		$('.btn-info')
 				.click(

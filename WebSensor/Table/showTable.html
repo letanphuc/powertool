@@ -23,6 +23,7 @@
   table{
    height:300px; 
    table-layout: fixed;
+   overflow-y: scroll;
    width: 80px;
    /*border: 1px solid black;*/
  }
@@ -36,6 +37,7 @@ td, th {
  border: 1px solid black;
  width: 80px;
  text-align: center;
+ word-wrap:break-word;
  position: static;
 outline: 0;
 }
@@ -211,11 +213,7 @@ th {
   function deleteSelectColumn (index){
     parent.tableLable.splice(index-1, 1);
     parent.columnInfo.splice(index-1, 1);
-    // console.log(parent.matrix.length);
-    // console.log(parent.matrix[index-1]);
     parent.matrix.splice(index-1,1);
-    // console.log(parent.matrix.length);
-    // console.log(parent.matrix[index-1]);
     var selectRow;
     for(var i = 0; i <= parent.totalValueRow; i++)
     {
@@ -255,7 +253,7 @@ th {
 // load data from global variable
 var myTable= "<table  id =\"dataTableID\" class=\"table table-hover\"><tr><th style='color: red;'>Time</th>";
 for (var i=0; i<parent.totalSensorAvailable; i++) {
-  parent.tableLable[i] = parent.sensorName[parent.sensorID[i]];
+  parent.tableLable[i] = parent.sensorInfo[i].sensorName;
   myTable+= "<th style='color: red;'>" + parent.tableLable[i] +"</th>";
 } 
 myTable +="</tr>";
@@ -274,12 +272,12 @@ document.getElementById("showTable").innerHTML = myTable;
 parent.columnInfo =[];
 for (var i=0; i<parent.totalSensorAvailable; i++) {
   parent.columnInfo.push({
-    Name: parent.sensorName[parent.sensorID[i]],
-    Type: parent.sensorType[parent.sensorID[i]],
+    Name: parent.sensorInfo[i].sensorName,
+    Type: parent.sensorInfo[i].sensorType,
     Average: getAverage(parent.matrix[i]),
     Max: getMax(parent.matrix[i]),
     Min: getMin(parent.matrix[i]),
-    Description: "",
+    Description: parent.sensorInfo[i].sensorDescription,
     Equalition: "",
     ConstantArray: {},
   });

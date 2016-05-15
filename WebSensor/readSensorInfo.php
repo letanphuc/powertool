@@ -5,18 +5,17 @@ try {
 	$result = $db->query ( 'SELECT * FROM detail' );
 	$total = 0;
 	print "<script>";
-	print "var sensorID    = new Array();";
-	print "var sensorName = [];";
-	print "var sensorType = [];";
-	print "var sensorDescription =[];";
+	print "var sensorInfo = [];";
 	
 	foreach ( $result as $row ) {
 		$total ++;
-		print "sensorID.push(" . $row ['sensorID'] . ");";
-		// print "document.getElementById(\"Sensor".$row['sensorID']."\").disabled = false;";
-		print "sensorName[" . $row ['sensorID'] . "]=\" " . $row ['sensorName'] . " \";";
-		print "sensorType[" . $row ['sensorID'] . "]=\" " . $row ['sensorType'] . " \";";
-		print "sensorDescription[" . $row ['sensorID'] . "]=\" sameText \";";
+		print "sensorInfo.push({
+      	sensorID: ". $row ['sensorID'] .",
+      	sensorName: \"" . $row ['sensorName'] . "\",
+      	sensorType: \"" . $row ['sensorType'] . "\",
+      	sensorDescription: \"\",
+
+      });";
 	}
 	print "var totalSensor = " . $total . ";";
 	print "</script>";
