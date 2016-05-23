@@ -1,70 +1,226 @@
   <style type="text/css">
-     .displayValueForGraph { 
+   .displayValueForGraph { 
     font-weight: bold;
     background-color: #ffffff;
     width: 180px;
-    }
-    .labelForGraphInfo {
-      display: inline-block;
-      width: 45px;
-      text-align: right;
-    }​
-  </style>
- <div id="infoNewGraph" <div style="padding:10px ;background:#00ff99;webkit-border-radius: 20px;-moz-border-radius: 20px;border-radius: 20px;margin:0 auto;overflow:hidden;"> 
+  }
+  .labelForGraphInfo {
+    display: inline-block;
+    width: 45px;
+    text-align: right;
+  }​
+</style>
+<div id="infoNewGraph" <div style="padding:10px ;background:#00ff99;webkit-border-radius: 20px;-moz-border-radius: 20px;border-radius: 20px;margin:0 auto;overflow:hidden;"> 
   <h3>Graph Properties</h3>
   <div id="InfoGraphProperties" > 
-  <label class="labelForGraphInfo"> Name:</label>
-  <input id="InfoNameOfGraph" class="displayValueForGraph" disabled="true" ></input><br>
-  <label class="labelForGraphInfo"> Description:</label><br>
-  <label></label>
-  <textarea  id="descriptionOfGraph" class="displayValueForGraph" disabled="true" rows="2" cols="22" ></textarea>
-  <br>
-  <label class="labelForGraphInfo"> X:</label>
-  <input id="InfoXOfNewGraph" value="Time" class="displayValueForGraph" disabled="true"></input><br>
-  <label class="labelForGraphInfo"> Y1:</label>
-  <input id="InfoY1OfNewGraph" value="None" class="displayValueForGraph" disabled="true"></input>
-  <input type="color" id="InfoColorForY1" value="#0000ff"  disabled="true"/><br>
-  <label class="labelForGraphInfo"> Y2:</label>
-  <input id="InfoY2OfNewGraph" value="None" class="displayValueForGraph" disabled="true"></input>
-  <input type="color" id="InfoColorForY2" value="#0000ff" disabled="true" /><br>
-  <label class="labelForGraphInfo"> Y3:</label>
-  <input id="InfoY3OfNewGraph" value="None" class="displayValueForGraph" disabled="true"></input>
-  <input type="color" id="InfoColorForY3" value="#0000ff" disabled="true" /><br>
+    <label class="labelForGraphInfo"> Name:</label>
+    <input id="InfoNameOfGraph" class="displayValueForGraph" disabled="true" ></input><br>
+    <label class="labelForGraphInfo" id="lableOfDescriptionGraph"> Description:</label><br>
+    <label id="lablePadding"></label>
+    <textarea  id="descriptionOfGraph" class="displayValueForGraph" disabled="true" rows="2" cols="22" ></textarea>
+    <br>
+    <label class="labelForGraphInfo"> X:</label>
+    <input id="InfoXOfNewGraph" value="Time" class="displayValueForGraph" disabled="true"></input><br>
+    <div id="ConstantDisplayX"></div>
+    <label class="labelForGraphInfo"> Y1:</label>
+    <input id="InfoY1OfNewGraph" value="None" class="displayValueForGraph" disabled="true"></input>
+    <input type="color" id="InfoColorForY1" value="#0000ff"  disabled="true"/><br>
+    <div id="ConstantDisplayY1"></div>
+    <label class="labelForGraphInfo"> Y2:</label>
+    <input id="InfoY2OfNewGraph" value="None" class="displayValueForGraph" disabled="true"></input>
+    <input type="color" id="InfoColorForY2" value="#0000ff" disabled="true" /><br>
+    <div id="ConstantDisplayY2"></div>
+    <label class="labelForGraphInfo"> Y3:</label>
+    <input id="InfoY3OfNewGraph" value="None" class="displayValueForGraph" disabled="true"></input>
+    <input type="color" id="InfoColorForY3" value="#0000ff" disabled="true" /><br>
+    <div id="ConstantDisplayY3"></div>
   </div>
   <script type="text/javascript">
-  	document.getElementById("InfoNameOfGraph").value =GraphInfo[tabIndex-1].Name;
-  	document.getElementById("descriptionOfGraph").value =GraphInfo[tabIndex-1].Description;
-  	if(GraphInfo[tabIndex-1].X ==-1){
-  		document.getElementById("InfoXOfNewGraph").value ="Time";
-  	}
-  	else{
-  		document.getElementById("InfoXOfNewGraph").value =tableLable[GraphInfo[tabIndex-1].X];
-  	}
-  	if(GraphInfo[tabIndex-1].Y1 == -1){
-  		document.getElementById("InfoY1OfNewGraph").value ="None";
-      document.getElementById("InfoColorForY1").style.display ="none";
-  	}
-  	else{
-  		document.getElementById("InfoY1OfNewGraph").value =tableLable[GraphInfo[tabIndex-1].Y1];
-  	}
-  	if(GraphInfo[tabIndex-1].Y2 == -1){
-  		document.getElementById("InfoY2OfNewGraph").value ="None";
-      document.getElementById("InfoColorForY2").style.display ="none";
-  	}
-  	else{
-  		document.getElementById("InfoY2OfNewGraph").value =tableLable[GraphInfo[tabIndex-1].Y2];
-  	}
-  	if(GraphInfo[tabIndex-1].Y3 == -1){
-  		document.getElementById("InfoY3OfNewGraph").value ="None";
-      document.getElementById("InfoColorForY3").style.display ="none";
-  	}
-  	else{
-  		document.getElementById("InfoY3OfNewGraph").value =tableLable[GraphInfo[tabIndex-1].Y3];
-  	}
+  	document.getElementById("InfoNameOfGraph").value =GraphInfo[tabIndex].Name;
+    if(GraphInfo[tabIndex].Description ==""){
+      document.getElementById("descriptionOfGraph").style.display = "none";
+      document.getElementById("lableOfDescriptionGraph").style.display = "none";
+      document.getElementById("lablePadding").style.display = "none";
+    }
+    else{
+     document.getElementById("descriptionOfGraph").value =GraphInfo[tabIndex].Description;
+   }
+   if(GraphInfo[tabIndex].X ==-1){
+    document.getElementById("InfoXOfNewGraph").value ="Time";
+  }
+  else{
+    document.getElementById("InfoXOfNewGraph").value =tableLable[GraphInfo[tabIndex].X];
+    var contentConstantDisplayX = "";
+    for (var key in GraphInfo[tabIndex].constantValueX) {
+      if (GraphInfo[tabIndex].constantValueX.hasOwnProperty(key)) {
+        console.log(key);
+        console.log(GraphInfo[tabIndex].constantValueX[key]);
+        contentConstantDisplayX+="<label class=\"labelColumn\">" + key + ": </label>";
+        contentConstantDisplayX+="<input id=\"X0value"+key+"\" class=\"constantValue\" value=\""+GraphInfo[tabIndex].constantValueX[key] +  "\"></input>";
+        contentConstantDisplayX+="<input type=\"button\" class=\"increase\" id=\"X0increase" + key + "\" value=\"+\"></input><input type=\"button\" class=\"decrease\" id=\"X0decrease" + key + "\"value=\"-\"></input>";
+      }
+    }
+    document.getElementById("ConstantDisplayX").innerHTML = contentConstantDisplayX;
+  }
+  if(GraphInfo[tabIndex].Y1 == -1){
+    document.getElementById("InfoY1OfNewGraph").value ="None";
+    document.getElementById("InfoColorForY1").style.display ="none";
+  }
+  else{
+    document.getElementById("InfoY1OfNewGraph").value =tableLable[GraphInfo[tabIndex].Y1];
+    var contentConstantDisplayY1 = "";
+    for (var key in GraphInfo[tabIndex].constantValueY1) {
+      if (GraphInfo[tabIndex].constantValueY1.hasOwnProperty(key)) {
+        console.log(key);
+        console.log(GraphInfo[tabIndex].constantValueY1[key]);
+        contentConstantDisplayY1+="<label class=\"labelColumn\">" + key + ": </label>";
+        contentConstantDisplayY1+="<input id=\"Y1value"+key+"\" class=\"constantValue\" value=\""+GraphInfo[tabIndex].constantValueY1[key] +  "\"></input>";
+        contentConstantDisplayY1+="<input type=\"button\" class=\"increase\" id=\"Y1increase" + key + "\" value=\"+\"></input><input type=\"button\" class=\"decrease\" id=\"Y1decrease" + key + "\"value=\"-\"></input>";
+      }
+    }
+    document.getElementById("ConstantDisplayY1").innerHTML = contentConstantDisplayY1;
+  }
+  if(GraphInfo[tabIndex].Y2 == -1){
+    document.getElementById("InfoY2OfNewGraph").value ="None";
+    document.getElementById("InfoColorForY2").style.display ="none";
+  }
+  else{
+    document.getElementById("InfoY2OfNewGraph").value =tableLable[GraphInfo[tabIndex].Y2];
+    var contentConstantDisplayY2 = "";
+    for (var key in GraphInfo[tabIndex].constantValueY2) {
+      if (GraphInfo[tabIndex].constantValueY2.hasOwnProperty(key)) {
+        console.log(key);
+        console.log(GraphInfo[tabIndex].constantValueY2[key]);
+        contentConstantDisplayY2+="<label class=\"labelColumn\">" + key + ": </label>";
+        contentConstantDisplayY2+="<input id=\"Y2value"+key+"\" class=\"constantValue\" value=\""+GraphInfo[tabIndex].constantValueY2[key] +  "\"></input>";
+        contentConstantDisplayY2+="<input type=\"button\" class=\"increase\" id=\"Y2increase" + key + "\" value=\"+\"></input><input type=\"button\" class=\"decrease\" id=\"Y2decrease" + key + "\"value=\"-\"></input>";
+      }
+    }
+    document.getElementById("ConstantDisplayY2").innerHTML = contentConstantDisplayY2;
+  }
+  if(GraphInfo[tabIndex].Y3 == -1){
+    document.getElementById("InfoY3OfNewGraph").value ="None";
+    document.getElementById("InfoColorForY3").style.display ="none";
+  }
+  else{
+    document.getElementById("InfoY3OfNewGraph").value =tableLable[GraphInfo[tabIndex].Y3];
+    var contentConstantDisplayY3 = "";
+    for (var key in GraphInfo[tabIndex].constantValueY3) {
+      if (GraphInfo[tabIndex].constantValueY3.hasOwnProperty(key)) {
+        console.log(key);
+        console.log(GraphInfo[tabIndex].constantValueY3[key]);
+        contentConstantDisplayY3+="<label class=\"labelColumn\">" + key + ": </label>";
+        contentConstantDisplayY3+="<input id=\"Y3value"+key+"\" class=\"constantValue\" value=\""+GraphInfo[tabIndex].constantValueY3[key] +  "\"></input>";
+        contentConstantDisplayY3+="<input type=\"button\" class=\"increase\" id=\"Y3increase" + key + "\" value=\"+\"></input><input type=\"button\" class=\"decrease\" id=\"Y3decrease" + key + "\"value=\"-\"></input>";
+      }
+    }
+    document.getElementById("ConstantDisplayY3").innerHTML = contentConstantDisplayY3;
+  }
 
-  	document.getElementById("InfoColorForY1").value =GraphInfo[tabIndex-1].colorOfY1;
-  	document.getElementById("InfoColorForY2").value =GraphInfo[tabIndex-1].colorOfY2;
-  	document.getElementById("InfoColorForY3").value =GraphInfo[tabIndex-1].colorOfY3;
+  document.getElementById("InfoColorForY1").value =GraphInfo[tabIndex].colorOfY1;
+  document.getElementById("InfoColorForY2").value =GraphInfo[tabIndex].colorOfY2;
+  document.getElementById("InfoColorForY3").value =GraphInfo[tabIndex].colorOfY3;
+  $('.increase').click(function(){ 
+    var idtext=$(this).attr('id').substring(10, $(this).attr('id').length);
+    var valueOf = $(this).attr('id').substring(0, 2);
+    var idColumnChange;
+    switch(valueOf)
+    {
+      case "X0":
+      idColumnChange = GraphInfo[tabIndex].X;
+      break;
+      case "Y1":
+      idColumnChange = GraphInfo[tabIndex].Y1;
+      break;
+      case "Y2":
+      idColumnChange = GraphInfo[tabIndex].Y2;
+      break;
+      case "Y3":
+      idColumnChange = GraphInfo[tabIndex].Y3;
+      break;
+      default:
+      break;
 
+    }
+    console.log(idtext);
+    console.log(valueOf);
+    console.log(idColumnChange);
+    console.log($('#'+ valueOf +'value'+idtext).val());
+    var inputValue =Number( $('#'+ valueOf +'value'+idtext).val());
+    inputValue+=inputValue*0.1;
+    $('#'+ valueOf +'value'+idtext).val(inputValue);
+    columnInfo[idColumnChange].ConstantArray[idtext] = inputValue;
+    console.log(columnInfo);
+    console.log(columnInfo[idColumnChange].ConstantArray[idtext]);
+    updateColumnFromGraph(idColumnChange);
+    document.getElementById("newchart"+tabIndex).src += '';
+  })
+  $('.decrease').click(function(){ 
+    var idtext=$(this).attr('id').substring(10, $(this).attr('id').length);
+    var valueOf = $(this).attr('id').substring(0, 2);
+    var idColumnChange;
+    switch(valueOf)
+    {
+      case "X0":
+      idColumnChange = GraphInfo[tabIndex].X;
+      break;
+      case "Y1":
+      idColumnChange = GraphInfo[tabIndex].Y1;
+      break;
+      case "Y2":
+      idColumnChange = GraphInfo[tabIndex].Y2;
+      break;
+      case "Y3":
+      idColumnChange = GraphInfo[tabIndex].Y3;
+      break;
+      default:
+      break;
 
-  </script>
+    }
+    console.log(" change value ===================>")
+    console.log(idtext);
+    console.log(valueOf);
+    console.log(idColumnChange);
+    console.log($('#'+ valueOf +'value'+idtext).val());
+    var inputValue =Number( $('#'+ valueOf +'value'+idtext).val());
+    inputValue-=inputValue*0.1;
+    $('#'+ valueOf +'value'+idtext).val(inputValue);
+    columnInfo[idColumnChange].ConstantArray[idtext] = inputValue;
+    console.log(columnInfo[idColumnChange].ConstantArray[idtext]);
+    updateColumnFromGraph(idColumnChange);
+    document.getElementById("newchart"+tabIndex).src += '';
+
+  })
+
+  $('.constantValue').change(function() {
+    var idtext=$(this).attr('id').substring(7, $(this).attr('id').length);
+    var valueOf = $(this).attr('id').substring(0, 2);
+    var idColumnChange;
+    switch(valueOf)
+    {
+      case "X0":
+      idColumnChange = GraphInfo[tabIndex].X;
+      break;
+      case "Y1":
+      idColumnChange = GraphInfo[tabIndex].Y1;
+      break;
+      case "Y2":
+      idColumnChange = GraphInfo[tabIndex].Y2;
+      break;
+      case "Y3":
+      idColumnChange = GraphInfo[tabIndex].Y3;
+      break;
+      default:
+      break;
+
+    }
+    console.log(valueOf);
+    console.log(idColumnChange);
+    console.log(idtext);
+    columnInfo[idColumnChange].ConstantArray[idtext] = $(this).val();
+    console.log(columnInfo[idColumnChange].ConstantArray[idtext]);
+    updateColumnFromGraph(idColumnChange);
+    document.getElementById("newchart"+tabIndex).src += '';
+  });
+
+</script>

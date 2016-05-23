@@ -149,19 +149,20 @@ th {
   function deleteConfirmFunction() {
     if(selectCoulumnIndex > 0)
     {
-      var r = confirm("Are you sure you want to delete " + parent.tableLable[selectCoulumnIndex - 1] + " column?");
+      var r = confirm("Are you sure you want to delete " + parent.tableLable[selectCoulumnIndex - 1] + " column? The relative graph will be deleted");
       if (r == true) {
         deleteSelectColumn(selectCoulumnIndex);
+        selectCoulumnIndex = -1;
       } else {
         txt = "You pressed Cancel!";
       }
     }
-    selectCoulumnIndex = -1;
   }
 
 	function addNewColumn (){
 		listOfSymbol = {}
 		listOfConst = {}
+    LENGHT = parent.totalValueRow
 		parent.tableLable.forEach(function myFunction(item, index) {
 			listOfSymbol[item.replace(/\s/g, '')] = parent.matrix[index]
 		})
@@ -211,9 +212,10 @@ th {
 
 
   function deleteSelectColumn (index){
-    parent.tableLable.splice(index-1, 1);
-    parent.columnInfo.splice(index-1, 1);
-    parent.matrix.splice(index-1,1);
+    var indexOfTable = index -1;
+    parent.tableLable.splice(indexOfTable, 1);
+    parent.columnInfo.splice(indexOfTable, 1);
+    parent.matrix.splice(indexOfTable,1);
     var selectRow;
     for(var i = 0; i <= parent.totalValueRow; i++)
     {
@@ -222,6 +224,39 @@ th {
     }
     parent.totalSensorAvailable--;
     setIndexAndHighlight();
+    parent.GraphInfo.forEach( function (item, index1){
+      if(item!=0)
+      {
+        if(item.X == indexOfTable){
+          parent.removeTabWithTabID(index1);
+        }
+        else if(item.X > indexOfTable)
+        { 
+          item.X --;
+        }
+        if(item.Y1 == indexOfTable){
+          parent.removeTabWithTabID(index1);
+        }
+        else if(item.Y1 > indexOfTable)
+        { 
+          item.Y1 --;
+        }
+        if(item.Y2 == indexOfTable){
+          parent.removeTabWithTabID(index1);
+        }
+        else if(item.Y2 > indexOfTable)
+        { 
+          item.Y2 --;
+        }
+        if(item.Y3 == indexOfTable){
+          parent.removeTabWithTabID(index1);
+        }
+        else if(item.Y3 > indexOfTable)
+        { 
+          item.Y3 --;
+        }
+      }
+    });
   }
 
   function getAverage(array)

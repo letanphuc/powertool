@@ -6,31 +6,54 @@
 	dps[0] = [];
 	dps[1] = [];
 	dps[2] = [];
-
-	var xValue = parent.arrayGraphValue.pop();
+	var xValue = parent.GraphInfo[parent.tabIndex].X;
 	console.log(xValue);
-	console.log(parent.arrayGraphValue);
-	for (var i=0; i<parent.totalValueRow; i++) {
-		if( xValue==-1){
-			parent.arrayGraphValue.forEach( 
-				function (item, index){
-					if(item!=-1)
-						dps[index].push({
-							x : parent.recordId[i],
-							y : parent.matrix[item][i]
-						}) 	; 
-				});
+	console.log(parent.GraphInfo);
+	if( xValue==-1){
+		for (var i=0; i<parent.totalValueRow; i++) {
+			if(parent.GraphInfo[parent.tabIndex].Y1!= -1)
+			{
+				dps[0].push({
+					x : parent.recordId[i],
+					y : parent.matrix[parent.GraphInfo[parent.tabIndex].Y1][i]
+				})
+			}
+			if(parent.GraphInfo[parent.tabIndex].Y2!= -1)
+			{
+				dps[1].push({
+					x : parent.recordId[i],
+					y : parent.matrix[parent.GraphInfo[parent.tabIndex].Y2][i]})
+			}
+			if(parent.GraphInfo[parent.tabIndex].Y3!= -1)
+			{
+				dps[2].push({
+					x : parent.recordId[i],
+					y : parent.matrix[parent.GraphInfo[parent.tabIndex].Y3][i]})
+			}
 		}
-		else
-		{
-			parent.arrayGraphValue.forEach( 
-			function (item, index){
-				if(item!=-1)
-					dps[index].push({
-						x : parent.matrix[xValue][i],
-						y : parent.matrix[item][i]
-					}) 	; 
-			});
+	}
+	else
+	{
+		for (var i=0; i<parent.totalValueRow; i++) {
+			if(parent.GraphInfo[parent.tabIndex].Y1!= -1)
+			{
+				dps[0].push({
+					x : parent.matrix[xValue][i],
+					y : parent.matrix[parent.GraphInfo[parent.tabIndex].Y1][i]
+				})
+			}
+			if(parent.GraphInfo[parent.tabIndex].Y2!= -1)
+			{
+				dps[1].push({
+					x : parent.matrix[xValue][i],
+					y : parent.matrix[parent.GraphInfo[parent.tabIndex].Y2][i]})
+			}
+			if(parent.GraphInfo[parent.tabIndex].Y3!= -1)
+			{
+				dps[2].push({
+					x : parent.matrix[xValue][i],
+					y : parent.matrix[parent.GraphInfo[parent.tabIndex].Y3][i]})
+			}
 		}
 	}
 	dps[0]= _.sortBy(dps[0], 'x');
@@ -42,35 +65,35 @@
 			text : parent.nameOfGraph.value
 		},
 		exportEnabled: true,
-		 zoomEnabled: true, 
-		 includeZero: false,
+		zoomEnabled: true, 
+		includeZero: false,
 		axisY:{
 	        // interlacedColor: "#FFBFD5",
 	        gridColor: "#f5f5f0",
 	        lineColor: "#0f0f0a",
 	        tickColor: "#0f0f0a",
 	        labelFontColor:"#0f0f0a",
-      	},
-      	axisX:{
+	    },
+	    axisX:{
 	        // interlacedColor: "#FFBFD5",
 	        lineColor: "#0f0f0a",
 	        tickColor: "#0f0f0a",
 	        labelFontColor:"#0f0f0a",
-      	},
-		data : [ {
-			type : "line",
-			color: parent.colorForY1.value,
-			dataPoints : dps[0]
-		}, {
-			type : "line",
-			color: parent.colorForY2.value,
-			dataPoints : dps[1]
-		},
-		 {
-			type : "line",
-			color: parent.colorForY3.value,
-			dataPoints : dps[2]
-		}, ]
+	    },
+	    data : [ {
+	    	type : "line",
+	    	color: parent.colorForY1.value,
+	    	dataPoints : dps[0]
+	    }, {
+	    	type : "line",
+	    	color: parent.colorForY2.value,
+	    	dataPoints : dps[1]
+	    },
+	    {
+	    	type : "line",
+	    	color: parent.colorForY3.value,
+	    	dataPoints : dps[2]
+	    }, ]
 	});
 	console.log( parent.colorForY1.value);
 	console.log( parent.colorForY2.value);

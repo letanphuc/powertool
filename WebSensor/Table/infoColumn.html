@@ -41,47 +41,6 @@
   	<textarea  id="equalitionOfColumn" class="displayValue" disabled="true" rows="2" cols="22" ></textarea>
   	<br>
   	<script type="text/javascript">
-  		function reCompute(index){
-  			var newColumnValues = []
-  			listOfSymbol = {}
-  			listOfConst = columnInfo[index].ConstantArray
-  			LENGHT = totalValueRow
-  			tableLable.forEach(function myFunction(item, index) {
-  				listOfSymbol[item.replace(/\s/g, '')] = matrix[index]
-  			})
-
-  			try{
-  				var ex = formatExpression(columnInfo[index].Equalition)
-  				console.log(ex)
-  				console.log(listOfConst)
-  				newColumnValues = compute(ex)
-  				console.log(newColumnValues)
-
-  			}
-  			catch(e){
-  				console.log(e)
-  				alert("Syntax error : " + e.message);
-  			}
-
-  			return newColumnValues
-
-  		}
-
-  		function updateColumn(index)
-  		{
-  			var newArray = reCompute(index);
-  			console.log(newArray);
-  			matrix[index] = newArray;
-  			var iframe = document.getElementById('showData');
-  			var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
-  			var selectRow;
-  			for(var i = 1; i <= totalValueRow; i++)
-  			{
-  				selectRow = innerDoc.getElementById("dataTableID").rows[i];
-  				selectRow.cells[index+1].innerHTML =newArray[i - 1];
-  			}
-  		}
-
 
   		console.log("Info Column is called");
   		console.log(columnSelected);
