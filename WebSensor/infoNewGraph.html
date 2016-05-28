@@ -1,16 +1,4 @@
-  <style type="text/css">
-   .displayValueForGraph { 
-    font-weight: bold;
-    background-color: #ffffff;
-    width: 180px;
-  }
-  .labelForGraphInfo {
-    display: inline-block;
-    width: 45px;
-    text-align: right;
-  }​
-</style>
-<div id="infoNewGraph" <div style="padding:10px ;background:#00ff99;webkit-border-radius: 20px;-moz-border-radius: 20px;border-radius: 20px;margin:0 auto;overflow:hidden;"> 
+<div id="infoNewGraph" class="infoArea"> 
   <h3>Graph Properties</h3>
   <div id="InfoGraphProperties" > 
     <label class="labelForGraphInfo"> Name:</label>
@@ -177,10 +165,6 @@
       break;
 
     }
-    console.log(" change value ===================>")
-    console.log(idtext);
-    console.log(valueOf);
-    console.log(idColumnChange);
     console.log($('#'+ valueOf +'value'+idtext).val());
     var inputValue =Number( $('#'+ valueOf +'value'+idtext).val());
     inputValue-=inputValue*0.1;
