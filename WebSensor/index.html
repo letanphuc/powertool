@@ -93,25 +93,36 @@
 		var iframe = document.getElementById('showData');
 		var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
 		var selectRow;
+		var table = innerDoc.getElementById("dataTableID")
 		for(var i = 1; i <= totalValueRow; i++)
 		{
-			selectRow = innerDoc.getElementById("dataTableID").rows[i];
+			selectRow = table.rows[i];
 			selectRow.cells[index+1].innerHTML = newArray[i - 1];
 		}
 	}
 
 	function updateColumnFromGraph(index)
 	{
-		var newArray = reCompute(index);
+		var realindex	
+		if($.type(index) === "string")
+			realindex = parseInt(index, 10)
+		else
+			realindex = index
+				   
+		
+		var newArray = reCompute(realindex);
 		console.log(newArray);
-		matrix[index] = newArray;
+		matrix[realindex] = newArray;
+		
 		var iframe = document.getElementById('showData');
 		var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
-		var selectRow;
+		var table = innerDoc.getElementById("dataTableID")
+		
 		for(var i = 1; i <= totalValueRow; i++)
 		{
-			selectRow = innerDoc.getElementById("dataTableID").rows[i];
-			// selectRow.cells[index+1].innerHTML = newArray[i - 1];
+			var selectRow = table.rows[i]
+			var cell = selectRow.cells[realindex + 1]
+			cell.innerHTML = newArray[i - 1]
 		}
 	}
 
