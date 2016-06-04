@@ -35,7 +35,7 @@ style="padding: 15px; background: #00ff99; webkit-border-radius: 20px; -moz-bord
 	<input id="sensorType" class="displayValue" disabled="true"></input><br> 
 	<label>Description:</label><br> 
 	<label></label>
-<textarea id="sensorDescription" rows="2" cols="24" value="hello"></textarea><br>
+	<textarea id="sensorDescription" rows="2" cols="24" value="hello"></textarea><br>
 </div>
 </div>
 <script type="text/javascript">
@@ -51,27 +51,39 @@ style="padding: 15px; background: #00ff99; webkit-border-radius: 20px; -moz-bord
 	document.getElementById("Sensor" + sensorInfo[0].sensorID).style.backgroundColor = "red";
 	function resetBackgroundColor() {
 		for (i = 0; i < sensorInfo.length ; i++) {
-				document.getElementById("Sensor" + sensorInfo[i].sensorID).style.backgroundColor = "blue";
-			}
+			document.getElementById("Sensor" + sensorInfo[i].sensorID).style.backgroundColor = "blue";
 		}
-		$(document).ready(function() 
-			{$("#Sensor0,#Sensor1,#Sensor2,#Sensor3,#Sensor4,#Sensor5,#Sensor6").click(function() {
-				$(".collapse").collapse('show');
-				resetBackgroundColor();
-				this.style.backgroundColor = "red";
-				hightlightIndex = this.value;
-				document.getElementById("sensorName").value = sensorInfo[hightlightIndex].sensorName;
-				document.getElementById("sensorType").value = sensorInfo[hightlightIndex].sensorType;
-				document.getElementById("sensorDescription").value = sensorInfo[hightlightIndex].sensorDescription;
-			});
-			$("#sensorName").change(function() {
-				console.log(" call change event");
-				sensorInfo[hightlightIndex].sensorName= $(this).val();
-			});
-			$("#sensorDescription").change(function() {
-				console.log(" description changed");
-				console.log($(this).val());
-				sensorInfo[hightlightIndex].sensorDescription = $(this).val();
-			});
+	}
+	$(document).ready(function() 
+		{$("#Sensor0,#Sensor1,#Sensor2,#Sensor3,#Sensor4,#Sensor5,#Sensor6").click(function() {
+			$(".collapse").collapse('show');
+			resetBackgroundColor();
+			this.style.backgroundColor = "red";
+			hightlightIndex = this.value;
+			for (i = 0; i < sensorInfo.length ; i++) {
+				if(sensorInfo[i].sensorID == hightlightIndex){
+					document.getElementById("sensorName").value = sensorInfo[i].sensorName;
+					document.getElementById("sensorType").value = sensorInfo[i].sensorType;
+					document.getElementById("sensorDescription").value = sensorInfo[i].sensorDescription;
+				}
+			}
 		});
-	</script>
+		$("#sensorName").change(function() {
+			console.log(" call change event");
+			for (i = 0; i < sensorInfo.length ; i++) {
+				if(sensorInfo[i].sensorID == hightlightIndex){
+					sensorInfo[i].sensorName= $(this).val();
+				}
+			}
+		});
+		$("#sensorDescription").change(function() {
+			console.log(" description changed");
+			console.log($(this).val());
+			for (i = 0; i < sensorInfo.length ; i++) {
+				if(sensorInfo[i].sensorID == hightlightIndex){
+					sensorInfo[i].sensorDescription = $(this).val();
+				}
+			}
+		});
+	});
+</script>
