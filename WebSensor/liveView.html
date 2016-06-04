@@ -10,7 +10,7 @@
 
 		var chart = new CanvasJS.Chart("chartContainer", {
 			title : {
-				text : "Live Random Data"
+				text : "Live View"
 			},
 			axisY : {
 				// interlacedColor: "#FFBFD5",
@@ -90,13 +90,108 @@
 
 		};
 
-		// generates first set of dataPoints
-		updateChart(dataLength);
+
+		doConnect()
 
 		// update chart after specified time. 
 		setInterval(function() {
-			updateChart()
+			getData()
 		}, updateInterval);
+		
+		
+		
+		
+		
+		
+		function doConnect() {
+			websocket = new WebSocket("ws://localhost:5439/");
+			websocket.onopen = function(evt) {
+				onOpen(evt)
+			};
+			websocket.onclose = function(evt) {
+				onClose(evt)
+			};
+			websocket.onmessage = function(evt) {
+				onMessage(evt)
+			};
+			websocket.onerror = function(evt) {
+				onError(evt)
+			};
+		}
+
+		function onOpen(evt) {
+			console.log("connected");
+		}
+
+		function onClose(evt) {
+			console.log("Closed");
+		}
+
+		function onMessage(evt) {
+			if (parent.focusTab == 0)
+				window.parent.updateLiveViewValues();
+			var res = evt.data.split("|");
+			var i = 0;
+			var xx = 0;
+			for (i; i < res.length; i ++)
+			{
+				var data = res[i].split(",");
+				var j = 0;
+				for (j; j < data.length; j++)
+				{
+					if (j == 0)
+					{
+						xx = parseInt(data[j], 10);
+					}
+					else if (j == 1)
+					{
+						/* skip */
+					}
+					else
+					{
+						yy = parseInt(data[j], 10);
+						if (! isNaN(yy) && parent.liveViewSelected[j-2])
+						{
+							parent.dpsForLiveView[j - 2].push(
+								{
+									x : xx,
+									y : yy
+								}
+							);
+							if (parent.dpsForLiveView[j - 2].length > dataLength)
+								parent.dpsForLiveView[j - 2].shift();
+						}
+						else {
+							parent.dpsForLiveView[j - 2].length = 0
+						}
+					}
+				}
+				for (j = j- 2; j < 7; j++){
+					parent.dpsForLiveView[j].length = 0;
+				}
+
+				chart.render();
+				
+			}
+
+		}
+		
+		function onError(evt) {
+			console.log("error");
+			websocket.close();
+
+		}
+
+		function doSend(message) {
+			console.log("send")
+			websocket.send(message);
+		}
+
+		function getData()
+		{
+			console.log("getdata")
+			doSend("getdata");
+		}
 
 	}
 </script>
