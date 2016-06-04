@@ -77,6 +77,7 @@ function compute(equation) {
 		})
 
 		var ans = node.eval(scope)
+		ans = parseFloat(ans.toFixed(4))
 		ret.push(ans)
 	}
 
