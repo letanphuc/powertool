@@ -75,6 +75,9 @@
                     constantValueY2: [],
                     Y3: arrayGraphValue[2],
                     constantValueY3: [],
+                    funtionCompare: "",
+                    valueCompare: [],
+                    constantCompare: [],
                     colorOfY1: colorForY1.value,
                     colorOfY2: colorForY2.value,
                     colorOfY3: colorForY3.value
@@ -92,7 +95,7 @@
                   tabIndex = tabID;
                 $('#tab-list').append($('<li><a data-toggle="tab" href="#tab' + tabID + '">' + nameOfGraph.value + '<button class="close" type="button" title="Remove this page">×</button></a></li>'));
                 $('#tabcontent').append($('<div class="tab-pane fade" id="tab' + tabID + '"><iframe id="newchart' + tabID + '" src="newGraphContent.html" style="border:none" width="100%" height="100%" scrolling="no"></iframe></div>'));
-                  // show full screen for new chard
+                  // show full screen for new chart
                   $('#newchart'+tabID).load(function () {
                       $(this).height($(this).contents().height());
                       // $(this).width($(this).contents().width());
