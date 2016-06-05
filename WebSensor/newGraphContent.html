@@ -59,6 +59,43 @@
 	dps[0]= _.sortBy(dps[0], 'x');
 	dps[1]= _.sortBy(dps[1], 'x');
 	dps[2]= _.sortBy(dps[2], 'x');
+	var nameOfX;
+	var nameOfY =[];
+	var valueOfshowInLegend =[];
+	if(xValue == -1)
+		nameOfX = "Time"
+	else
+		nameOfX = parent.tableLable[xValue]
+	if(parent.GraphInfo[parent.tabIndex].Y1!=-1)
+	{
+		nameOfY.push(parent.tableLable[parent.GraphInfo[parent.tabIndex].Y1])
+		valueOfshowInLegend.push(true)
+	}
+	else
+	{
+		nameOfY.push("DoNotSet")
+		valueOfshowInLegend.push(false)
+	}
+	if(parent.GraphInfo[parent.tabIndex].Y2!=-1)
+	{
+		nameOfY.push(parent.tableLable[parent.GraphInfo[parent.tabIndex].Y2])
+		valueOfshowInLegend.push(true)
+	}
+	else
+	{
+		nameOfY.push("DoNotSet")
+		valueOfshowInLegend.push(false)
+	}
+    if(parent.GraphInfo[parent.tabIndex].Y3!=-1)
+	{
+		nameOfY.push(parent.tableLable[parent.GraphInfo[parent.tabIndex].Y3])
+		valueOfshowInLegend.push(true)
+	}
+	else
+	{
+		nameOfY.push("DoNotSet")
+		valueOfshowInLegend.push(false)
+	}
 
 	var chart = new CanvasJS.Chart("chartContainer2", {
 		title : {
@@ -69,6 +106,7 @@
 		includeZero: false,
 		axisY:{
 	        // interlacedColor: "#FFBFD5",
+	         title: nameOfX,
 	        gridColor: "#f5f5f0",
 	        lineColor: "#0f0f0a",
 	        tickColor: "#0f0f0a",
@@ -80,16 +118,25 @@
 	        tickColor: "#0f0f0a",
 	        labelFontColor:"#0f0f0a",
 	    },
+	    dataSeries:{
+		   cursor: "pointer"  
+		 },
 	    data : [ {
+	    	name :  nameOfY[0],
+	    	showInLegend: valueOfshowInLegend[0],
 	    	type : "line",
 	    	color: parent.colorForY1.value,
 	    	dataPoints : dps[0]
 	    }, {
+	    	name :   nameOfY[1],
+	    	showInLegend: valueOfshowInLegend[1],
 	    	type : "line",
 	    	color: parent.colorForY2.value,
 	    	dataPoints : dps[1]
 	    },
 	    {
+	    	name :   nameOfY[2],
+	    	showInLegend: valueOfshowInLegend[2],
 	    	type : "line",
 	    	color: parent.colorForY3.value,
 	    	dataPoints : dps[2]
