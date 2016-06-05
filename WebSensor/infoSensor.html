@@ -73,6 +73,7 @@ style="padding: 15px; background: #00ff99; webkit-border-radius: 20px; -moz-bord
 			for (i = 0; i < sensorInfo.length ; i++) {
 				if(sensorInfo[i].sensorID == hightlightIndex){
 					sensorInfo[i].sensorName= $(this).val();
+					$( "#infoLiveView" ).load( "infoLiveView.html");
 				}
 			}
 		});
