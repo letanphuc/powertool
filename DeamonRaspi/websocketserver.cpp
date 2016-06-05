@@ -7,9 +7,9 @@
 #include <stdio.h>
 #include <sys/time.h>
 
-#define PHUC_TEST 1
+#define SIMULATE_DATA 1
 
-#if PHUC_TEST
+#if SIMULATE_DATA
 #else
 #include "devices.h"
 #endif
@@ -50,7 +50,7 @@ void WebSocketServer::onNewConnection()
     m_clients << pSocket;
 }
 
-#if PHUC_TEST
+#if SIMULATE_DATA
 #else
 extern "C" struct Device dev_host[DEV_HOST_NUMBER];
 #endif
@@ -68,7 +68,7 @@ void WebSocketServer::processMessage(QString message)
         time_t t = time(NULL);
         struct tm tm;
 
-#if PHUC_TEST
+#if SIMULATE_DATA
         float f1, f2, f3, f4;
 #endif
 
@@ -80,7 +80,7 @@ void WebSocketServer::processMessage(QString message)
                 tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec);
 
         memset(msg, 0, sizeof(msg));
-#if PHUC_TEST
+#if SIMULATE_DATA
         srand(time(NULL));
 #include "math.h"
         f1 = 100 * sin(data_count / 1.0);
