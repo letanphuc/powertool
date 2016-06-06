@@ -187,12 +187,14 @@
           console.log(GraphInfo);
           tabFirst.tab('show');
         });
+
+        
         function removeTabWithTabID(tabID)
         {
           $('a[href=\'#tab'+tabID+'\'').parents('li').remove();
           console.log('#tab'+tabID);
           $('#tab'+tabID).remove();
-        }
+        };
         //Check show tab to show the information properties
         $('#tab-list').on('shown.bs.tab', function (e) {
          var y = $(e.target).attr( 'href');   
@@ -225,9 +227,6 @@
         $(this).height($(this).contents().height());
         $(this).width($(this).contents().width());
       });
-      function reloadInfoColumn () {
-        $( "#infoLiveView" ).load( "Table/infoColumn.html" );
-      }
     </script>
   </div>
 </div>

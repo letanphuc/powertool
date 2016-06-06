@@ -22,8 +22,37 @@
     <input id="InfoY3OfNewGraph" value="None" class="displayValueForGraph" disabled="true"></input>
     <input type="color" id="InfoColorForY3" value="#0000ff" disabled="true" /><br>
     <div id="ConstantDisplayY3"></div>
+    <label class="labelForGraphInfo" id="labelForFuntionCompare"> Func:</label>
+    <input id="InfoFuntionCompare" value="None" class="displayValueForGraph" disabled="true"></input>
+    <div id="constantCompare"></div>
   </div>
   <script type="text/javascript">
+
+    if(GraphInfo[tabIndex].funtionCompare =="")
+    {
+      document.getElementById("labelForFuntionCompare").style.display = "none";
+      document.getElementById("InfoFuntionCompare").style.display = "none";
+    }
+    else
+    {
+      console.log(GraphInfo[tabIndex].funtionCompare)
+      var contentConstantDisplay = "";
+      document.getElementById("labelForFuntionCompare").style.display = "inline";
+      document.getElementById("InfoFuntionCompare").style.display = "inline";
+      document.getElementById("InfoFuntionCompare").value = GraphInfo[tabIndex].funtionCompare;
+      for (var key in GraphInfo[tabIndex].constantCompare) {
+        if (GraphInfo[tabIndex].constantCompare.hasOwnProperty(key)) {
+          console.log(key);
+          console.log(GraphInfo[tabIndex].constantCompare[key]);
+          contentConstantDisplay+="<label class=\"labelColumn\">" + key + ": </label>";
+          contentConstantDisplay+="<input class=\"CompValue\" id=\"CompValue"+key+"\"  value=\""+GraphInfo[tabIndex].constantCompare[key] +  "\"></input>";
+          contentConstantDisplay+="<input type=\"button\" class=\"CompIncrease\" id=\"CompIncrease" + key + "\" value=\"+\"></input><input type=\"button\" class=\"CompDecrease\" id=\"CompDecrease" + key + "\"value=\"-\"></input>";
+        }
+      }
+      document.getElementById("constantCompare").innerHTML = contentConstantDisplay;
+    }
+
+
   	document.getElementById("InfoNameOfGraph").value =GraphInfo[tabIndex].Name;
     if(GraphInfo[tabIndex].Description ==""){
       document.getElementById("descriptionOfGraph").style.display = "none";
@@ -134,7 +163,7 @@
     console.log(valueOf);
     console.log(idColumnChange);
     console.log($('#'+ valueOf +'value'+idtext).val());
-    var inputValue =Number( $('#'+ valueOf +'value'+idtext).val());
+    var inputValue = Number( $('#'+ valueOf +'value'+idtext).val());
     inputValue+=inputValue*0.1;
     $('#'+ valueOf +'value'+idtext).val(inputValue);
     columnInfo[idColumnChange].ConstantArray[idtext] = inputValue;
@@ -207,4 +236,54 @@
     document.getElementById("newchart"+tabIndex).src += '';
   });
 
+   function updateValueCompare()
+  {
+
+    var newColumnValues = []
+    listOfSymbol = {}
+    listOfConst = GraphInfo[tabIndex].constantCompare
+    LENGHT = totalValueRow
+    tableLable.forEach(function myFunction(item, index) {
+      listOfSymbol[item.replace(/\s/g, '')] = matrix[index]
+    })
+
+    try{
+      var ex = formatExpression(GraphInfo[tabIndex].funtionCompare)
+      newColumnValues = compute(ex)
+      GraphInfo[tabIndex].valueCompare = newColumnValues
+    }
+    catch(e){
+      console.log(e)
+      alert("Syntax error : " + e.message);
+    }
+  }
+
+
+  $('.CompIncrease').click(function(){ 
+    var idtext=$(this).attr('id').substring(12, $(this).attr('id').length);
+    console.log(idtext)
+    var inputValue =Number( $('#CompValue'+idtext).val());
+    inputValue+=inputValue*0.1;
+    $('#CompValue'+idtext).val(inputValue)
+    GraphInfo[tabIndex].constantCompare[idtext] = inputValue
+    updateValueCompare()
+    document.getElementById("newchart"+tabIndex).src += '';
+  })
+    $('.CompDecrease').click(function(){ 
+    var idtext=$(this).attr('id').substring(12, $(this).attr('id').length);
+    console.log(idtext)
+    var inputValue =Number( $('#CompValue'+idtext).val());
+    inputValue-=inputValue*0.1;
+    $('#CompValue'+idtext).val(inputValue)
+    GraphInfo[tabIndex].constantCompare[idtext] = inputValue
+    updateValueCompare()
+    document.getElementById("newchart"+tabIndex).src += '';
+  })
+    $('.CompValue').change(function() {
+      var idtext=$(this).attr('id').substring(9, $(this).attr('id').length);
+      GraphInfo[tabIndex].constantCompare[idtext] = $(this).val();
+      updateValueCompare()
+      document.getElementById("newchart"+tabIndex).src += '';
+
+    })
 </script>
