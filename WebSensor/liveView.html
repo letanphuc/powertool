@@ -137,37 +137,40 @@
 			{
 				var data = res[i].split(",");
 				var j = 0;
-				for (j; j < data.length; j++)
+				if (data.length > 2)
 				{
-					if (j == 0)
+					for (j; j < data.length; j++)
 					{
-						xx = parseInt(data[j], 10);
-					}
-					else if (j == 1)
-					{
-						/* skip */
-					}
-					else
-					{
-						yy = parseInt(data[j], 10);
-						if (! isNaN(yy) && parent.liveViewSelected[j-2])
+						if (j == 0)
 						{
-							parent.dpsForLiveView[j - 2].push(
-								{
-									x : xx,
-									y : yy
-								}
-							);
-							if (parent.dpsForLiveView[j - 2].length > dataLength)
-								parent.dpsForLiveView[j - 2].shift();
+							xx = parseInt(data[j], 10);
 						}
-						else {
-							parent.dpsForLiveView[j - 2].length = 0
+						else if (j == 1)
+						{
+							/* skip */
+						}
+						else
+						{
+							yy = parseInt(data[j], 10);
+							if (! isNaN(yy) && parent.liveViewSelected[j-2])
+							{
+								parent.dpsForLiveView[j - 2].push(
+									{
+										x : xx,
+										y : yy
+									}
+								);
+								if (parent.dpsForLiveView[j - 2].length > dataLength)
+									parent.dpsForLiveView[j - 2].shift();
+							}
+							else {
+								parent.dpsForLiveView[j - 2].length = 0
+							}
 						}
 					}
-				}
-				for (j = j- 2; j < 7; j++){
-					parent.dpsForLiveView[j].length = 0;
+					for (j = j- 2; j < 7; j++){
+						parent.dpsForLiveView[j].length = 0;
+					}
 				}
 
 				chart.render();
