@@ -33,22 +33,40 @@ void * main_server_poll(void * params);
 void * client_service(void * params);
 
 const char * str_data_format = "{%d, '%s', %0.3f, %0.3f, %0.3f, %0.3f}\r"; // {dev1, dev2, dev3, dev4}
-const char * cmd_get_data = "get data\r";
-const char * cmd_start_record = "start record\r";
-const char * start_record_res_msg = "OK, recording\r";
+const char * cmd_get_data = "get data";
+const char * cmd_start_record = "start record";
+const char * start_record_res_msg = "OK, recording";
 const char * cmd_stop_record = "stop record";
-const char * stop_record_res_msg_format = "recorded file %s\r";
+const char * cmd_stop_record_with_data = "stop record %d";
+const char * stop_record_res_msg_format = "recorded file %s";
 
 const char * cmd_copy_template_db = "cp /var/Raspido/raspido.db %s";
 const char * tmp_filename_format = "/var/tmp/raspido_record%d%d%d%d%d%d";
 
+#define NUMS_THREAD_SUPPORT 8
 
 struct recorder_controller
 {
 	int destroy;
 	int poll_time;
 	char recorded_name[64];
+    pthread_t handler;
 };
+
+
+struct recorder_controller list_recorder[NUMS_THREAD_SUPPORT];
+
+int get_free_recorder(struct recorder_controller rec[])
+{
+    int ret = 0;
+    for (ret = 0; ret < NUMS_THREAD_SUPPORT; ret++)
+    {
+        if (rec[ret].destroy == -1)
+            break;
+    }
+    return ret;
+}
+
 void * recorder(void * params)
 {
 	struct recorder_controller * control = (struct recorder_controller *) params;
@@ -85,10 +103,11 @@ void * recorder(void * params)
 
 	for(;;)
 	{
-		if(control->destroy)
+        if(control->destroy == 1)
 		{
 			DisonnectDB(tmp_db, isConnectDB);
 			// save database file
+            control->destroy = -1;
 			break;
 		}
 		usleep(control->poll_time);
@@ -134,9 +153,16 @@ void * recorder(void * params)
 
 int CreateServer(int conn)
 {
+    int i;
     printf("Create server\r\n");
 
 	pthread_create(&main_server_thread, NULL, main_server_poll, (void *)conn);
+    for (i = 0; i < NUMS_THREAD_SUPPORT; i++)
+    {
+        list_recorder[i].destroy = -1;
+        list_recorder[i].poll_time = 30000;
+        memset(list_recorder[i].recorded_name, 0, 64);
+    }
 
 	return 0;
 }
@@ -202,9 +228,6 @@ void * client_service(void * params)
 	char send_msg[128];
 	char curr_time_str[20];
 
-	pthread_t recorder_thread;
-	struct recorder_controller ctrl;
-
 	time_t t = time(NULL);
 	struct tm tm;
 
@@ -212,6 +235,7 @@ void * client_service(void * params)
 	printf("Server service for client: %d.\r\n", clisockfd);
 	for(;;)
 	{
+        memset(recv_msg, 0, 40);
 #if SIMULATE_DATA
         n = recv(clisockfd, recv_msg, 40, 0);
 #else
@@ -219,9 +243,9 @@ void * client_service(void * params)
 #endif
 		if (n < 0)
 		{
-//			printf("client %d: error on receive message.\r\n", clisockfd);
-//			break;
-		}
+            printf("client %d: error on receive message.\r\n", clisockfd);
+            break;
+        }//
 		else
 		{
 			if (memcmp (recv_msg, cmd_get_data, strlen(cmd_get_data)) == 0)
@@ -287,34 +311,50 @@ void * client_service(void * params)
 			}
 			if (memcmp (recv_msg, cmd_start_record, strlen(cmd_start_record)) == 0)
 			{
+                char buff[32];
+                int record = get_free_recorder(list_recorder);
+                if (record < NUMS_THREAD_SUPPORT)
+                {
+                    memset(buff, 0, 32);
+                    sprintf(buff, "OK, record: %d\r", record);
 #if SIMULATE_DATA
-                n = send(clisockfd, "OK, recording\r", strlen("OK, recording\r"), 0);
+                    n = send(clisockfd, buff, strlen(buff), 0);
 #else
-				n = send(clisockfd, "OK, recording\r", strlen("OK, recording\r"), MSG_NOSIGNAL);
+                    n = send(clisockfd, buff, strlen(buff), MSG_NOSIGNAL);
 #endif
-				if (n < 0)
-				{
-					printf("ERROR writing to socket.\r\n");
-					break;
-				}
-				ctrl.destroy = 0;
-				ctrl.poll_time = 30000;
-				memset(ctrl.recorded_name, 0, 64);
-				pthread_create(&recorder_thread, NULL, recorder, (void *)&ctrl);
+                    if (n < 0)
+                    {
+                        printf("ERROR writing to socket.\r\n");
+                        break;
+                    }
+                    list_recorder[record].destroy = 0;
+                    list_recorder[record].poll_time = 30000;
+                    memset(list_recorder[record].recorded_name, 0, 64);
+                    pthread_create(&(list_recorder[record].handler), NULL, recorder, (void *)&(list_recorder[record]));
+                }
 			}
 			if (memcmp (recv_msg, cmd_stop_record, strlen(cmd_stop_record)) == 0)
 			{
-				ctrl.destroy = 1;
+                int record = -1;
+                sscanf(recv_msg, cmd_stop_record_with_data, &record);
+                if (record > -1 && record < NUMS_THREAD_SUPPORT)
+                {
+                    list_recorder[record].destroy = 1;
 #if SIMULATE_DATA
-                n = send(clisockfd, ctrl.recorded_name, strlen(ctrl.recorded_name), 0);
+                    n = send(clisockfd, list_recorder[record].recorded_name, strlen(list_recorder[record].recorded_name), 0);
 #else
-				n = send(clisockfd, ctrl.recorded_name, strlen(ctrl.recorded_name), MSG_NOSIGNAL);
+                    n = send(clisockfd, list_recorder[record].recorded_name, strlen(list_recorder[record].recorded_name), MSG_NOSIGNAL);
 #endif
-				if (n < 0)
-				{
-					printf("ERROR writing to socket.\r\n");
-					break;
-				}
+                    if (n < 0)
+                    {
+                        printf("ERROR writing to socket.\r\n");
+                        break;
+                    }
+                }
+                else
+                {
+                    printf("Invalid stop request.\n");
+                }
 			}
 		}
 		usleep(100);
