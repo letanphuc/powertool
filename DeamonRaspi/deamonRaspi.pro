@@ -7,7 +7,7 @@ CONFIG += c++11
 
 LIBS += -lpthread -ldl
 
-TARGET = PhucTest
+TARGET = deamonRaspi
 CONFIG += console
 CONFIG -= app_bundle
 
