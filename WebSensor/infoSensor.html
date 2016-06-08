@@ -16,9 +16,7 @@
 	<!-- <?php include 'readSensorInfo.php';?>    -->
 	<!-- <?php include 'Table/readData.php';?> -->
 </head>
-<div id="infoSensor"
-<div
-style="padding: 15px; background: #00ff99; webkit-border-radius: 20px; -moz-border-radius: 20px; border-radius: 20px; margin: 0 auto; overflow: hidden;">
+<div id="infoSensor" style="padding: 15px; background: #f4e092; webkit-border-radius: 20px; -moz-border-radius: 20px; border-radius: 20px; margin: 0 auto; overflow: hidden;">
 <h3>System Infos</h3>
 <input type="button" id="Sensor0" data-toggle="collapse" class="btn btn-success" value="0" style='background-color: gray; width: 30px; ' disabled="true"></input> 
 <input type="button" id="Sensor1" data-toggle="collapse" class="btn btn-success" value="1" style='background-color: gray; width: 30px; ' disabled="true"></input> 
@@ -29,13 +27,16 @@ style="padding: 15px; background: #00ff99; webkit-border-radius: 20px; -moz-bord
 <input type="button" id="Sensor6" data-toggle="collapse" class="btn btn-success" value="6" style='background-color: gray; width: 30px; display: none' disabled="true"></input> 
 <br><br>
 <div class="collapse in active">
+  <div class="form-inline">
 	<label> Name: </label> 
-	<input id="sensorName" class="displayValue"></input><br> 
+	<input id="sensorName" 	class="form-control"></input><br> 
+  </div>
+    <div class="form-inline">
 	<label>Type:</label> 
-	<input id="sensorType" class="displayValue" disabled="true"></input><br> 
-	<label>Description:</label><br> 
-	<label></label>
-	<textarea id="sensorDescription" rows="2" cols="24" value="hello"></textarea><br>
+	<input id="sensorType" class="form-control" readonly="true"></input><br> 
+	</div>
+	<label>Description:</label>
+	<textarea id="sensorDescription" class="form-control"  rows="2" cols="22"></textarea><br>
 </div>
 </div>
 <script type="text/javascript">
