@@ -55,6 +55,13 @@ void WebSocketServer::onNewConnection()
 extern "C" struct Device dev_host[DEV_HOST_NUMBER];
 #endif
 
+typedef struct {
+    QString sensor_id;
+    QString sensor_type;
+} SensorInfos;
+
+static QList<SensorInfos> listOfCurrentSensor;
+
 void WebSocketServer::processMessage(QString message)
 {
     QWebSocket *pSender = qobject_cast<QWebSocket *>(sender());
@@ -119,6 +126,37 @@ void WebSocketServer::processMessage(QString message)
 #endif
 
         pSender->sendTextMessage(QString(msg));
+    }
+    else if (message == "sensor"){
+        /**
+         * Data format:
+         * sensor id, type | sensor id, type | ...
+         */
+        static int test = 0;
+        if (test < 4){
+            /** Add sensor */
+            SensorInfos sensor;
+            sensor.sensor_id = QString::number(test);
+            sensor.sensor_type = "type:" + QString::number(test);
+            listOfCurrentSensor.append(sensor);
+        }
+        else {
+            listOfCurrentSensor.removeFirst();
+        }
+        test = (test + 1) % 8;
+
+
+        /** Prepare message reply */
+        QString reply = "";
+        for (int i = 0; i < listOfCurrentSensor.length(); i++){
+            SensorInfos s = listOfCurrentSensor.at(i);
+            reply += s.sensor_id + "," + s.sensor_type + "|";
+        }
+
+        pSender->sendTextMessage(reply);
+    }
+    else {
+        qDebug() << Q_FUNC_INFO << ": Unknown message";
     }
 }
 
