@@ -151,6 +151,7 @@
             }
           }
           var count = 0;
+          var nameOfDb =""
           $("#btn-start-capture").click(function () {
            if (count == 0) {
             this.style.backgroundColor = "#f44336";
@@ -159,6 +160,14 @@
             totalSeconds = 0;
             timeLable.innerHTML="00 : 00";
             timerCounter = setInterval(setTime, 1000);
+         
+            $.post( "recordControl.php",  { name: nameOfDb, action:"start"} )
+            .done(function( data ) {
+              console.log(data)
+              nameOfDb = data
+
+            });
+
           }
           else
           {
@@ -166,7 +175,19 @@
             count = 0;
             this.value = "Start Capture";
             clearInterval(timerCounter);
-            document.getElementById('showData').src += '';
+
+
+
+            $.post( "recordControl.php",  { name: nameOfDb, action:"stop"} )
+            .done(function( data ) {
+		      console.log(data)
+		      /* Update matrix then redraw */
+		      var f = Function(data)
+		      f()
+
+              document.getElementById('showData').src += '';
+            });
+
           }
         });
       </script>
