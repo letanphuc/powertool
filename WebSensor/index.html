@@ -12,7 +12,7 @@
   <script src="Libs/math.min.js"></script>
   <?php include 'readSensorInfo.php';?>  
   <script src="globalVarAndFunc.js"></script>
-<link rel="stylesheet"  href="globarCss.css">
+ <link rel="stylesheet"  href="globarCss.css">
 </head>
 <body>
   <nav class="navbar navbar-inverse">
@@ -151,6 +151,7 @@
             }
           }
           var count = 0;
+          var nameOfDb =""
           $("#btn-start-capture").click(function () {
            if (count == 0) {
             this.style.backgroundColor = "#f44336";
@@ -159,6 +160,14 @@
             totalSeconds = 0;
             timeLable.innerHTML="00 : 00";
             timerCounter = setInterval(setTime, 1000);
+         
+            $.post( "recordControl.php",  { name: nameOfDb, action:"start"} )
+            .done(function( data ) {
+              console.log(data)
+              nameOfDb = data
+
+            });
+
           }
           else
           {
@@ -166,7 +175,19 @@
             count = 0;
             this.value = "Start Capture";
             clearInterval(timerCounter);
-            document.getElementById('showData').src += '';
+
+
+
+            $.post( "recordControl.php",  { name: nameOfDb, action:"stop"} )
+            .done(function( data ) {
+		      console.log(data)
+		      /* Update matrix then redraw */
+		      var f = Function(data)
+		      f()
+
+              document.getElementById('showData').src += '';
+            });
+
           }
         });
       </script>
@@ -187,12 +208,14 @@
           console.log(GraphInfo);
           tabFirst.tab('show');
         });
+
+        
         function removeTabWithTabID(tabID)
         {
           $('a[href=\'#tab'+tabID+'\'').parents('li').remove();
           console.log('#tab'+tabID);
           $('#tab'+tabID).remove();
-        }
+        };
         //Check show tab to show the information properties
         $('#tab-list').on('shown.bs.tab', function (e) {
          var y = $(e.target).attr( 'href');   
@@ -225,9 +248,6 @@
         $(this).height($(this).contents().height());
         $(this).width($(this).contents().width());
       });
-      function reloadInfoColumn () {
-        $( "#infoLiveView" ).load( "Table/infoColumn.html" );
-      }
     </script>
   </div>
 </div>

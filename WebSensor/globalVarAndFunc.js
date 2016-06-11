@@ -93,3 +93,10 @@
 			cell.innerHTML = newArray[i - 1]
 		}
 	}
+	function updateInfoGraph()
+	{
+		$( "#infoLiveView" ).load( "infoNewGraph.html" );
+	}
+  function reloadInfoColumn () {
+    $( "#infoLiveView" ).load( "Table/infoColumn.html" );
+  }

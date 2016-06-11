@@ -35,13 +35,17 @@ void * client_service(void * params);
 const char * str_data_format = "{%d, '%s', %0.3f, %0.3f, %0.3f, %0.3f}\r"; // {dev1, dev2, dev3, dev4}
 const char * cmd_get_data = "get data";
 const char * cmd_start_record = "start record";
-const char * start_record_res_msg = "OK, recording";
+//<<<<<<< HEAD
+//const char * start_record_res_msg = "OK, recording";
+//=======
+const char * start_record_res_msg = "%d";
+//>>>>>>> afc2347eb1ec01331b8a1bd1aca5469001968032
 const char * cmd_stop_record = "stop record";
 const char * cmd_stop_record_with_data = "stop record %d";
 const char * stop_record_res_msg_format = "recorded file %s";
 
 const char * cmd_copy_template_db = "cp /var/Raspido/raspido.db %s";
-const char * tmp_filename_format = "/var/tmp/raspido_record%d%d%d%d%d%d";
+const char * tmp_filename_format = "/var/tmp/raspido_record%d%d%d%d%d%d.db";
 
 #define NUMS_THREAD_SUPPORT 8
 
@@ -245,7 +249,11 @@ void * client_service(void * params)
 		{
             printf("client %d: error on receive message.\r\n", clisockfd);
             break;
-        }//
+//<<<<<<< HEAD
+//        }//
+//=======
+        }
+//>>>>>>> afc2347eb1ec01331b8a1bd1aca5469001968032
 		else
 		{
 			if (memcmp (recv_msg, cmd_get_data, strlen(cmd_get_data)) == 0)
@@ -316,7 +324,11 @@ void * client_service(void * params)
                 if (record < NUMS_THREAD_SUPPORT)
                 {
                     memset(buff, 0, 32);
-                    sprintf(buff, "OK, record: %d\r", record);
+//<<<<<<< HEAD
+//                    sprintf(buff, "OK, record: %d\r", record);
+//=======
+                    sprintf(buff, start_record_res_msg, record);
+//>>>>>>> afc2347eb1ec01331b8a1bd1aca5469001968032
 #if SIMULATE_DATA
                     n = send(clisockfd, buff, strlen(buff), 0);
 #else
