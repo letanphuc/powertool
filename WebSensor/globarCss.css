@@ -45,6 +45,18 @@
       background-color: #938b8c;
       border-color: #938b8c;
 }
+.btn-success:active:hover,
+.btn-success.active:hover,
+.open > .dropdown-toggle.btn-success:hover,
+.btn-success:active:focus,
+.btn-success.active:focus,
+.open > .dropdown-toggle.btn-success:focus,
+.btn-success:active.focus,
+.btn-success.active.focus,
+.open > .dropdown-toggle.btn-success.focus {
+  background-color: #6c6566;
+  border-color: #6c6566;
+}
 
     .timerColor {
       height:35px;
