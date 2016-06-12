@@ -31,8 +31,9 @@ jQuery.fn.tableToCSV = function() {
 			var uri = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
 			var download_link = document.createElement('a');
 			download_link.href = uri;
-			// var ts = new Date().getTime();
-			var ts ="DataExport";
+			var date = new Date();
+			var ts1 = date.getFullYear() + "" + (date.getMonth() + 1) + "" + date.getDate() +"" +  date.getHours() + "" + date.getMinutes() + "" + date.getSeconds();
+			var ts ="DataExport_"+ ts1;
 			if(caption==""){
 				download_link.download = ts+".csv";
 			} else {
