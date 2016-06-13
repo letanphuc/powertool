@@ -296,7 +296,7 @@ void * client_service(void * params)
 #if SIMULATE_DATA
                 n = send(clisockfd, send_msg, strlen(send_msg), 0);
 #else
-                n = send(clisockfd, send_msg, strlen(send_msg), MSG_NOSIGNAL);
+                n = send(clisockfd, send_msg, strlen(send_msg), 0);
 #endif
 				if (n < 0)
 				{
@@ -315,7 +315,7 @@ void * client_service(void * params)
 #if SIMULATE_DATA
                     n = send(clisockfd, buff, strlen(buff), 0);
 #else
-                    n = send(clisockfd, buff, strlen(buff), MSG_NOSIGNAL);
+                    n = send(clisockfd, buff, strlen(buff), 0);
 #endif
                     if (n < 0)
                     {
@@ -338,7 +338,7 @@ void * client_service(void * params)
 #if SIMULATE_DATA
                     n = send(clisockfd, list_recorder[record].recorded_name, strlen(list_recorder[record].recorded_name), 0);
 #else
-                    n = send(clisockfd, list_recorder[record].recorded_name, strlen(list_recorder[record].recorded_name), MSG_NOSIGNAL);
+                    n = send(clisockfd, list_recorder[record].recorded_name, strlen(list_recorder[record].recorded_name), 0);
 #endif
                     if (n < 0)
                     {
