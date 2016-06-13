@@ -8,6 +8,10 @@
 #ifndef DEVICES_H_
 #define DEVICES_H_
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /*
  * this file contain devices communication source code
  * used for get or set data to devices
@@ -64,5 +68,8 @@ extern struct Device dev_host[DEV_HOST_NUMBER];
 extern int Device_Init(void);
 extern int Device_Polling(void);
 
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* SENSOR_H_ */

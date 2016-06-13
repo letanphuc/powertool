@@ -50,10 +50,10 @@ void WebSocketServer::onNewConnection()
     m_clients << pSocket;
 }
 
-#if SIMULATE_DATA
-#else
-extern "C" struct Device dev_host[DEV_HOST_NUMBER];
-#endif
+//#if SIMULATE_DATA
+//#else
+//extern "C" struct Device dev_host[DEV_HOST_NUMBER];
+//#endif
 
 typedef struct {
     QString sensor_id;
