@@ -17,7 +17,7 @@ try {
 
       });";
 	}
-	print "var totalSensor = " . $total . ";";
+	print "totalSensor = " . $total . ";";
 	print "</script>";
 	$db = NULL;
 } catch ( PDOException $e ) {
