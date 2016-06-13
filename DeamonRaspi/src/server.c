@@ -340,12 +340,13 @@ void * client_service(void * params)
 #else
                     n = send(clisockfd, list_recorder[record].recorded_name, strlen(list_recorder[record].recorded_name), MSG_NOSIGNAL);
 #endif
-				if (n < 0)
-				{
-					printf("ERROR writing to socket.\r\n");
-					break;
-				}
-			}
+                    if (n < 0)
+                    {
+                        printf("ERROR writing to socket.\r\n");
+                        break;
+                    }
+                }
+            }
 		}
 		usleep(100);
 	}
