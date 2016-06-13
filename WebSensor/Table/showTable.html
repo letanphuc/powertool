@@ -12,6 +12,7 @@
 
 
 <script src="../Libs/jquery.tabletoCSV.js" type="text/javascript" charset="utf-8"></script>
+ <link rel="stylesheet"  href="../globarCss.css">
 <style type="text/css">
   tr {
     width: 100%;
@@ -49,19 +50,24 @@ th {
 .highlight {
   background: #f4e092;
 }
+.colorButton {
+  background-color: #938b8c;
+  height:30px;
+  width:100px;
+  margin-left: 20px
+}
 
 
 </style>
-
-<div class="row content" style=" width:900px">
+<div class="row content" style=" width:1000px">
   <div class="col-sm-9 ">
     <p id=showTable ></p>
   </div>
-  <div class="col-sm-3 ">
+  <div class="col-sm-3">
     <br>
-    <button id="addColumnButton" value="Open Dialog" class="btn btn-success" style="height:30px;width:100px" >Add Column</button><br><br>
-    <button class="btn btn-success" style="height:30px;width:100px"  onclick="deleteConfirmFunction()">Delete</button><br><br><br><br>
-    <button id ="btnExport"class="btn btn-success" style="height:30px;width:100px">Export</button>
+    <button id="addColumnButton" value="Open Dialog" class="btn btn-success colorButton"  >Add Column</button><br><br>
+    <button class="btn btn-success colorButton"  onclick="deleteConfirmFunction()">Delete</button><br><br><br><br>
+    <button id ="btnExport" class="btn btn-success colorButton" >Export</button>
   </div>
 </div>
 <div id="dialog">

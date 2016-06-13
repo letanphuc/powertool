@@ -15,6 +15,7 @@
     var arrayGraphValue =[];  // to get value from add graph dialog to Graph Info
     var GraphInfo = [];       // show info of graph
     var tabIndex = 0;
+    var totalSensor = 0
         //init value
         for (i = 0; i < totalSensor; i++) { 
           liveViewSelected[i] = true;

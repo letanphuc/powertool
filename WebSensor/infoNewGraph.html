@@ -4,9 +4,12 @@
     <div class="form-inline"> 
     <label x> Name:</label>
     <input id="InfoNameOfGraph" class="form-control"  readonly="true" ></input>
-      </div>
-    <label id="lableOfDescriptionGraph"> Description:</label><br>
+    </div>
+    <label id="lableOfDescriptionGraph"> Description:</label>
+    <div class="form-inline">
+    <label></label>
     <textarea  id="descriptionOfGraph" class="form-control" readonly="true" rows="2" cols="22" ></textarea>
+    </div>
     <div class="form-inline">
     <label> X:</label>
     <input id="InfoXOfNewGraph" value="Time" class="form-control" readonly="true"></input>    
@@ -44,16 +47,14 @@
     {
       console.log(GraphInfo[tabIndex].funtionCompare)
       var contentConstantDisplay = "";
-      document.getElementById("labelForFuntionCompare").style.display = "inline";
-      document.getElementById("InfoFuntionCompare").style.display = "inline";
       document.getElementById("InfoFuntionCompare").value = GraphInfo[tabIndex].funtionCompare;
       for (var key in GraphInfo[tabIndex].constantCompare) {
         if (GraphInfo[tabIndex].constantCompare.hasOwnProperty(key)) {
           console.log(key);
           console.log(GraphInfo[tabIndex].constantCompare[key]);
-          contentConstantDisplay+="<label class=\"labelColumn\">" + key + ": </label>";
-          contentConstantDisplay+="<input class=\"CompValue\" id=\"CompValue"+key+"\"  value=\""+GraphInfo[tabIndex].constantCompare[key] +  "\"></input>";
-          contentConstantDisplay+="<input type=\"button\" class=\"CompIncrease\" id=\"CompIncrease" + key + "\" value=\"+\"></input><input type=\"button\" class=\"CompDecrease\" id=\"CompDecrease" + key + "\"value=\"-\"></input>";
+          contentConstantDisplay+="<div class=\"form-inline\"><label>" + key + ": </label>";
+          contentConstantDisplay+="<input class=\"form-control CompValue\" id=\"CompValue"+key+"\"  value=\""+GraphInfo[tabIndex].constantCompare[key] +  "\"></input>";
+          contentConstantDisplay+="<input type=\"button\" class=\"CompIncrease\" id=\"CompIncrease" + key + "\" value=\"+\"></input><input type=\"button\" class=\"CompDecrease\" id=\"CompDecrease" + key + "\"value=\"-\"></input></div>";
         }
       }
       document.getElementById("constantCompare").innerHTML = contentConstantDisplay;
@@ -78,9 +79,9 @@
       if (GraphInfo[tabIndex].constantValueX.hasOwnProperty(key)) {
         console.log(key);
         console.log(GraphInfo[tabIndex].constantValueX[key]);
-        contentConstantDisplayX+="<label class=\"labelColumn\">" + key + ": </label>";
-        contentConstantDisplayX+="<input id=\"X0value"+key+"\" class=\"constantValue\" value=\""+GraphInfo[tabIndex].constantValueX[key] +  "\"></input>";
-        contentConstantDisplayX+="<input type=\"button\" class=\"increase\" id=\"X0increase" + key + "\" value=\"+\"></input><input type=\"button\" class=\"decrease\" id=\"X0decrease" + key + "\"value=\"-\"></input>";
+        contentConstantDisplayX+="<div class=\"form-inline\"><label>" + key + ": </label>";
+        contentConstantDisplayX+="<input id=\"X0value"+key+"\" class=\"form-control constantValue\" value=\""+GraphInfo[tabIndex].constantValueX[key] +  "\"></input>";
+        contentConstantDisplayX+="<input type=\"button\" class=\"increase\" id=\"X0increase" + key + "\" value=\"+\"></input><input type=\"button\" class=\"decrease\" id=\"X0decrease" + key + "\"value=\"-\"></input></div>";
       }
     }
     document.getElementById("ConstantDisplayX").innerHTML = contentConstantDisplayX;
@@ -95,9 +96,9 @@
       if (GraphInfo[tabIndex].constantValueY1.hasOwnProperty(key)) {
         console.log(key);
         console.log(GraphInfo[tabIndex].constantValueY1[key]);
-        contentConstantDisplayY1+="<label class=\"labelColumn\">" + key + ": </label>";
-        contentConstantDisplayY1+="<input id=\"Y1value"+key+"\" class=\"constantValue\" value=\""+GraphInfo[tabIndex].constantValueY1[key] +  "\"></input>";
-        contentConstantDisplayY1+="<input type=\"button\" class=\"increase\" id=\"Y1increase" + key + "\" value=\"+\"></input><input type=\"button\" class=\"decrease\" id=\"Y1decrease" + key + "\"value=\"-\"></input>";
+        contentConstantDisplayY1+="<div class=\"form-inline\"><label>" + key + ": </label>";
+        contentConstantDisplayY1+="<input id=\"Y1value"+key+"\" class=\" form-control constantValue\" value=\""+GraphInfo[tabIndex].constantValueY1[key] +  "\"></input>";
+        contentConstantDisplayY1+="<input type=\"button\" class=\"increase\" id=\"Y1increase" + key + "\" value=\"+\"></input><input type=\"button\" class=\"decrease\" id=\"Y1decrease" + key + "\"value=\"-\"></input><div>";
       }
     }
     document.getElementById("ConstantDisplayY1").innerHTML = contentConstantDisplayY1;
@@ -112,9 +113,9 @@
       if (GraphInfo[tabIndex].constantValueY2.hasOwnProperty(key)) {
         console.log(key);
         console.log(GraphInfo[tabIndex].constantValueY2[key]);
-        contentConstantDisplayY2+="<label class=\"labelColumn\">" + key + ": </label>";
-        contentConstantDisplayY2+="<input id=\"Y2value"+key+"\" class=\"constantValue\" value=\""+GraphInfo[tabIndex].constantValueY2[key] +  "\"></input>";
-        contentConstantDisplayY2+="<input type=\"button\" class=\"increase\" id=\"Y2increase" + key + "\" value=\"+\"></input><input type=\"button\" class=\"decrease\" id=\"Y2decrease" + key + "\"value=\"-\"></input>";
+        contentConstantDisplayY2+="<div class=\"form-inline\"><label>" + key + ": </label>";
+        contentConstantDisplayY2+="<input id=\"Y2value"+key+"\" class=\"form-control constantValue\" value=\""+GraphInfo[tabIndex].constantValueY2[key] +  "\"></input>";
+        contentConstantDisplayY2+="<input type=\"button\" class=\"increase\" id=\"Y2increase" + key + "\" value=\"+\"></input><input type=\"button\" class=\"decrease\" id=\"Y2decrease" + key + "\"value=\"-\"></input><div>";
       }
     }
     document.getElementById("ConstantDisplayY2").innerHTML = contentConstantDisplayY2;
@@ -129,9 +130,9 @@
       if (GraphInfo[tabIndex].constantValueY3.hasOwnProperty(key)) {
         console.log(key);
         console.log(GraphInfo[tabIndex].constantValueY3[key]);
-        contentConstantDisplayY3+="<label class=\"labelColumn\">" + key + ": </label>";
-        contentConstantDisplayY3+="<input id=\"Y3value"+key+"\" class=\"constantValue\" value=\""+GraphInfo[tabIndex].constantValueY3[key] +  "\"></input>";
-        contentConstantDisplayY3+="<input type=\"button\" class=\"increase\" id=\"Y3increase" + key + "\" value=\"+\"></input><input type=\"button\" class=\"decrease\" id=\"Y3decrease" + key + "\"value=\"-\"></input>";
+        contentConstantDisplayY3+="<div class=\"form-inline\"><label>" + key + ": </label>";
+        contentConstantDisplayY3+="<input id=\"Y3value"+key+"\" class=\"form-control constantValue\" value=\""+GraphInfo[tabIndex].constantValueY3[key] +  "\"></input>";
+        contentConstantDisplayY3+="<input type=\"button\" class=\"increase\" id=\"Y3increase" + key + "\" value=\"+\"></input><input type=\"button\" class=\"decrease\" id=\"Y3decrease" + key + "\"value=\"-\"></input><div>";
       }
     }
     document.getElementById("ConstantDisplayY3").innerHTML = contentConstantDisplayY3;

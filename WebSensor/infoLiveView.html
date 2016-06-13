@@ -6,9 +6,9 @@
 	<script type="text/javascript">
 		var liveViewContent = "";
 		for (i = 0; i < totalSensor; i++) {
-			liveViewContent += "<div class=\"form-inline\"><input type=\"checkbox\" id=\"liveViewCheckBox" + i +"\" class=\"form-control\" ><label style=\" margin-right : 20px; margin-left : 10px;  margin-bottom: 10px;\">"
+			liveViewContent += "<div class=\"form-inline\"><input type=\"checkbox\" id=\"liveViewCheckBox" + i +"\"><label style=\" margin-right : 20px; margin-left : 10px;  margin-bottom: 10px;\">"
 					+ sensorInfo[i].sensorName
-					+ "</label><input type=\"color\" value=\""+ arrayColorForLiveView[i] + "\" disabled=\"true\" /> <input type=\"button\"  id=\"SetZero" + i + "\"class=\"btn btn-info\" value=\"SetZero\"></input></div>";
+					+ "</label><input type=\"color\" class=\"form-control\"  style=\"width: 60px\" value=\""+ arrayColorForLiveView[i] + "\" disabled=\"true\" /> <input type=\"button\"  id=\"SetZero" + i + "\"class=\"btn btn-info\" value=\"SetZero\"></input></div>";
 		}
 		document.getElementById("liveViewProperties").innerHTML = liveViewContent;
 		for (i = 0; i < totalSensor; i++) {

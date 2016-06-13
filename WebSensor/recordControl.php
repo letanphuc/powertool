@@ -61,7 +61,7 @@
 					$sensorIDarray[$totalSensorAvailable]=$row['sensorID'];
 					$totalSensorAvailable++;
 				}
-				print "var totalSensor = " . $total . ";";
+				print "totalSensor = " . $total . ";";
 
 
 				foreach($result as $row)

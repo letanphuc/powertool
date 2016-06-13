@@ -1,21 +1,95 @@
    /* Remove the navbar's default margin-bottom and rounded borders */ 
     .navbar {
-      margin-bottom: 0;
       border-radius: 0;
-      background-color: #000;
-      color: red;
+      margin-bottom: 0;
+      margin-top: 0;
+      border-color: #d7dce2;
+      background-color: #d7dce2;
     }
-    
+    .header img {
+      float: left;
+      width: 70px;
+      height: 70px;
+      margin-bottom: 5px;
+    }
+
+    .header h1 {
+      position: absolute;
+      bottom: 0;
+      margin-left: 100px;
+      font-family: serif; 
+      margin-bottom: 0;
+    }
+    .header h3 {
+      position: absolute;
+      bottom: 0;
+      right: 30px;
+      font-family: serif; 
+      margin-bottom: 0;
+    }
     /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
     /*.row.content {height: 450px}*/
     
     /* Set gray background color and 100% height */
     .sidenav {
-      padding-top: 20px;
-      background-color: #f1f1f1;
+      padding-top: 0;
+      background-color:#ffffff;
       height: 100%;
     }
     
+    .btn-success,
+    .btn-success:hover,
+    .btn-success:active,
+    .btn-success:visited,
+    .btn-success:focus {
+      background-color: #938b8c;
+      border-color: #938b8c;
+}
+.btn-success:active:hover,
+.btn-success.active:hover,
+.open > .dropdown-toggle.btn-success:hover,
+.btn-success:active:focus,
+.btn-success.active:focus,
+.open > .dropdown-toggle.btn-success:focus,
+.btn-success:active.focus,
+.btn-success.active.focus,
+.open > .dropdown-toggle.btn-success.focus {
+  background-color: #6c6566;
+  border-color: #6c6566;
+}
+
+    .timerColor {
+      height:35px;
+      width:100px;
+      display:inline-block;
+      font-size:15pt;
+      text-align:center;
+      background-color: #938b8c
+    }
+    .infoArea {
+        padding-left: 10px; 
+        padding-bottom: 10px; 
+        background:#eff0f4;
+        webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        border-radius: 10px;
+        margin:0 auto;
+        overflow:hidden;
+    }
+    .infoSensor {
+      padding-left: 10px; 
+      padding-bottom: 10px; 
+      background: #eff0f4; 
+      webkit-border-radius: 10px; 
+      -moz-border-radius: 10px; 
+      border-radius: 10px;
+       margin: 0 auto; 
+       overflow: hidden;
+    }
+    h3 {
+        font-size: 18px;
+        color: #828282;
+    }
 
     /* Set black background color, white text and some padding */
     footer {
@@ -41,15 +115,6 @@
       font-weight: bold;
     }
 
-    .infoArea {
-        padding:10px ;
-        background:#f4af92;
-        webkit-border-radius: 20px;
-        -moz-border-radius: 20px;
-        border-radius: 20px;
-        margin:0 auto;
-        overflow:hidden;
-    }
 
   .displayValueForGraph { 
     font-weight: bold;

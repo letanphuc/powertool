@@ -15,11 +15,12 @@
  <link rel="stylesheet"  href="globarCss.css">
 </head>
 <body>
-  <nav class="navbar navbar-inverse">
-    <div class="container-fluid text-center ">
-      <h1> POWER TOOLKIT </h1>
+  <nav class="navbar">
+        <div class="header">
+        <img src="Img/logo.png" />
+        <h1> ViLabs </h1>
+        <h3>CÔNG TY CỔ PHẦN THIẾT BỊ GIÁO DỤC QUỐC TẾ Á CHÂU</h3>
     </div>
-  </div>
 </nav>
 
 <div class="container-fluid text-left">    
@@ -37,7 +38,7 @@
     <div class="col-sm-8 text-left">
       <br>
       <p>
-        <button id="btn-add-tab" type="button" class="btn btn-success pull-right">Add Graph</button>
+        <button id="btn-add-tab" type="button" class="btn btn-success pull-right " >Add Graph</button>
       </p>
       <div id="addGraphDialog">  </div>
       <script type="text/javascript">
@@ -123,8 +124,8 @@
       <div class="tab-content" id="tabcontent">
         <div id="LiveView" class="tab-pane fade in active">
           <iframe id="chart" src="liveView.html" style="border:none" width="100%" height="100%" scrolling="no"></iframe> 
-          <input id="btn-start-capture" type="button" class="btn btn-success" style='background-color: #4CAF50' value="Start Capture">
-          <span id="timeLabel" class="label label-pill label-success" style="height:35px;width:100px;display:inline-block;font-size:15pt;text-align:center">00 : 00</span>
+          <input id="btn-start-capture" type="button" class="btn btn-success " value="Start Capture">
+          <span id="timeLabel" class="label label-pill label-success timerColor"  >00 : 00</span>
         </div>
         <!-- javascript to set timer counter -->
         <script type="text/javascript">
@@ -171,7 +172,7 @@
           }
           else
           {
-            this.style.backgroundColor = "#4CAF50";
+            this.style.backgroundColor = "#938b8c";
             count = 0;
             this.value = "Start Capture";
             clearInterval(timerCounter);
