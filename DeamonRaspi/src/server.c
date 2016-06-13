@@ -235,7 +235,7 @@ void * client_service(void * params)
 #if SIMULATE_DATA
         n = recv(clisockfd, recv_msg, 40, 0);
 #else
-        n = recv(clisockfd, recv_msg, 40, MSG_DONTWAIT);
+        n = recv(clisockfd, recv_msg, 40, 0);
 #endif
 		if (n < 0)
 		{
