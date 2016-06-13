@@ -7,7 +7,7 @@ extern "C" void * main_f (void * params);
 
 int main(int argc, char *argv[])
 {
-    CreateServer(8);
+//    CreateServer(8);
 
     WebSocketServer * server = new WebSocketServer();
 
