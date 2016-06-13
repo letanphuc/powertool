@@ -43,7 +43,7 @@ struct Device
 	//
 	struct polling_control polling_control;
 
-	int last_try;
+    unsigned long last_try;
 	// required packet.h
 	struct PacketData dev_data;
 };

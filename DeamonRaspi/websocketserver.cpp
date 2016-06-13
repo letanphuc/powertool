@@ -132,6 +132,7 @@ void WebSocketServer::processMessage(QString message)
          * Data format:
          * sensor id, type | sensor id, type | ...
          */
+#if SIMULATE_DATA
         static int test = 0;
         if (test < 4){
             /** Add sensor */
@@ -144,6 +145,28 @@ void WebSocketServer::processMessage(QString message)
             listOfCurrentSensor.removeFirst();
         }
         test = (test + 1) % 8;
+#else
+        int i;
+        union int_s unique_number;
+
+        listOfCurrentSensor.clear();
+        for (i = 0; i < DEV_HOST_NUMBER; i++)
+        {
+            if (dev_host[i].last_try <= 3)
+            {
+                SensorInfos sensor;
+
+                unique_number.b[0] = dev_host[i].dev_data.unique_number[0];
+                unique_number.b[1] = dev_host[i].dev_data.unique_number[1];
+                unique_number.b[2] = dev_host[i].dev_data.unique_number[2];
+                unique_number.b[3] = dev_host[i].dev_data.unique_number[3];
+
+                sensor.sensor_id = QString::number(unique_number.n);
+                sensor.sensor_type = "type:" + QString::number(dev_host[i].dev_data.id);
+                listOfCurrentSensor.append(sensor);
+            }
+        }
+#endif
 
 
         /** Prepare message reply */
