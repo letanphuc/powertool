@@ -5,13 +5,13 @@
 
 	<script type="text/javascript">
 		var liveViewContent = "";
-		for (i = 0; i < totalSensor; i++) {
+		for (i = 0; i < realtimeSensorInfo.length; i++) {
 			liveViewContent += "<div class=\"form-inline\"><input type=\"checkbox\" id=\"liveViewCheckBox" + i +"\"><label style=\" margin-right : 20px; margin-left : 10px;  margin-bottom: 10px;\">"
-					+ sensorInfo[i].sensorName
+					+ realtimeSensorInfo[i].sensorName
 					+ "</label><input type=\"color\" class=\"form-control\"  style=\"width: 60px\" value=\""+ arrayColorForLiveView[i] + "\" disabled=\"true\" /> <input type=\"button\"  id=\"SetZero" + i + "\"class=\"btn btn-info\" value=\"SetZero\"></input></div>";
 		}
 		document.getElementById("liveViewProperties").innerHTML = liveViewContent;
-		for (i = 0; i < totalSensor; i++) {
+		for (i = 0; i < realtimeSensorInfo.length; i++) {
 			document.getElementById("liveViewCheckBox" + i).checked = liveViewSelected[i];
 			if(maginData[i]!= 0)
 				$("#SetZero"+i).val("Reset");

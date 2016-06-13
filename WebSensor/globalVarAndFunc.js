@@ -21,7 +21,7 @@
           liveViewSelected[i] = true;
         }
         function updateLiveViewValues () {
-          for (i = 0; i < totalSensor; i++) { 
+          for (i = 0; i < realtimeSensorInfo.length; i++) { 
             liveViewSelected[i] = document.getElementById('liveViewCheckBox'+i).checked;
           }
         }

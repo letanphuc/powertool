@@ -68,7 +68,7 @@
 			if (parent.focusTab == 0)
 				window.parent.updateLiveViewValues();
 			for (var j = 0; j < count; j++) {
-				for (var i = 0; i < parent.totalSensor; i++) {
+				for (var i = 0; i < realtimeSensorInfo.length; i++) {
 					if (parent.liveViewSelected[i]) {
 						parent.dpsForLiveView[i].push({
 							x : xVal,
