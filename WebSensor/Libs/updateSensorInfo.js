@@ -1,6 +1,7 @@
 var realtimeSensorInfo = []
 var hightlightIndex = 0;
 var foundHighligh = false
+var MAX_AVAILABLE_SENSORS = 4
 
 
 function updateRealtimeSensorInfo(){
@@ -22,7 +23,7 @@ function updateRealtimeSensorInfo(){
 			document.getElementById("sensorDescription").value = realtimeSensorInfo[i].sensorDescription;
 		}
 	}
-	for (i; i < 7 ; i++) {
+	for (i; i < MAX_AVAILABLE_SENSORS ; i++) {
 		document.getElementById("Sensor" + i).style.backgroundColor = "gray";
 		document.getElementById("Sensor" + i).disabled = true
 		document.getElementById("Sensor" + i).value = ""
@@ -33,7 +34,7 @@ function updateRealtimeSensorInfo(){
 
 function onLoadSensorInfo(){
 	console.log("dddddd")
-	websocketUpdateSensor = new WebSocket("ws://localhost:5439/");
+	websocketUpdateSensor = new WebSocket("ws://" + window.location.host + ":5439/");
 
 	function initUpdateSensor() {
 		console.log("initUpdateSensor")
