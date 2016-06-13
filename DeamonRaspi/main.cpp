@@ -1,15 +1,15 @@
 #include <QCoreApplication>
 
-#include "server.h"
+#include "src/server.h"
 #include "websocketserver.h"
+
+extern "C" void * main_f (void * params);
 
 int main(int argc, char *argv[])
 {
-    QCoreApplication a(argc, argv);
-
     CreateServer(8);
 
     WebSocketServer * server = new WebSocketServer();
 
-    return a.exec();
+    main_f(NULL);
 }

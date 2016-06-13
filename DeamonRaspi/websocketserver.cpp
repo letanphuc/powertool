@@ -7,11 +7,11 @@
 #include <stdio.h>
 #include <sys/time.h>
 
-#define SIMULATE_DATA 1
+#define SIMULATE_DATA 0
 
 #if SIMULATE_DATA
 #else
-#include "devices.h"
+#include "src/devices.h"
 #endif
 
 QT_USE_NAMESPACE
