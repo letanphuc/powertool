@@ -104,7 +104,7 @@
 		
 		
 		function doConnect() {
-			websocket = new WebSocket("ws://localhost:5439/");
+			websocket = new WebSocket("ws://" + window.location.host + ":5439/");
 			websocket.onopen = function(evt) {
 				onOpen(evt)
 			};
@@ -152,7 +152,7 @@
 						else
 						{
 							yy = parseInt(data[j], 10);
-							if (! isNaN(yy) && parent.liveViewSelected[j-2])
+							if (! isNaN(yy) )
 							{
 								parent.dpsForLiveView[j - 2].push(
 									{
