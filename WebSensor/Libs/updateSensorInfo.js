@@ -90,7 +90,7 @@ function onLoadSensorInfo(){
 		{$("#Sensor0,#Sensor1,#Sensor2,#Sensor3,#Sensor4,#Sensor5,#Sensor6").click(function() {
 			$(".collapse").collapse('show');
 			this.style.backgroundColor = "red";
-			hightlightIndex = this.value;
+			hightlightIndex = parseInt($(this).attr('id')[$(this).attr('id').length - 1],10);
 			updateRealtimeSensorInfo()
 		});
 		$("#sensorName").change(function() {

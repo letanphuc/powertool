@@ -51,13 +51,16 @@ int queryData(struct Device * dev)
 	printf("Query data for device: %2X\r\n", dev->dev_data.id);
 #endif
 
-//	if (dev->last_try > 3)
-//	{
-//		printf("Disconnected from device: %d.\r\n", dev->dev_data.id);
-//		dev->dev_data.id = DEV_UNKNOWN;
-//		dev->dev_data.data_type = DATA_TYPE_NULL;
-//
-//	}
+	if (dev->last_try > 3)
+	{
+		// dev->dev_data.id = DEV_UNKNOWN;
+		// dev->dev_data.data_type = DATA_TYPE_NULL;
+		dev_host[i].dev_data.data[3] = 0;
+		dev_host[i].dev_data.data[2] = 0;
+		dev_host[i].dev_data.data[1] = 0;
+		dev_host[i].dev_data.data[0] = 0;
+
+	}
 	dev->last_try++;
 
 	// required physical packet had it length plus 1 for checksum

@@ -120,12 +120,53 @@ void WebSocketServer::processMessage(QString message)
         dev4_data.b[2] = dev_host[3].dev_data.data[1];
         dev4_data.b[3] = dev_host[3].dev_data.data[0];
 
-        sprintf(msg, msg_format, data_count++,
-                curr_time_str,
-                dev1_data.f, dev2_data.f, dev3_data.f, dev4_data.f);
+        QString ans = "";
+        ans += QString::number(data_count++) + ",";
+        ans += QString(curr_time_str) + ",";
+        int emty = 0;
+
+        if (dev_host[0].last_try <= 3)
+        {
+            ans += QString::number(dev1_data.f) + ",";
+        }
+        else
+        {
+            emty++;
+        }
+        if (dev_host[1].last_try <= 3)
+        {
+            ans += QString::number(dev2_data.f) + ",";
+        }
+        else
+        {
+            emty++;
+        }
+        if (dev_host[2].last_try <= 3)
+        {
+            ans += QString::number(dev3_data.f) + ",";
+        }
+        else
+        {
+            emty++;
+        }
+        if (dev_host[3].last_try <= 3)
+        {
+            ans += QString::number(dev4_data.f) + ",";
+        }
+        else
+        {
+            emty++;
+        }
+        while (emty--){
+            ans += "0";
+            if (emty)
+                ans += ",";
+        }
+        ans += "|";
+        pSender->sendTextMessage(ans);
 #endif
 
-        pSender->sendTextMessage(QString(msg));
+
     }
     else if (message == "sensor"){
         /**

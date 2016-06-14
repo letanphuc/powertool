@@ -36,6 +36,7 @@
 		tableLable.forEach(function myFunction(item, index) {
 			listOfSymbol[item.replace(/\s/g, '')] = matrix[index]
 		})
+		listOfSymbol['time'] = recordId;
 
 		try{
 			var ex = formatExpression(columnInfo[index].Equalition)

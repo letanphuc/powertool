@@ -172,6 +172,7 @@ th {
 		parent.tableLable.forEach(function myFunction(item, index) {
 			listOfSymbol[item.replace(/\s/g, '')] = parent.matrix[index]
 		})
+    listOfSymbol['time'] = parent.recordId;
 
 
 		try{

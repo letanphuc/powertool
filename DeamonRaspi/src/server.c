@@ -244,6 +244,8 @@ void * client_service(void * params)
 		}
 		else
 		{
+			if (n)
+				printf("Rec: %s\r\n", recv_msg);
 			if (memcmp (recv_msg, cmd_get_data, strlen(cmd_get_data)) == 0)
 			{
 				memset(send_msg, 0, 128);
@@ -311,7 +313,7 @@ void * client_service(void * params)
                 if (record < NUMS_THREAD_SUPPORT)
                 {
                     memset(buff, 0, 32);
-                    sprintf(buff, "OK, record: %d\r", record);
+                    sprintf(buff, start_record_res_msg, record);
 #if SIMULATE_DATA
                     n = send(clisockfd, buff, strlen(buff), 0);
 #else
