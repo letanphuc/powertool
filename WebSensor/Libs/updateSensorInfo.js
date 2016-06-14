@@ -28,7 +28,8 @@ function updateRealtimeSensorInfo(){
 		document.getElementById("Sensor" + i).disabled = true
 		document.getElementById("Sensor" + i).value = ""
 	}
-	$( "#infoLiveView" ).load( "infoLiveView.html");
+	if(focusTab == 0)
+		$( "#infoLiveView" ).load( "infoLiveView.html");
 	
 }
 

@@ -152,12 +152,13 @@
 						else
 						{
 							yy = parseInt(data[j], 10);
-							if (! isNaN(yy) )
+							if ((! isNaN(yy)) && parent.liveViewSelected[j-2] &&
+								             j < (parent.realtimeSensorInfo.length -2))
 							{
 								parent.dpsForLiveView[j - 2].push(
 									{
 										x : xx,
-										y : yy
+										y : yy - parent.maginData[j-2]
 									}
 								);
 								if (parent.dpsForLiveView[j - 2].length > dataLength)
