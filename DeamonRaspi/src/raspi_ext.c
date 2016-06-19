@@ -345,6 +345,7 @@ void * ButtonThread (void * params)
 
 int RaspiExt_Init(void)
 {
+#if !SIMULATE_DATA
 	if (wiringPiSetup() != 0)
 	{
 #if RASPI_EXT_DEBUG
@@ -352,6 +353,7 @@ int RaspiExt_Init(void)
 #endif
 		return -1;
 	}
+#endif
 #if RASPI_EXT_DEBUG
 	printf("Initial wiringPi successful.\n");
 #endif
@@ -424,7 +426,7 @@ int RaspiExt_Init(void)
 	pthread_mutex_init(&led_token, NULL);
 	//pthread_mutex_unlock(&led_token);
 	//pthread_mutex_init(&button_token, NULL);
-	
+#if !SIMULATE_DATA
 #if RASPI_EXT_DEBUG
 	printf("Create thread for control LED.\n");
 #endif
@@ -439,6 +441,7 @@ int RaspiExt_Init(void)
 	printf("Create thread for control power button.\n");
 #endif
 	pthread_create(&power_off_button_thread, NULL, &ButtonThread, NULL);
+#endif
 
 	return 0;
 }

@@ -95,3 +95,6 @@ HEADERS += \
 DISTFILES += \
     wiringPi/COPYING.LESSER \
     wiringPi/Makefile
+
+
+DEFINES += SIMULATE_DATA=1

@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include <sys/time.h>
 
-#define SIMULATE_DATA 0
+
 
 #if SIMULATE_DATA
 #else
@@ -97,6 +97,7 @@ void WebSocketServer::processMessage(QString message)
         sprintf(msg, msg_format, data_count++,
                 curr_time_str,
                 f1, f2, f3, f4);
+        pSender->sendTextMessage(QString(msg));
 #else
         union float_s dev1_data, dev2_data, dev3_data, dev4_data;
 
