@@ -33,7 +33,12 @@ void * main_f (void * params)
 
 	for (;;)
 	{
+		clock_t toc;
+		clock_t tic = clock();
 		Device_Polling();
+		toc = clock();
+
+		usleep(33333 - ((toc - tic) * 1000000 / CLOCKS_PER_SEC));
 	}
 	return 0;
 }

@@ -8,6 +8,8 @@
 		parent.dpsForLiveView[5] = []; // dataPoints
 		parent.dpsForLiveView[6] = []; // dataPoints
 
+		var last_record_id = 0
+
 		var chart = new CanvasJS.Chart("chartContainer", {
 			title : {
 				text : "Live View"
@@ -60,7 +62,7 @@
 
 		var xVal = 0;
 		var yVal = 100;
-		var updateInterval = 10;
+		var updateInterval = 33.333;
 		var dataLength = 1000; // number of dataPoints visible at any point
 		var updateChart = function(count) {
 			count = count || 1;
@@ -133,6 +135,7 @@
 			var res = evt.data.split("|");
 			var i = 0;
 			var xx = 0;
+			var change = false;
 			for (i; i < res.length; i ++)
 			{
 				var data = res[i].split(",");
@@ -144,6 +147,7 @@
 						if (j == 0)
 						{
 							xx = parseInt(data[j], 10);
+							last_record_id = xx;
 						}
 						else if (j == 1)
 						{
@@ -168,15 +172,16 @@
 								parent.dpsForLiveView[j - 2].length = 0
 							}
 						}
+						change = true
 					}
 					for (j = j- 2; j < 7; j++){
 						parent.dpsForLiveView[j].length = 0;
 					}
 				}
 
-				chart.render();
-				
 			}
+			if (change) 
+				chart.render();
 
 		}
 		
@@ -187,14 +192,12 @@
 		}
 
 		function doSend(message) {
-			console.log("send")
 			websocket.send(message);
 		}
 
 		function getData()
 		{
-			console.log("getdata")
-			doSend("getdata");
+			doSend("getdata|" + last_record_id);
 		}
 
 	}

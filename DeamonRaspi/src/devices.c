@@ -192,14 +192,34 @@ int queryData(struct Device * dev)
 	return 0;
 }
 
+long int record_count = 0;
+
 int Device_Polling(void) // thread
 {
 	int i;
-	for (i = 0; i < DEV_HOST_NUMBER; i++)
-	{
-		queryData(&dev_host[i]);
-		usleep(20000);
-	}
+	struct timeval t;
+	union float_s distance;
+	// Currently, test with only on sensor to ensure sample / second
+	// for (i = 0; i < DEV_HOST_NUMBER; i++)
+	// {
+	// 	printf("Query %d\n", i);
+	// 	queryData(&dev_host[i]);
+	// 	// usleep(20000);
+	// }
+
+	queryData(&dev_host[2]);
+    record_count ++;
+
+	gettimeofday (&t, NULL);
+
+	distance.b[0] = dev_host[2].dev_data.data[3];
+	distance.b[1] = dev_host[2].dev_data.data[2];
+	distance.b[2] = dev_host[2].dev_data.data[1];
+	distance.b[3] = dev_host[2].dev_data.data[0];
+
+	printf("%d.%06ld %0.3f\n", t.tv_sec, t.tv_usec, distance.f);
+
+
 	return 0;
 }
 int Device_Init(void)
