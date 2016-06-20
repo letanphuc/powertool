@@ -204,6 +204,7 @@ th {
 				Average: getAverage(newColumnValues),
 				Max: getMax(newColumnValues),
 				Min: getMin(newColumnValues),
+        		Delta: getdelta(newColumnValues),
 				Description: ColumnDescription.value,
 				Equalition: ColumnEqualition.value,
 				ConstantArray: listOfConst,
@@ -274,6 +275,17 @@ th {
     });
     return total/array.length;
   }
+
+  function getdelta(array)
+  {
+    var Average = getAverage(array);
+    var total = 0;
+    array.forEach( function (item, index){
+      total+=Math.abs(item -Average) ;
+    });
+    return total/array.length;
+  }
+
   function getMax(array)
   {
     var max = array[0];
@@ -319,6 +331,7 @@ for (var i=0; i<parent.totalSensorAvailable; i++) {
     Average: getAverage(parent.matrix[i]),
     Max: getMax(parent.matrix[i]),
     Min: getMin(parent.matrix[i]),
+    Delta: getdelta(parent.matrix[i]),
     Description: parent.sensorInfo[i].sensorDescription,
     Equalition: "",
     ConstantArray: {},
