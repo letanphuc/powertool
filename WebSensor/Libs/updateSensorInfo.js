@@ -16,6 +16,9 @@ function updateRealtimeSensorInfo(){
 		for (i = 0; i < realtimeSensorInfo.length ; i++) {
 			localSensorInfo.push(realtimeSensorInfo[i])
 		}
+		document.getElementById("sensorName").value = localSensorInfo[hightlightIndex].sensorName;
+		document.getElementById("sensorType").value = localSensorInfo[hightlightIndex].sensorType;
+		document.getElementById("sensorDescription").value = localSensorInfo[hightlightIndex].sensorDescription;
 	}
 
 
@@ -66,7 +69,7 @@ function onLoadSensorInfo(){
 				{
 					realtimeSensorInfo.push({
 						sensorID: parseInt(data[0]),
-						sensorName: "",
+						sensorName: "Sensor"+i,
 						sensorType: data[1],
 						sensorDescription: ""
 					})
@@ -111,14 +114,12 @@ function onLoadSensorInfo(){
 			console.log(" call change event");
 			localSensorInfo[hightlightIndex].sensorName= $(this).val();
 			console.log(hightlightIndex)
-		    console.log(localSensorInfo)
 			$( "#infoLiveView" ).load( "infoLiveView.html");
 		});
 		$("#sensorDescription").change(function() {
 			console.log(" description changed");
 			console.log($(this).val());
 			localSensorInfo[hightlightIndex].sensorDescription = $(this).val();
-		    console.log(localSensorInfo)
 		});
 		
 	});
