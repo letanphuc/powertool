@@ -306,8 +306,8 @@ th {
   }
 // load data from global variable
 var myTable= "<table  id =\"dataTableID\" class=\"table table-hover\"><tr><th style='color: red;'>Time</th>";
-for (var i=0; i<parent.totalSensorAvailable; i++) {
-  parent.tableLable[i] = parent.sensorInfo[i].sensorName;
+for (var i=0; i<parent.localSensorInfo.length; i++) {
+  parent.tableLable[i] = parent.localSensorInfo[i].sensorName;
   myTable+= "<th style='color: red;'>" + parent.tableLable[i] +"</th>";
 } 
 myTable +="</tr>";
@@ -326,13 +326,13 @@ document.getElementById("showTable").innerHTML = myTable;
 parent.columnInfo =[];
 for (var i=0; i<parent.totalSensorAvailable; i++) {
   parent.columnInfo.push({
-    Name: parent.sensorInfo[i].sensorName,
-    Type: parent.sensorInfo[i].sensorType,
+    Name: parent.localSensorInfo[i].sensorName,
+    Type: parent.localSensorInfo[i].sensorType,
     Average: getAverage(parent.matrix[i]),
     Max: getMax(parent.matrix[i]),
     Min: getMin(parent.matrix[i]),
     Delta: getdelta(parent.matrix[i]),
-    Description: parent.sensorInfo[i].sensorDescription,
+    Description: parent.localSensorInfo[i].sensorDescription,
     Equalition: "",
     ConstantArray: {},
   });

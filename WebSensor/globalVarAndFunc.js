@@ -6,7 +6,6 @@
     var dpsForLiveView = []; // dataPoints
     var matrix = [];     // content values of table
     var recordId = [];  // content record id
-    var totalSensorAvailable = 0; // total sensor plugin.
     var totalValueRow = 0;    // total rows of table (get from database)
     var tableLable =[];       // content lable of table include RECORDID
     var columnInfo =[];       // show information of column which is sellected
