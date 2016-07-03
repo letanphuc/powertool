@@ -204,6 +204,12 @@
       <label> Equalition:</label><br>
       <textarea id="NewGraphEqualition" rows="2" cols="60" placeholder="Enter equalition"></textarea>
     </p>
+    <div class="form-inline">
+    <label> Suggestion:</label>
+    <input type="button" id="suggestionForY1" value="ForY1" onclick="suggestionSinFunY1()">
+    <input type="button" id="suggestionForY2" value="ForY2" onclick="suggestionSinFunY2()">
+    <input type="button" id="suggestionForY3" value="ForY3" onclick="suggestionSinFunY3()">
+    </div>
     <br><label> Note:
     <pre>
       - dis(x): Derivative of x
@@ -216,6 +222,17 @@
 </form>
 </div>
 <script type="text/javascript">
+console.log("Y1 = " + parent.GraphInfo[parent.tabIndex].Y1 + " Y2=" + parent.GraphInfo[parent.tabIndex].Y2 + " Y3=" + parent.GraphInfo[parent.tabIndex].Y3)
+if(parent.GraphInfo[parent.tabIndex].Y1 == -1){
+	document.getElementById("suggestionForY1").style.display = "none";
+}
+if(parent.GraphInfo[parent.tabIndex].Y2 == -1){
+	document.getElementById("suggestionForY2").style.display = "none";
+}
+if(parent.GraphInfo[parent.tabIndex].Y3 == -1){
+	document.getElementById("suggestionForY3").style.display = "none";
+}
+
  function addFunctionCompare()
   {
 		listOfSymbol = {}
@@ -246,6 +263,26 @@
 		}
 
   }
+    function suggestionSinFun(arr)
+  {
+  	var resultSuggestion = parent.suggestSinExpression(arr)
+  	NewGraphEqualition.value ="(" + resultSuggestion.A + ")*const(A)*sin((" + resultSuggestion.B +")*const(B)*time + (" + resultSuggestion.C +")*const(C)) + (" + resultSuggestion.D + ")*const(D)"
+
+
+  }
+  function suggestionSinFunY1()
+  {
+  	suggestionSinFun(parent.matrix[parent.GraphInfo[parent.tabIndex].Y1])
+  }
+  function suggestionSinFunY2()
+  {
+  	suggestionSinFun(parent.matrix[parent.GraphInfo[parent.tabIndex].Y2])
+  }
+  function suggestionSinFunY3()
+  {
+    suggestionSinFun(parent.matrix[parent.GraphInfo[parent.tabIndex].Y3])
+  }
+
   $("#compareDialog").dialog({
     autoOpen: false,
     width: 500,
