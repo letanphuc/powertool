@@ -204,7 +204,8 @@ th {
 				Average: getAverage(newColumnValues),
 				Max: getMax(newColumnValues),
 				Min: getMin(newColumnValues),
-        		Delta: getdelta(newColumnValues),
+        Absolute: getdelta(newColumnValues),
+        AbsoluteError: getPerDelta(newColumnValues),
 				Description: ColumnDescription.value,
 				Equalition: ColumnEqualition.value,
 				ConstantArray: listOfConst,
@@ -273,7 +274,7 @@ th {
     array.forEach( function (item, index){
       total+=item;
     });
-    return total/array.length;
+    return parseFloat(total/array.length).toFixed(4);
   }
 
   function getdelta(array)
@@ -283,7 +284,14 @@ th {
     array.forEach( function (item, index){
       total+=Math.abs(item -Average) ;
     });
-    return total/array.length;
+    return parseFloat(total/array.length).toFixed(4);
+  }
+
+  function getPerDelta(array)
+  {
+    var perDalta = parseFloat(getdelta(array)*100/getAverage(array)).toFixed(2)
+    var returnValue = perDalta.toString() + "%"
+    return returnValue  
   }
 
   function getMax(array)
@@ -331,7 +339,8 @@ for (var i=0; i<parent.totalSensorAvailable; i++) {
     Average: getAverage(parent.matrix[i]),
     Max: getMax(parent.matrix[i]),
     Min: getMin(parent.matrix[i]),
-    Delta: getdelta(parent.matrix[i]),
+    Absolute: getdelta(parent.matrix[i]),
+    AbsoluteError: getPerDelta(parent.matrix[i]),
     Description: parent.localSensorInfo[i].sensorDescription,
     Equalition: "",
     ConstantArray: {},
