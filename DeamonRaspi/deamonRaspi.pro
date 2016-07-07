@@ -51,7 +51,8 @@ SOURCES += main.cpp \
     src/serial.c \
     src/server.c \
     src/sqlite3.c \
-    src/SQLiteAPI.c
+    src/SQLiteAPI.c \
+    src/kalmanfilter.c
 
 HEADERS += \
     websocketserver.h \
@@ -90,11 +91,33 @@ HEADERS += \
     src/server.h \
     src/sqlite3.h \
     src/sqlite3ext.h \
-    src/SQLiteAPI.h
+    src/SQLiteAPI.h \
+    src/kalmanfilter.h
 
 DISTFILES += \
     wiringPi/COPYING.LESSER \
     wiringPi/Makefile
 
 
-DEFINES += SIMULATE_DATA=1
+DEFINES += SIMULATE_DATA=0
+
+
+QMAKE_CXXFLAGS_RELEASE -= -O1
+QMAKE_CXXFLAGS_RELEASE -= -O2
+QMAKE_CXXFLAGS_RELEASE -= -O3
+QMAKE_CXXFLAGS_RELEASE *= -O0 -g
+QMAKE_CXXFLAGS_DEBUG -= -O1
+QMAKE_CXXFLAGS_DEBUG -= -O2
+QMAKE_CXXFLAGS_DEBUG -= -O3
+QMAKE_CXXFLAGS_DEBUG *= -O0 -g
+
+QMAKE_CFLAGS_RELEASE -= -O1
+QMAKE_CFLAGS_RELEASE -= -O2
+QMAKE_CFLAGS_RELEASE -= -O3
+QMAKE_CFLAGS_RELEASE *= -O0 -g
+QMAKE_CFLAGS_DEBUG -= -O1
+QMAKE_CFLAGS_DEBUG -= -O2
+QMAKE_CFLAGS_DEBUG -= -O3
+QMAKE_CFLAGS_DEBUG *= -O0 -g
+
+

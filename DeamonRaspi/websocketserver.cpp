@@ -68,7 +68,7 @@ static QList<SensorInfos> listOfCurrentSensor;
 void WebSocketServer::processMessage(QString message)
 {
     QWebSocket *pSender = qobject_cast<QWebSocket *>(sender());
-    qDebug() << Q_FUNC_INFO << ": msg=" << message;
+//    qDebug() << Q_FUNC_INFO << ": msg=" << message;
     if (message.startsWith("getdata"))
     {
         char msg[128];
@@ -121,14 +121,9 @@ void WebSocketServer::processMessage(QString message)
         ans += QString(curr_time_str) + ",";
         int emty = 0;
         for (int i =0 ; i < 4; i++){
-            union float_s dev_data;
-            dev_data.b[0] = dev_host[i].dev_data.data[3];
-            dev_data.b[1] = dev_host[i].dev_data.data[2];
-            dev_data.b[2] = dev_host[i].dev_data.data[1];
-            dev_data.b[3] = dev_host[i].dev_data.data[0];
             if (dev_host[i].last_try <= 3)
             {
-                ans += QString::number(dev_data.f) + ",";
+                ans += QString::number( dev_host[i].value) + ",";
             }
             else
             {
