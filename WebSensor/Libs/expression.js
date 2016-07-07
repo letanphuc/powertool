@@ -63,13 +63,30 @@ function init() {
 	listOfSymbol['x'] = x
 }
 
+
+function filter(f, newVal){
+	f.p = f.p + f.q;
+	f.k = f.p / (f.p + f.r);
+	f.x = f.x + f.k * (newVal - f.x);
+	f.p = (1 - f.k) * f.p;
+	return f.x;
+}
+
 function compute(equation) {
+	console.log("compute")
 	var node = math.parse(equation);
 	var filtered = node.filter(function(node) {
 		return node.isSymbolNode
 	});
 
 	var ret = []
+	var KMfilter = {
+		q:1.0,
+		r:15.0,
+		x:0.0,
+		p:1.0,
+		k:0.0,
+	}
 	for (var i = 0; i < LENGHT; i++) {
 		var scope = {}
 		filtered.forEach(function myFunction(item, index) {
@@ -78,6 +95,12 @@ function compute(equation) {
 
 		var ans = node.eval(scope)
 		ans = parseFloat(ans.toFixed(4))
+		if (i == 0){
+			KMfilter.x = ans
+		}
+		else {
+			ans = filter(KMfilter, ans)
+		}
 		ret.push(ans)
 	}
 
