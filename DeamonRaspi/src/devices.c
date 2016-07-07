@@ -16,7 +16,7 @@
 
 #include <unistd.h>
 #include "../wiringPi/wiringPi.h"
-
+#include "kalmanfilter.h"
 #include "server.h"
 
 #include <pthread.h>
@@ -142,6 +142,7 @@ int queryData(struct Device * dev)
 						unique_number.b[1] = dev_host[i].dev_data.unique_number[2];
 						unique_number.b[2] = dev_host[i].dev_data.unique_number[1];
 						unique_number.b[3] = dev_host[i].dev_data.unique_number[0];
+                        dev_host[i].value = distance.f;
 #if DEV_DEBUG
 						printf("Receive distance: %0.3f from ultra sonic: %d.\r\n",
 								distance.f, unique_number.n);
@@ -192,14 +193,49 @@ int queryData(struct Device * dev)
 	return 0;
 }
 
+#include "SQLiteAPI.h"
+long int record_count = 0;
+extern sqlite3 * tmp_db;
+extern int isConnectDB;
+
 int Device_Polling(void) // thread
 {
-	int i;
-	for (i = 0; i < DEV_HOST_NUMBER; i++)
-	{
-		queryData(&dev_host[i]);
-		usleep(20000);
-	}
+	struct timeval t;
+    static kalman_state k;
+    static bool firstline = true;
+    char raw_data[128];
+
+	// for (i = 0; i < DEV_HOST_NUMBER; i++)
+	// {
+	// 	printf("Query %d\n", i);
+	// 	queryData(&dev_host[i]);
+	// 	// usleep(20000);
+	// }
+
+	queryData(&dev_host[2]);
+    record_count ++;
+
+
+    if (firstline)
+    {
+        k = kalman_init(1, 15.0, 1, dev_host[2].value);
+        firstline = false;
+    }
+    else
+    {
+        kalman_update(&k, dev_host[2].value);
+        dev_host[2].value = k.x;
+    }
+
+    if (isConnectDB){
+        sprintf(raw_data, "%0.4f, %0.4f, %0.4f, %0.4f",
+                dev_host[0].value,
+                dev_host[1].value,
+                dev_host[2].value,
+                dev_host[3].value);
+        insert_sensor_value(tmp_db, isConnectDB, raw_data);
+    }
+
 	return 0;
 }
 int Device_Init(void)

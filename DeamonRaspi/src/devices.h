@@ -46,6 +46,7 @@ struct Device
     unsigned long last_try;
 	// required packet.h
 	struct PacketData dev_data;
+    float value;
 };
 
 

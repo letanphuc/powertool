@@ -6,7 +6,6 @@
     var dpsForLiveView = []; // dataPoints
     var matrix = [];     // content values of table
     var recordId = [];  // content record id
-    var totalSensorAvailable = 0; // total sensor plugin.
     var totalValueRow = 0;    // total rows of table (get from database)
     var tableLable =[];       // content lable of table include RECORDID
     var columnInfo =[];       // show information of column which is sellected
@@ -95,6 +94,62 @@
 			cell.innerHTML = newArray[i - 1]
 		}
 	}
+        function sum(array)
+        {
+			var total = 0;
+			array.forEach( function (item, index){
+				 total+=item;
+				 });
+			return total;
+        }
+        function suggestSinExpression(arr){
+        	/** Asin(Bx + C) + D */ 
+        	var result = []
+        	var firsrZero = -1;
+        	var secondZero = -1;
+        	var A = 0;
+        	var B = 0;
+        	var C = 0;
+        	var D = 0;
+
+        	var min = arr[0];
+        	var max = arr[0];
+        	var total = sum(arr)
+        	var average = total *1.0 / arr.length;
+        	console.log(average)
+
+        	for (var i = 0; i < arr.length; i ++){
+        		if (arr[i] > max)
+        			max = arr[i];
+        		if (arr[i] < min)
+        			min = arr[i];
+
+        		if ((arr[i] - average)*(arr[i + 1]-average) < 0 && (arr[i] < average)){
+        			/* Found zero */
+        			if (firsrZero != -1){
+        				secondZero = i;
+        				B = 2.0* math.PI / (secondZero - firsrZero);
+        				A = (max - min) / 2.0
+        				D = (max + min) / 2.0;
+        				C = math.asin(0) - B*i;
+
+        				break;
+        			}
+        			else{
+        				firsrZero = i;
+        			}
+        		}
+        	}
+        	result['expression'] = "const(A)*sin(const(B)*time + const(C)) + const(D)"
+        	result['A'] = A;
+        	result['B'] = B;
+        	result['C'] = C;
+        	result['D'] = D;
+
+
+        	return result;
+        }
+
 	function updateInfoGraph()
 	{
 		$( "#infoLiveView" ).load( "infoNewGraph.html" );

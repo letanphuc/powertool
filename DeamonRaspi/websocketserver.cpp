@@ -1,6 +1,7 @@
 #include "websocketserver.h"
 #include "QtWebSockets/QWebSocketServer"
 #include "QtWebSockets/QWebSocket"
+#include <QStringList>
 #include <QtCore/QDebug>
 #include <stdlib.h>
 #include <string.h>
@@ -13,6 +14,8 @@
 #else
 #include "src/devices.h"
 #endif
+
+extern long int record_count;
 
 QT_USE_NAMESPACE
 
@@ -65,12 +68,20 @@ static QList<SensorInfos> listOfCurrentSensor;
 void WebSocketServer::processMessage(QString message)
 {
     QWebSocket *pSender = qobject_cast<QWebSocket *>(sender());
-    qDebug() << Q_FUNC_INFO << ": msg=" << message;
-    if (message == "getdata")
+//    qDebug() << Q_FUNC_INFO << ": msg=" << message;
+    if (message.startsWith("getdata"))
     {
         char msg[128];
         char curr_time_str[32];
-        const char * msg_format = "%d,'%s',%0.3f,%0.3f,%0.3f,%0.3f|";
+
+        QStringList list = message.split("|");
+        if (list.length() < 2)
+        {
+            pSender->sendTextMessage("|");
+            return;
+        }
+
+        long int last_record_count = list[1].toLong();
 
         time_t t = time(NULL);
         struct tm tm;
@@ -79,6 +90,12 @@ void WebSocketServer::processMessage(QString message)
         float f1, f2, f3, f4;
 #endif
 
+        if (last_record_count == record_count)
+        {
+            pSender->sendTextMessage("|");
+            return;
+        }
+        
         memset(curr_time_str, 0, sizeof(curr_time_str));
 
         tm = *localtime(&t);
@@ -99,64 +116,19 @@ void WebSocketServer::processMessage(QString message)
                 f1, f2, f3, f4);
         pSender->sendTextMessage(QString(msg));
 #else
-        union float_s dev1_data, dev2_data, dev3_data, dev4_data;
-
-        dev1_data.b[0] = dev_host[0].dev_data.data[3];
-        dev1_data.b[1] = dev_host[0].dev_data.data[2];
-        dev1_data.b[2] = dev_host[0].dev_data.data[1];
-        dev1_data.b[3] = dev_host[0].dev_data.data[0];
-
-        dev2_data.b[0] = dev_host[1].dev_data.data[3];
-        dev2_data.b[1] = dev_host[1].dev_data.data[2];
-        dev2_data.b[2] = dev_host[1].dev_data.data[1];
-        dev2_data.b[3] = dev_host[1].dev_data.data[0];
-
-        dev3_data.b[0] = dev_host[2].dev_data.data[3];
-        dev3_data.b[1] = dev_host[2].dev_data.data[2];
-        dev3_data.b[2] = dev_host[2].dev_data.data[1];
-        dev3_data.b[3] = dev_host[2].dev_data.data[0];
-
-        dev4_data.b[0] = dev_host[3].dev_data.data[3];
-        dev4_data.b[1] = dev_host[3].dev_data.data[2];
-        dev4_data.b[2] = dev_host[3].dev_data.data[1];
-        dev4_data.b[3] = dev_host[3].dev_data.data[0];
-
         QString ans = "";
-        ans += QString::number(data_count++) + ",";
+        ans += QString::number(record_count) + ",";
         ans += QString(curr_time_str) + ",";
         int emty = 0;
-
-        if (dev_host[0].last_try <= 3)
-        {
-            ans += QString::number(dev1_data.f) + ",";
-        }
-        else
-        {
-            emty++;
-        }
-        if (dev_host[1].last_try <= 3)
-        {
-            ans += QString::number(dev2_data.f) + ",";
-        }
-        else
-        {
-            emty++;
-        }
-        if (dev_host[2].last_try <= 3)
-        {
-            ans += QString::number(dev3_data.f) + ",";
-        }
-        else
-        {
-            emty++;
-        }
-        if (dev_host[3].last_try <= 3)
-        {
-            ans += QString::number(dev4_data.f) + ",";
-        }
-        else
-        {
-            emty++;
+        for (int i =0 ; i < 4; i++){
+            if (dev_host[i].last_try <= 3)
+            {
+                ans += QString::number( dev_host[i].value) + ",";
+            }
+            else
+            {
+                emty++;
+            }
         }
         while (emty--){
             ans += "0";
@@ -169,7 +141,7 @@ void WebSocketServer::processMessage(QString message)
 
 
     }
-    else if (message == "sensor"){
+    else if (message.startsWith("sensor")){
         /**
          * Data format:
          * sensor id, type | sensor id, type | ...

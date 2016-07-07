@@ -39,7 +39,7 @@ const char * cmd_stop_record_with_data = "stop record %d";
 const char * stop_record_res_msg_format = "recorded file %s";
 
 const char * cmd_copy_template_db = "cp /var/Raspido/raspido.db %s";
-const char * tmp_filename_format = "/var/tmp/raspido_record%d%d%d%d%d%d.db";
+const char * tmp_filename_format = "/ram/raspido_record%d%d%d%d%d%d.db";
 
 #define NUMS_THREAD_SUPPORT 8
 
@@ -64,6 +64,9 @@ int get_free_recorder(struct recorder_controller rec[])
     }
     return ret;
 }
+extern long int record_count;
+sqlite3 * tmp_db;
+int isConnectDB = 0;
 
 void * recorder(void * params)
 {
@@ -71,8 +74,7 @@ void * recorder(void * params)
 	char copy_db[128];
 	char tmp_filename[64];
 	char raw_data[128];
-	sqlite3 * tmp_db;
-	int isConnectDB = 0;
+
 
 	time_t t = time(NULL);
 	struct tm tm;
@@ -81,7 +83,6 @@ void * recorder(void * params)
 #if SIMULATE_DATA
     float f1, f2, f3, f4;
 #else
-    union float_s dev1_data, dev2_data, dev3_data, dev4_data;
 #endif
 
 	// create tmp file name
@@ -106,6 +107,7 @@ void * recorder(void * params)
 			DisonnectDB(tmp_db, isConnectDB);
 			// save database file
             control->destroy = -1;
+            isConnectDB = 0;
 			break;
 		}
 		usleep(control->poll_time);
@@ -120,30 +122,14 @@ void * recorder(void * params)
         memset(raw_data, 0, 128);
         sprintf(raw_data, "%0.3f, %0.3f, %0.3f, %0.3f", f1, f2, f3, f4);
 #else
-		dev1_data.b[0] = dev_host[0].dev_data.data[3];
-		dev1_data.b[1] = dev_host[0].dev_data.data[2];
-		dev1_data.b[2] = dev_host[0].dev_data.data[1];
-		dev1_data.b[3] = dev_host[0].dev_data.data[0];
-
-		dev2_data.b[0] = dev_host[1].dev_data.data[3];
-		dev2_data.b[1] = dev_host[1].dev_data.data[2];
-		dev2_data.b[2] = dev_host[1].dev_data.data[1];
-		dev2_data.b[3] = dev_host[1].dev_data.data[0];
-
-		dev3_data.b[0] = dev_host[2].dev_data.data[3];
-		dev3_data.b[1] = dev_host[2].dev_data.data[2];
-		dev3_data.b[2] = dev_host[2].dev_data.data[1];
-		dev3_data.b[3] = dev_host[2].dev_data.data[0];
-
-		dev4_data.b[0] = dev_host[3].dev_data.data[3];
-		dev4_data.b[1] = dev_host[3].dev_data.data[2];
-		dev4_data.b[2] = dev_host[3].dev_data.data[1];
-		dev4_data.b[3] = dev_host[3].dev_data.data[0];
-
-		memset(raw_data, 0, 128);
-		sprintf(raw_data, "%0.3f, %0.3f, %0.3f, %0.3f", dev1_data.f, dev2_data.f, dev3_data.f, dev4_data.f);
+//		memset(raw_data, 0, 128);
+//        sprintf(raw_data, "%0.4f, %0.4f, %0.4f, %0.4f",
+//                dev_host[0].value,
+//                dev_host[1].value,
+//                dev_host[2].value,
+//                dev_host[3].value);
 #endif
-		insert_sensor_value(tmp_db, isConnectDB, raw_data);
+//        insert_sensor_value(tmp_db, isConnectDB, raw_data);
 	}
 	return NULL;
 }

@@ -6,7 +6,7 @@
 <script src="Libs/underscore.js"></script>
 <script src="Libs/expression.js"></script>
 <script src="Libs/math.min.js"></script>
- <link rel="stylesheet"  href="globarCss.css">
+<link rel="stylesheet"  href="globarCss.css">
 <script type="text/javascript">
 	window.onload = function() {
 	var dps =[]; // dataPoints
@@ -204,6 +204,24 @@
       <label> Equalition:</label><br>
       <textarea id="NewGraphEqualition" rows="2" cols="60" placeholder="Enter equalition"></textarea>
     </p>
+    <div class="form-inline">
+    <label> Suggestion:</label>
+    <input type="button" id="suggestionForY1" value="ForY1" onclick="suggestionSinFunY1()">
+    <input type="button" id="suggestionForY2" value="ForY2" onclick="suggestionSinFunY2()">
+    <input type="button" id="suggestionForY3" value="ForY3" onclick="suggestionSinFunY3()">
+    </div>
+    <div id="displayForAB" class="form-inline">
+    <label>A: </label>
+    <input type="text" id="constAValue" value="1">
+    <label>B: </label>
+    <input type="text" id="constBValue" value="1">
+    </div>
+    <div id="displayForCD" class="form-inline">
+    <label>C: </label>
+    <input type="text" id="constCValue" value="1">
+    <label>D: </label>
+    <input type="text" id="constDValue" value="1">
+    </div>
     <br><label> Note:
     <pre>
       - dis(x): Derivative of x
@@ -216,6 +234,7 @@
 </form>
 </div>
 <script type="text/javascript">
+
  function addFunctionCompare()
   {
 		listOfSymbol = {}
@@ -228,6 +247,13 @@
 
 
 		try{
+			if(useSuggestion)
+			{
+		    	listOfConst['A'] = 	document.getElementById("constAValue").value 
+		    	listOfConst['B'] = 	document.getElementById("constBValue").value 
+		    	listOfConst['C'] = 	document.getElementById("constCValue").value 
+		    	listOfConst['D'] = 	document.getElementById("constDValue").value 
+			}
 			var ex = formatExpression(NewGraphEqualition.value)
 			console.log(ex)
 			console.log(listOfConst)
@@ -246,6 +272,33 @@
 		}
 
   }
+
+  function suggestionSinFun(arr)
+  {
+  	var resultSuggestion = parent.suggestSinExpression(arr)
+  	document.getElementById("NewGraphEqualition").value = resultSuggestion.expression
+  	document.getElementById("constAValue").value = resultSuggestion.A
+  	document.getElementById("constBValue").value = resultSuggestion.B
+  	document.getElementById("constCValue").value = resultSuggestion.C
+  	document.getElementById("constDValue").value = resultSuggestion.D
+  	document.getElementById("displayForAB").style.display ="block"
+	document.getElementById("displayForCD").style.display ="block"
+	useSuggestion = true
+
+  }
+  function suggestionSinFunY1()
+  {
+  	suggestionSinFun(parent.matrix[parent.GraphInfo[parent.tabIndex].Y1])
+  }
+  function suggestionSinFunY2()
+  {
+  	suggestionSinFun(parent.matrix[parent.GraphInfo[parent.tabIndex].Y2])
+  }
+  function suggestionSinFunY3()
+  {
+    suggestionSinFun(parent.matrix[parent.GraphInfo[parent.tabIndex].Y3])
+  }
+
   $("#compareDialog").dialog({
     autoOpen: false,
     width: 500,
@@ -268,9 +321,29 @@
     }
   });
  
+  var useSuggestion = false
   function openCompareForm()
   {
+  	useSuggestion = false
+	document.getElementById("displayForAB").style.display ="none"
+    document.getElementById("displayForCD").style.display ="none"
+	if(parent.GraphInfo[parent.tabIndex].Y1 == -1){
+		document.getElementById("suggestionForY1").style.display = "none";
+	}
+	if(parent.GraphInfo[parent.tabIndex].Y2 == -1){
+		document.getElementById("suggestionForY2").style.display = "none";
+	}
+	if(parent.GraphInfo[parent.tabIndex].Y3 == -1){
+		document.getElementById("suggestionForY3").style.display = "none";
+	}
   	$("#compareDialog").dialog("open");
   }
+	$("#NewGraphEqualition").change(function() {
+		if(useSuggestion)
+		{
+			useSuggestion = false
+			document.getElementById("displayForAB").style.display ="none"
+    		document.getElementById("displayForCD").style.display ="none"		}
+	});
 
   </script>

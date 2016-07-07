@@ -20,6 +20,14 @@
   	<label > Min:</label>
   	<input id="InfoMinOfColumn" class="form-control" readonly="true" ></input>
     </div>
+    <div class="form-inline">
+    <label > Ab Er:</label>
+    <input id="InfoDeltaOfColumn" class="form-control" readonly="true" ></input>
+    </div>
+    <div class="form-inline">
+    <label > Re Er:</label>
+    <input id="InfoAbsoluteErrorOfColumn" class="form-control" readonly="true" ></input>
+    </div>
     <label   id="lableOfDescriptionOfColumn"> Description:</label>
     <div class="form-inline">
     <label></label>
@@ -43,6 +51,8 @@
     document.getElementById("InfoAverageOfColumn").value = columnInfo[columnSelected].Average;
     document.getElementById("InfoMaxOfColumn").value = columnInfo[columnSelected].Max;
     document.getElementById("InfoMinOfColumn").value = columnInfo[columnSelected].Min;
+    document.getElementById("InfoDeltaOfColumn").value = columnInfo[columnSelected].Absolute;
+    document.getElementById("InfoAbsoluteErrorOfColumn").value = columnInfo[columnSelected].AbsoluteError;
     if(columnInfo[columnSelected].Description ==""){
     	document.getElementById("descriptionOfColumn").style.display = "none";
     	document.getElementById("lableOfDescriptionOfColumn").style.display = "none";

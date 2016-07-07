@@ -204,6 +204,8 @@ th {
 				Average: getAverage(newColumnValues),
 				Max: getMax(newColumnValues),
 				Min: getMin(newColumnValues),
+        Absolute: getdelta(newColumnValues),
+        AbsoluteError: getPerDelta(newColumnValues),
 				Description: ColumnDescription.value,
 				Equalition: ColumnEqualition.value,
 				ConstantArray: listOfConst,
@@ -272,8 +274,26 @@ th {
     array.forEach( function (item, index){
       total+=item;
     });
-    return total/array.length;
+    return parseFloat(total/array.length).toFixed(4);
   }
+
+  function getdelta(array)
+  {
+    var Average = getAverage(array);
+    var total = 0;
+    array.forEach( function (item, index){
+      total+=Math.abs(item -Average) ;
+    });
+    return parseFloat(total/array.length).toFixed(4);
+  }
+
+  function getPerDelta(array)
+  {
+    var perDalta = parseFloat(getdelta(array)*100/getAverage(array)).toFixed(2)
+    var returnValue = perDalta.toString() + "%"
+    return returnValue  
+  }
+
   function getMax(array)
   {
     var max = array[0];
@@ -294,8 +314,8 @@ th {
   }
 // load data from global variable
 var myTable= "<table  id =\"dataTableID\" class=\"table table-hover\"><tr><th style='color: red;'>Time</th>";
-for (var i=0; i<parent.totalSensorAvailable; i++) {
-  parent.tableLable[i] = parent.sensorInfo[i].sensorName;
+for (var i=0; i<parent.localSensorInfo.length; i++) {
+  parent.tableLable[i] = parent.localSensorInfo[i].sensorName;
   myTable+= "<th style='color: red;'>" + parent.tableLable[i] +"</th>";
 } 
 myTable +="</tr>";
@@ -314,12 +334,14 @@ document.getElementById("showTable").innerHTML = myTable;
 parent.columnInfo =[];
 for (var i=0; i<parent.totalSensorAvailable; i++) {
   parent.columnInfo.push({
-    Name: parent.sensorInfo[i].sensorName,
-    Type: parent.sensorInfo[i].sensorType,
+    Name: parent.localSensorInfo[i].sensorName,
+    Type: parent.localSensorInfo[i].sensorType,
     Average: getAverage(parent.matrix[i]),
     Max: getMax(parent.matrix[i]),
     Min: getMin(parent.matrix[i]),
-    Description: parent.sensorInfo[i].sensorDescription,
+    Absolute: getdelta(parent.matrix[i]),
+    AbsoluteError: getPerDelta(parent.matrix[i]),
+    Description: parent.localSensorInfo[i].sensorDescription,
     Equalition: "",
     ConstantArray: {},
   });
