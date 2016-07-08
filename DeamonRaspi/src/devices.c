@@ -18,7 +18,7 @@
 #include "../wiringPi/wiringPi.h"
 
 #include "server.h"
-
+#include "logger.h"
 #include <pthread.h>
 
 #define DEV_DEBUG 0
@@ -33,56 +33,59 @@ uint8_t recv_buff[BUFFER_SIZE];
 //uint8_t dev_buff[DEV_HOST_NUMBER][BUFFER_SIZE];
 
 int waitforValidPacket(struct PhysicalPacket * packet, int timeout)
-{   
+{
     struct PhysicalPacket * _packet = NULL;
     int _start_time = millis(); // compatible from arduino
-    char _recv_buff[BUFFER_SIZE]; 
+    char _recv_buff[BUFFER_SIZE];
     char * _recv_index = _recv_buff;
     int _recv_len, serial_len;
-    
+
     memset(recv_buff, 0, BUFFER_SIZE);
 
     while (1)
     {
-        serial_len = Serial_Available()
+        serial_len = Serial_Available();
         if (serial_len > 0)
         {
             Serial_GetData((char *)_recv_index, serial_len);
             _recv_index += serial_len;
         }
-        
-        _tmp_packet = (struct PhysicalPacket *) recv_buff;
-        
-        if (tmp_packet->length < 7) // minimum header
+
+       _packet = (struct PhysicalPacket *) recv_buff;
+
+        if (_packet->length < 7) // minimum header
         {
             // wrong packet
-            memset(recv_buff, 0, recv_len);
+            memset(recv_buff, 0, _recv_len);
             _recv_index = recv_buff;
         }
-        else if (recv_len < tmp_packet->length)
+        else if (_recv_len < _packet->length)
         {
             // not enough length
         }
-        else if (checksum(tmp_packet) != recv_buff[recv_len-1])
+        else if (checksum(_packet) != recv_buff[_recv_len-1])
         {
             // wrong checksum
-            memset(recv_buff, 0, recv_len);
-            return -1
+            memset(recv_buff, 0, _recv_len);
+            return -1;
         }
-        else 
+        else
         {
             // this step for validated packet only
-            packet->length = tmp_packet->length;
-            packet->type = tmp_packet->type;
+            packet->length = _packet->length;
+            packet->type = _packet->type;
             memset(&(packet->data), 0, sizeof (struct PacketData));
-            memcpy(&(packet->data), &(tmp_packet->data), tmp_packet->length - 2)
+            memcpy(&(packet->data), &(_packet->data), _packet->length - 2);
             break;
         }
-        
+
         if (millis() - _start_time > timeout)
+        {
+            log_write("Request packet timeout");
             return -2;
+        }
     }
-    
+
     return 0;
 }
 
@@ -96,6 +99,7 @@ int queryData(struct Device * dev)
 {
     int serial_len = 0;
     int i;
+    int start_time = millis();
 
     /*
      *
@@ -141,15 +145,11 @@ int queryData(struct Device * dev)
     printf("\r\n");
 #endif
 
-    // wait for devices responses
-    usleep(10000); // 10ms
-
-    serial_len = Serial_Available();
-    if (serial_len > 7)
+    
+    struct PhysicalPacket * recv_phy = (struct PhysicalPacket *)recv_buff;
+    
+    if (waitforValidPacket(recv_phy, 10000) == 0) // 10ms timeout 
     {
-        memset(recv_buff, 0, BUFFER_SIZE);
-        Serial_GetData((char *)recv_buff, serial_len);
-
         /*
          *
          */
@@ -162,15 +162,7 @@ int queryData(struct Device * dev)
         printf("\r\n");
 #endif
 
-        struct PhysicalPacket * recv_phy = (struct PhysicalPacket *)recv_buff;
-
-        if (checksum(recv_phy) != recv_buff[serial_len-1])
-        {
-#if DEV_DEBUG
-            printf("Wrong checksum.\r\n");
-#endif
-        }
-        else if (GET_CMD_TYPE(recv_phy->type) == CMD_TYPE_ANSWER)
+        if (GET_CMD_TYPE(recv_phy->type) == CMD_TYPE_ANSWER)
         {
             int i;
 

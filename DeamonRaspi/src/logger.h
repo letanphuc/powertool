@@ -13,7 +13,7 @@
 #define LOG_MODE_ANY            3
 
 int log_config(const char * log_name, int log_mode);
-int log(const char * msg);
+int log_write(const char * msg);
 int log_close(void);
 int log_open(void);
 
