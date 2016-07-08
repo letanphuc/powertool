@@ -16,7 +16,7 @@
 
 #include <unistd.h>
 #include "../wiringPi/wiringPi.h"
-
+#include "kalmanfilter.h"
 #include "server.h"
 #include "logger.h"
 #include <pthread.h>
@@ -204,6 +204,7 @@ int queryData(struct Device * dev)
                     if (dev_host[i].dev_data.id == DEV_UNKNOWN)
                     {
                         memcpy(&(dev_host[i].dev_data), &(recv_phy->data), sizeof(struct PacketData));
+                        dev_host[i].value = distance.f;
 #if DEV_DEBUG
                         printf("Receive data from: %2X.\r\n", dev_host[i].dev_data.id);
                         if (dev_host[i].dev_data.id == DEV_ULTRA_SONIC)
@@ -237,33 +238,48 @@ int queryData(struct Device * dev)
     return 0;
 }
 
+#include "SQLiteAPI.h"
 long int record_count = 0;
+extern sqlite3 * tmp_db;
+extern int isConnectDB;
 
 int Device_Polling(void) // thread
 {
-    int i;
-    struct timeval t;
-    union float_s distance;
-    // Currently, test with only on sensor to ensure sample / second
-    // for (i = 0; i < DEV_HOST_NUMBER; i++)
-    // {
-    //     printf("Query %d\n", i);
-    //     queryData(&dev_host[i]);
-    //     // usleep(20000);
-    // }
+	struct timeval t;
+    static kalman_state k;
+    static bool firstline = true;
+    char raw_data[128];
+
+	// for (i = 0; i < DEV_HOST_NUMBER; i++)
+	// {
+	// 	printf("Query %d\n", i);
+	// 	queryData(&dev_host[i]);
+	// 	// usleep(20000);
+	// }
 
     queryData(&dev_host[2]);
     record_count ++;
 
-    gettimeofday (&t, NULL);
 
-    distance.b[0] = dev_host[2].dev_data.data[3];
-    distance.b[1] = dev_host[2].dev_data.data[2];
-    distance.b[2] = dev_host[2].dev_data.data[1];
-    distance.b[3] = dev_host[2].dev_data.data[0];
+    if (firstline)
+    {
+        k = kalman_init(1, 15.0, 1, dev_host[2].value);
+        firstline = false;
+    }
+    else
+    {
+        kalman_update(&k, dev_host[2].value);
+        dev_host[2].value = k.x;
+    }
 
-    printf("%d.%06ld %0.3f\n", t.tv_sec, t.tv_usec, distance.f);
-
+    if (isConnectDB){
+        sprintf(raw_data, "%0.4f, %0.4f, %0.4f, %0.4f",
+                dev_host[0].value,
+                dev_host[1].value,
+                dev_host[2].value,
+                dev_host[3].value);
+        insert_sensor_value(tmp_db, isConnectDB, raw_data);
+    }
 
     return 0;
 }

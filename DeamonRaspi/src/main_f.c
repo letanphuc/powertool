@@ -38,7 +38,9 @@ void * main_f (void * params)
 		Device_Polling();
 		toc = clock();
 
-		usleep(33333 - ((toc - tic) * 1000000 / CLOCKS_PER_SEC));
+        int s = 33333 - ((toc - tic) * 1000000 / CLOCKS_PER_SEC);
+
+        usleep(s > 33333 ? 33333:s);
 	}
 	return 0;
 }
