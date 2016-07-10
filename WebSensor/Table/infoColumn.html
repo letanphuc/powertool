@@ -33,10 +33,10 @@
     <label></label>
     <textarea  id="descriptionOfColumn"  class="form-control"  readonly="true" rows="2" cols="22" ></textarea>
     </div>
-    <label  id="lableOfEqualitionOfColumn"> Equalition:</label>
+    <label  id="lableOfequationOfColumn"> Equation:</label>
     <div class="form-inline">
     <label></label>
-    <textarea  id="equalitionOfColumn" class="form-control" readonly="true" rows="2" cols="22" ></textarea>
+    <textarea  id="equationOfColumn" class="form-control" readonly="true" rows="2" cols="22" ></textarea>
     </div>
 
   	<div id="ConstantDisplay"></div>
@@ -61,11 +61,11 @@
     	document.getElementById("descriptionOfColumn").value = columnInfo[columnSelected].Description;
     }
     if(columnInfo[columnSelected].Equalition ==""){
-    	document.getElementById("equalitionOfColumn").style.display = "none";
-    	document.getElementById("lableOfEqualitionOfColumn").style.display = "none";
+    	document.getElementById("equationOfColumn").style.display = "none";
+    	document.getElementById("lableOfequationOfColumn").style.display = "none";
     }
     else{
-    	document.getElementById("equalitionOfColumn").value = columnInfo[columnSelected].Equalition;
+    	document.getElementById("equationOfColumn").value = columnInfo[columnSelected].Equalition;
     }
     console.log( columnInfo[columnSelected].ConstantArray);
     var contentConstantDisplay = "";

@@ -37,7 +37,10 @@
     <div id="constantCompare"></div>
   </div>
   <script type="text/javascript">
-
+    function reloadGraph (){
+      document.getElementById("newchart"+tabIndex).contentWindow.updateStartPointEndPoint();
+      document.getElementById("newchart"+tabIndex).src += '';
+    }
     if(GraphInfo[tabIndex].funtionCompare =="")
     {
       document.getElementById("labelForFuntionCompare").style.display = "none";
@@ -170,7 +173,7 @@
     console.log(columnInfo);
     console.log(columnInfo[idColumnChange].ConstantArray[idtext]);
     updateColumnFromGraph(idColumnChange);
-    document.getElementById("newchart"+tabIndex).src += '';
+    reloadGraph()
   })
   $('.decrease').click(function(){ 
     var idtext=$(this).attr('id').substring(10, $(this).attr('id').length);
@@ -201,7 +204,7 @@
     columnInfo[idColumnChange].ConstantArray[idtext] = inputValue;
     console.log(columnInfo[idColumnChange].ConstantArray[idtext]);
     updateColumnFromGraph(idColumnChange);
-    document.getElementById("newchart"+tabIndex).src += '';
+    reloadGraph()
 
   })
 
@@ -233,7 +236,7 @@
     columnInfo[idColumnChange].ConstantArray[idtext] = $(this).val();
     console.log(columnInfo[idColumnChange].ConstantArray[idtext]);
     updateColumnFromGraph(idColumnChange);
-    document.getElementById("newchart"+tabIndex).src += '';
+    reloadGraph()
   });
 
    function updateValueCompare()
@@ -268,7 +271,7 @@
     $('#CompValue'+idtext).val(inputValue)
     GraphInfo[tabIndex].constantCompare[idtext] = inputValue
     updateValueCompare()
-    document.getElementById("newchart"+tabIndex).src += '';
+    reloadGraph()
   })
     $('.CompDecrease').click(function(){ 
     var idtext=$(this).attr('id').substring(12, $(this).attr('id').length);
@@ -278,13 +281,13 @@
     $('#CompValue'+idtext).val(inputValue)
     GraphInfo[tabIndex].constantCompare[idtext] = inputValue
     updateValueCompare()
-    document.getElementById("newchart"+tabIndex).src += '';
+    reloadGraph()
   })
     $('.CompValue').change(function() {
       var idtext=$(this).attr('id').substring(9, $(this).attr('id').length);
       GraphInfo[tabIndex].constantCompare[idtext] = $(this).val();
       updateValueCompare()
-      document.getElementById("newchart"+tabIndex).src += '';
+      reloadGraph()
 
     })
 </script>

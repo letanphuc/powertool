@@ -8,6 +8,7 @@
 <script src="Libs/math.min.js"></script>
 <link rel="stylesheet"  href="globarCss.css">
 <script type="text/javascript">
+	var chart
 	window.onload = function() {
 	var dps =[]; // dataPoints
 	dps[0] = [];
@@ -123,7 +124,7 @@
 		nameOfY.push("DoNotSet")
 		valueOfshowInLegend.push(false)
 	}
-	var chart = new CanvasJS.Chart("chartContainer2", {
+	 chart = new CanvasJS.Chart("chartContainer2", {
 		title : {
 			text : parent.nameOfGraph.value
 		},
@@ -191,18 +192,27 @@
 	console.log( parent.colorForY1.value);
 	console.log( parent.colorForY2.value);
 	console.log( parent.colorForY3.value);
-	chart.render();
+	chart.render()
+	if((parent.GraphInfo[parent.tabIndex].StartPoint.x > 0) && (parent.GraphInfo[parent.tabIndex].EndPoint.x > 0))
+	{
+		chart.plotAreaMouseDown(parent.GraphInfo[parent.tabIndex].StartPoint.x ,parent.GraphInfo[parent.tabIndex].StartPoint.y );
+		chart.plotAreaMouseUp(parent.GraphInfo[parent.tabIndex].EndPoint.x ,parent.GraphInfo[parent.tabIndex].EndPoint.y);
+	}
+}
+function updateStartPointEndPoint() {
+	parent.GraphInfo[parent.tabIndex].StartPoint = chart.getStartPoint()
+	parent.GraphInfo[parent.tabIndex].EndPoint = chart.getEndPoint()
 }
 </script>
-<script type="text/javascript" src="Libs/canvasjs-1.8.0/canvasjs.min.js"></script>
+<script type="text/javascript" src="Libs/canvasjs-1.8.1/source/canvasjs.js"></script>
 <div id="chartContainer2" style="height: 400px; width: 100%;"></div>
 <button class="btn btn-success" style="height:30px; width:100px"  onclick="openCompareForm()">Compare</button><br>
 <div style="height: 50px"></div>
 <div id="compareDialog">
   <form>
     <p>
-      <label> Equalition:</label><br>
-      <textarea id="NewGraphEqualition" rows="2" cols="60" placeholder="Enter equalition"></textarea>
+      <label> Equation:</label><br>
+      <textarea id="NewGraphEquation" rows="2" cols="60" placeholder="Enter equalition"></textarea>
     </p>
     <div class="form-inline">
     <label> Suggestion:</label>
@@ -254,12 +264,12 @@
 		    	listOfConst['C'] = 	document.getElementById("constCValue").value 
 		    	listOfConst['D'] = 	document.getElementById("constDValue").value 
 			}
-			var ex = formatExpression(NewGraphEqualition.value)
+			var ex = formatExpression(NewGraphEquation.value)
 			console.log(ex)
 			console.log(listOfConst)
 			newColumnValues = compute(ex)
 			console.log(newColumnValues)
-			parent.GraphInfo[parent.tabIndex].funtionCompare = NewGraphEqualition.value
+			parent.GraphInfo[parent.tabIndex].funtionCompare = NewGraphEquation.value
 			parent.GraphInfo[parent.tabIndex].valueCompare = newColumnValues
 			parent.GraphInfo[parent.tabIndex].constantCompare = listOfConst
 			document.location.href = document.location.href;
@@ -276,7 +286,7 @@
   function suggestionSinFun(arr)
   {
   	var resultSuggestion = parent.suggestSinExpression(arr)
-  	document.getElementById("NewGraphEqualition").value = resultSuggestion.expression
+  	document.getElementById("NewGraphEquation").value = resultSuggestion.expression
   	document.getElementById("constAValue").value = resultSuggestion.A
   	document.getElementById("constBValue").value = resultSuggestion.B
   	document.getElementById("constCValue").value = resultSuggestion.C
@@ -338,12 +348,13 @@
 	}
   	$("#compareDialog").dialog("open");
   }
-	$("#NewGraphEqualition").change(function() {
+	$("#NewGraphEquation").change(function() {
 		if(useSuggestion)
 		{
 			useSuggestion = false
 			document.getElementById("displayForAB").style.display ="none"
-    		document.getElementById("displayForCD").style.display ="none"		}
+    		document.getElementById("displayForCD").style.display ="none"		
+    	}
 	});
 
   </script>
