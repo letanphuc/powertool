@@ -39,7 +39,9 @@
   <script type="text/javascript">
     function reloadGraph (){
       document.getElementById("newchart"+tabIndex).contentWindow.updateStartPointEndPoint();
-      document.getElementById("newchart"+tabIndex).src += '';
+      document.getElementById("newchart"+tabIndex).contentWindow.initData();
+      document.getElementById("newchart"+tabIndex).contentWindow.chartRender();
+      //document.getElementById("newchart"+tabIndex).src += '';
     }
     if(GraphInfo[tabIndex].funtionCompare =="")
     {

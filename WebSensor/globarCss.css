@@ -20,11 +20,10 @@
       font-family: serif; 
       margin-bottom: 0;
     }
-    .header h3 {
+    .header button {
       position: absolute;
-      bottom: 0;
-      right: 30px;
-      font-family: serif; 
+      bottom: 5px;
+      right: 5px;
       margin-bottom: 0;
     }
     /* Set height of the grid so .sidenav can be 100% (adjust as needed) */

@@ -3819,6 +3819,9 @@
 	Chart.prototype._calculatorPoints = function(){
 		var Delta = this.plotArea.x2 - this.plotArea.x1
 		var Delta2 = returnEndPoint.x - returnStartPoint.x
+		if(returnStartPoint.x == this.dragStartPoint.x && returnStartPoint.y == this.dragStartPoint.y
+			&& returnEndPoint.x == this.dragEndPoint.x && returnEndPoint.y == this.dragEndPoint.y)
+			return;
 		if(returnStartPoint.x ==  0)
 		{
 			returnStartPoint = this.dragStartPoint;
