@@ -18,7 +18,7 @@
     <div class="header">
       <img src="Img/logo.png" />
       <h1> ViLabs </h1>
-      <button id="btn-about" class="btn btn-success pull-right" >About</button>
+      <button id="btn-about" class="btn pull-right" >About</button>
     </div>
   </nav>
 <div id="AboutDialog">  </div>
@@ -152,7 +152,7 @@ $("#btn-about").click(function () {
       <div class="tab-content" id="tabcontent">
         <div id="LiveView" class="tab-pane fade in active">
           <iframe id="chart" src="liveView.html" style="border:none" width="100%" height="100%" scrolling="no"></iframe> 
-          <input id="btn-start-capture" type="button" class="btn btn-success " value="Start Capture">
+          <input id="btn-start-capture" type="button" class="btn btn-success " value="Start Collect">
           <span id="timeLabel" class="label label-pill label-success timerColor"  >00 : 00</span>
         </div>
         <!-- javascript to set timer counter -->
@@ -185,7 +185,7 @@ $("#btn-about").click(function () {
            if (count == 0) {
             this.style.backgroundColor = "#f44336";
             count = 1;
-            this.value ="Stop Capture";
+            this.value ="Stop Collect";
             totalSeconds = 0;
             timeLable.innerHTML="00 : 00";
             timerCounter = setInterval(setTime, 1000);
@@ -202,7 +202,7 @@ $("#btn-about").click(function () {
           {
             this.style.backgroundColor = "#938b8c";
             count = 0;
-            this.value = "Start Capture";
+            this.value = "Start Collect";
             clearInterval(timerCounter);
 
 
