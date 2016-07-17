@@ -18,7 +18,8 @@
     <div class="header">
       <img src="Img/logo.png" />
       <h1> ViLabs </h1>
-      <button id="btn-about" class="btn pull-right" >About</button>
+      <img src="Img/about.png"  id="btn-about" class="pull-right" " height="50" size="120" ">
+      <!-- <button id="btn-about" class="btn pull-right" >About</button> -->
     </div>
   </nav>
 <div id="AboutDialog">  </div>
@@ -122,7 +123,7 @@ $("#btn-about").click(function () {
                   console.log("GraphInfo Updated: ");
                   console.log(GraphInfo);
                   tabIndex = tabID;
-                $('#tab-list').append($('<li><a data-toggle="tab" href="#tab' + tabID + '">' + nameOfGraph.value + '<button class="close" type="button" title="Remove this page">×</button></a></li>'));
+                $('#tab-list').append($('<li><a data-toggle="tab" href="#tab' + tabID + '">' + nameOfGraph.value + '<button class="close" type="button" title="Remove this page">x</button></a></li>'));
                 $('#tabcontent').append($('<div class="tab-pane fade" id="tab' + tabID + '"><iframe id="newchart' + tabID + '" src="newGraphContent.html" style="border:none" width="100%" height="100%" scrolling="no"></iframe></div>'));
                   // show full screen for new chart
                   $('#newchart'+tabID).load(function () {

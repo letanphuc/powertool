@@ -132,6 +132,7 @@
         				A = (max - min) / 2.0
         				D = (max + min) / 2.0;
         				C = math.asin(0) - B*i;
+                        B = B*30;
 
         				break;
         			}
@@ -141,10 +142,10 @@
         		}
         	}
         	result['expression'] = "const(A)*sin(const(B)*time + const(C)) + const(D)"
-        	result['A'] = A;
-        	result['B'] = B;
-        	result['C'] = C;
-        	result['D'] = D;
+            result['A'] = math.round(A,4);
+            result['B'] = math.round(B,4);
+            result['C'] = math.round(C,4);
+            result['D'] = math.round(D,4);
 
 
         	return result;
