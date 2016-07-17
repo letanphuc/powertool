@@ -136,7 +136,6 @@ parent.recordId = [];
     var htmlxxx= "<table  id =\"dataTableID\" class=\"table table-hover\">";
     // split into lines
     var rows = data.split("\n");
-    htmlxxx += "<tr>"; 
     // parse lines
     rows.forEach( function getvalues(ourrow,index) {
 
@@ -145,6 +144,7 @@ parent.recordId = [];
       if(index == 0){
         parent.totalSensorAvailable = columns.length -1;
         console.log("parent.totalSensorAvailable = " + parent.totalSensorAvailable)
+        htmlxxx+="<tr>";
         columns.forEach( function (item, index1){
           htmlxxx += "<th style='color: red;'>" + item.substring(1,item.length -1 ) + "</th>";
            if(index1 != 0)
@@ -153,10 +153,12 @@ parent.recordId = [];
              parent.matrix[index1 -1 ] = []
            }
         })
+        htmlxxx += "</tr>";  
         console.log( parent.tableLable)
       } 
       else
       {
+        htmlxxx+="<tr>";
         columns.forEach( function (item, index1){
           if(index1 == 0){
             console.log("Update recordID")
@@ -168,19 +170,30 @@ parent.recordId = [];
           }
           htmlxxx += "<td>" + item.substring(1,item.length -1 ) + "</td>";
         })
+        htmlxxx += "</tr>";  
       }
       // close row
-      htmlxxx += "</tr>";    
     })
-
-          console.log("record id = " + parent.matrix)
-
+    parent.totalValueRow = parent.recordId.length;
     // close table
     htmlxxx += "</table>";
-
-    // insert into div
-    // $('#container').append(html);
     document.getElementById("showTable").innerHTML = htmlxxx;
+    parent.columnInfo =[];
+    for (var i=0; i<parent.totalSensorAvailable; i++) {
+      parent.columnInfo.push({
+        Name: parent.tableLable[i],
+        Type: "",
+        Average: getAverage(parent.matrix[i]),
+        Max: getMax(parent.matrix[i]),
+        Min: getMin(parent.matrix[i]),
+        Absolute: getdelta(parent.matrix[i]),
+        AbsoluteError: getPerDelta(parent.matrix[i]),
+        Description:"",
+        Equalition: "",
+        ConstantArray: {},
+      });
+    }
+  setIndexAndHighlight();
   }
   //Export to EXCEL
   $(function(){
