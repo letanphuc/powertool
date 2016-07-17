@@ -67,6 +67,8 @@ th {
     <br>
     <button id="addColumnButton" value="Open Dialog" class="btn btn-success colorButton"  >Add Column</button><br><br>
     <button class="btn btn-success colorButton"  onclick="deleteConfirmFunction()">Delete</button><br><br><br><br>
+    <button id ="btnImport" class="btn btn-success colorButton" >Import</button>
+    <input type="file" name="my_file" id="my-file" style="visibility: hidden;" onchange="importCsvToTable()" accept=".csv" ">
     <button id ="btnExport" class="btn btn-success colorButton" >Export</button>
   </div>
 </div>
@@ -94,11 +96,97 @@ th {
 </form>
 </div>
 <script type="text/javascript">
+  $('#btnImport').click(function(){
+    $('#my-file').click();
+  });
+//Import CSV to Table
+function importCsvToTable()
+{
+  var datax = document.getElementById("my-file").files[0];
+  var filePath = document.getElementById("my-file").value;
+  if (!window.File || !window.FileReader || !window.FileList || !window.Blob) {
+    alert('The File APIs are not fully supported in this browser.');
+    return;
+  }   
+  getAsText(datax)
+}
+
+
+
+function getAsText(fileToRead) {
+  var reader = new FileReader();
+      // Read file into memory as UTF-8      
+      reader.readAsText(fileToRead);
+      // Handle errors load
+      reader.onload = loadHandler;
+    }
+
+    function loadHandler(event) {
+      var csv = event.target.result;
+      processData(csv);
+    }
+
+    function processData(data)
+    {
+
+//init Value
+parent.matrix = [];
+parent.recordId = [];
+
+    var htmlxxx= "<table  id =\"dataTableID\" class=\"table table-hover\">";
+    // split into lines
+    var rows = data.split("\n");
+    htmlxxx += "<tr>"; 
+    // parse lines
+    rows.forEach( function getvalues(ourrow,index) {
+
+      // split line into columns
+      var columns = ourrow.split(",");
+      if(index == 0){
+        parent.totalSensorAvailable = columns.length -1;
+        console.log("parent.totalSensorAvailable = " + parent.totalSensorAvailable)
+        columns.forEach( function (item, index1){
+          htmlxxx += "<th style='color: red;'>" + item.substring(1,item.length -1 ) + "</th>";
+           if(index1 != 0)
+           {
+             parent.tableLable[index1 -1] = item.substring(1,item.length -1 );
+             parent.matrix[index1 -1 ] = []
+           }
+        })
+        console.log( parent.tableLable)
+      } 
+      else
+      {
+        columns.forEach( function (item, index1){
+          if(index1 == 0){
+            console.log("Update recordID")
+            parent.recordId.push( parseFloat(item.substring(1,item.length -1)) )
+          }
+          else{
+            parent.matrix[index1 -1].push(parseFloat(item.substring(1,item.length -1)))
+            console.log(parseFloat(item.substring(1,item.length -1)))
+          }
+          htmlxxx += "<td>" + item.substring(1,item.length -1 ) + "</td>";
+        })
+      }
+      // close row
+      htmlxxx += "</tr>";    
+    })
+
+          console.log("record id = " + parent.matrix)
+
+    // close table
+    htmlxxx += "</table>";
+
+    // insert into div
+    // $('#container').append(html);
+    document.getElementById("showTable").innerHTML = htmlxxx;
+  }
   //Export to EXCEL
   $(function(){
-      $("#btnExport").click(function(){
-          $("#dataTableID").tableToCSV();
-      });
+    $("#btnExport").click(function(){
+      $("#dataTableID").tableToCSV();
+    });
   });
   
   $("#dialog").dialog({
@@ -165,29 +253,29 @@ th {
     }
   }
 
-	function addNewColumn (){
-		listOfSymbol = {}
-		listOfConst = {}
+  function addNewColumn (){
+    listOfSymbol = {}
+    listOfConst = {}
     LENGHT = parent.totalValueRow
-		parent.tableLable.forEach(function myFunction(item, index) {
-			listOfSymbol[item.replace(/\s/g, '')] = parent.matrix[index]
-		})
+    parent.tableLable.forEach(function myFunction(item, index) {
+     listOfSymbol[item.replace(/\s/g, '')] = parent.matrix[index]
+   })
     listOfSymbol['time'] = parent.recordId;
 
 
-		try{
-			var ex = formatExpression(ColumnEqualition.value)
-			console.log(ex)
-			console.log(listOfConst)
-			newColumnValues = compute(ex)
-			console.log(newColumnValues)
+    try{
+     var ex = formatExpression(ColumnEqualition.value)
+     console.log(ex)
+     console.log(listOfConst)
+     newColumnValues = compute(ex)
+     console.log(newColumnValues)
 
-			parent.tableLable.push(nameOfNewColumn.value);
-			var selectRow;
-			var newTH = document.createElement('th');
-			selectRow = document.getElementById("dataTableID").rows[0];
-			selectRow.appendChild(newTH);
-			newTH.innerHTML = parent.tableLable[parent.tableLable.length-1];
+     parent.tableLable.push(nameOfNewColumn.value);
+     var selectRow;
+     var newTH = document.createElement('th');
+     selectRow = document.getElementById("dataTableID").rows[0];
+     selectRow.appendChild(newTH);
+     newTH.innerHTML = parent.tableLable[parent.tableLable.length-1];
 			
 			for(var i = 1; i <= parent.totalValueRow; i++)
 			{
@@ -322,6 +410,7 @@ myTable +="</tr>";
 
 for (var j=0; j<parent.totalValueRow; j++) {
   myTable+="<tr id=\""+parent.recordId[j] +"\">";
+  parent.recordId[j] = parseFloat(parent.recordId[j]/30).toFixed(4); 
   myTable+="<td>" +parent.recordId[j] + "</td>";
   for (i=0; i<parent.totalSensorAvailable; i++) {
     myTable+="<td>" + parent.matrix[i][j] + "</td>";

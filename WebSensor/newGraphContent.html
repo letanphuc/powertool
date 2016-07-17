@@ -24,25 +24,25 @@
 				if(parent.GraphInfo[parent.tabIndex].Y1!= -1)
 				{
 					dps[0].push({
-						x : parent.recordId[i],
+						x : parseFloat(parent.recordId[i]),
 						y : parent.matrix[parent.GraphInfo[parent.tabIndex].Y1][i]
 					})
 				}
 				if(parent.GraphInfo[parent.tabIndex].Y2!= -1)
 				{
 					dps[1].push({
-						x : parent.recordId[i],
+						x : parseFloat(parent.recordId[i]),
 						y : parent.matrix[parent.GraphInfo[parent.tabIndex].Y2][i]})
 				}
 				if(parent.GraphInfo[parent.tabIndex].Y3!= -1)
 				{
 					dps[2].push({
-						x : parent.recordId[i],
+						x : parseFloat(parent.recordId[i]),
 						y : parent.matrix[parent.GraphInfo[parent.tabIndex].Y3][i]})
 				}
 				if(parent.GraphInfo[parent.tabIndex].valueCompare.length!=0){
 					dps[3].push({
-						x : parent.recordId[i],
+						x : parseFloat(parent.recordId[i]),
 						y : parent.GraphInfo[parent.tabIndex].valueCompare[i]})
 				}
 			}
