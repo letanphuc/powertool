@@ -1,9 +1,13 @@
+  <?php
+include_once 'common.php';
+?>
+
   <div class="row content" style="border:none; margin-left: 10px" width="450" height="450" >
   <p id="text"> </p>
-  <label>Update</label>
+  <label><?php echo $lang['INFORMATION_UPDATE']; ?></label>
 <form action="upload.php" method="post" enctype="multipart/form-data">
     <input type="file" name="fileToUpload" id="fileToUpload">
-    <input type="submit" value="Update" name="submit">
+    <input type="submit" value=<?php echo json_encode($lang['INFORMATION_UPDATE']); ?> name="submit">
 </form>
   </div>
   <script type="text/javascript">

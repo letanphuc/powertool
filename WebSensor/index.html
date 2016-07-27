@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <?php
+include_once 'common.php';
+?>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="Libs/jquery-ui-1.11.4/jquery-ui.css" rel="stylesheet">
@@ -17,8 +20,12 @@
   <nav class="navbar">
     <div class="header">
       <img src="Img/logo.png" />
-      <h1> ViLabs </h1>
-      <img src="Img/about.png"  id="btn-about" class="pull-right" " height="50" size="120" ">
+      <h1> <?php echo $lang['PAGE_TITLE']; ?> </h1>
+      <img src="Img/about.png"  id="btn-about" class="pull-right" >
+      <div id="languages" class="pull-right">
+      <a href="index.html?lang=en" ><img src="Img/en.png" /></a>
+      <a href="index.html?lang=vn"><img src="Img/vn.png" /></a>
+      </div>
       <!-- <button id="btn-about" class="btn pull-right" >About</button> -->
     </div>
   </nav>
@@ -65,7 +72,7 @@ $("#btn-about").click(function () {
     <div class="col-sm-8 text-left">
       <br>
       <p>
-        <button id="btn-add-tab" type="button" class="btn btn-success pull-right " >Add Graph</button>
+        <button id="btn-add-tab" type="button" class="btn btn-success pull-right " ><?php echo $lang['BUTTON_ADD_GRAPH']; ?></button>
       </p>
       <div id="addGraphDialog">  </div>
       <script type="text/javascript">
@@ -74,7 +81,7 @@ $("#btn-about").click(function () {
           width: 500,
           height: 500,
           modal: true,
-          title: "Add Graph",
+          title: <?php echo json_encode($lang['BUTTON_ADD_GRAPH']); ?>,
           dialogClass: "dlg-no-close",
           position: {
             my: "center",
@@ -147,13 +154,13 @@ $("#btn-about").click(function () {
         });
       </script>
       <ul class="nav nav-tabs" id="tab-list">
-        <li class="active"><a data-toggle="tab" href="#LiveView">Live View</a></li>
-        <li><a data-toggle="tab" href="#DataTable" disabled="true">Data table</a></li>
+        <li class="active"><a data-toggle="tab" href="#LiveView"><?php echo $lang['TAB_LIVEVIEW']; ?></a></li>
+        <li><a data-toggle="tab" href="#DataTable" disabled="true"><?php echo $lang['TAB_DATA_TABLE']; ?></a></li>
       </ul>
       <div class="tab-content" id="tabcontent">
         <div id="LiveView" class="tab-pane fade in active">
           <iframe id="chart" src="liveView.html" style="border:none" width="100%" height="100%" scrolling="no"></iframe> 
-          <input id="btn-start-capture" type="button" class="btn btn-success " value="Start Collect">
+          <input id="btn-start-capture" type="button" class="btn btn-success " value=<?php echo json_encode($lang['BUTTON_START_COLLECTING']); ?>>
           <span id="timeLabel" class="label label-pill label-success timerColor"  >00 : 00</span>
         </div>
         <!-- javascript to set timer counter -->
@@ -186,7 +193,7 @@ $("#btn-about").click(function () {
            if (count == 0) {
             this.style.backgroundColor = "#f44336";
             count = 1;
-            this.value ="Stop Collect";
+            this.value =<?php echo json_encode($lang['BUTTON_STOP_COLLECTING']); ?>;
             totalSeconds = 0;
             timeLable.innerHTML="00 : 00";
             timerCounter = setInterval(setTime, 1000);
@@ -203,7 +210,7 @@ $("#btn-about").click(function () {
           {
             this.style.backgroundColor = "#938b8c";
             count = 0;
-            this.value = "Start Collect";
+            this.value = <?php echo json_encode($lang['BUTTON_START_COLLECTING']); ?>;
             clearInterval(timerCounter);
 
 
