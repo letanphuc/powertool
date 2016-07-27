@@ -54,6 +54,8 @@ $lang['BUTTON_COMPARE'] = 'Compare';
 //Graph Properties
 $lang['GRAPH_PROPERTIES'] = 'Graph Properties';
 $lang['GRAPH_PROPERTIES_FUNCTION'] = 'Func:';
+$lang['COMPARE_SUGGESTION'] = 'Suggestion:';
+$lang['COMPARE_TITLE'] = 'Add Function to compare';
 
 // Add Column popup
 $lang['ADD_COLUMN_NOTE'] = '

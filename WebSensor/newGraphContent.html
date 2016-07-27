@@ -1,3 +1,6 @@
+  <?php
+include_once 'common.php';
+?>
 <link href="Libs/jquery-ui-1.11.4/jquery-ui.css" rel="stylesheet">
 <script src="Libs/jquery/jquery-1.12.3.min.js"></script>
 <link rel="stylesheet" href="Libs/bootstrap/css/bootstrap.min.css">
@@ -219,11 +222,11 @@
 <div id="compareDialog">
 	<form>
 		<p>
-			<label> Equation:</label><br>
+			<label>  <?php echo $lang['COLUMN_PROPERTIES_EQUATION']; ?></label><br>
 			<textarea id="NewGraphEquation" rows="2" cols="60" placeholder="Enter equalition"></textarea>
 		</p>
 		<div class="form-inline">
-			<label> Suggestion:</label>
+			<label> <?php echo $lang['COMPARE_SUGGESTION']; ?></label>
 			<input type="button" id="suggestionForY1" value="ForY1" onclick="suggestionSinFunY1()">
 			<input type="button" id="suggestionForY2" value="ForY2" onclick="suggestionSinFunY2()">
 			<input type="button" id="suggestionForY3" value="ForY3" onclick="suggestionSinFunY3()">
@@ -240,14 +243,8 @@
 			<label>D: </label>
 			<input type="text" id="constDValue" value="1">
 		</div>
-		<br><label> Note:
-		<pre>
-			- dis(x): Derivative of x
-			- inf(x): Integral of x
-			- const(A): Constant name A, 
-			which can be changed while drawing
-			- operation: + (add), -(sub), *(mul), / (div)
-		</pre>
+		<br><label> <?php echo $lang['PROPERTIES_NOTE']; ?>
+		<pre><?php echo $lang['ADD_COLUMN_NOTE']; ?></pre>
 	</label>
 </form>
 </div>
@@ -324,7 +321,7 @@
 		height: 450,
 
     // modal: true,
-    title: "Add Function to compare",
+    title: <?php echo json_encode($lang['COMPARE_TITLE']); ?> ,
     dialogClass: "dlg-no-close",
     position: {
     	my: "right",
