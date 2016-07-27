@@ -18,7 +18,8 @@ include_once 'common.php';
 	</style>
 </head>
 <div id="infoSensor" class="infoSensor">
-<h3><?php echo $lang['SYSTEM_INFO']; ?></h3>
+<button id="title_bt" style='background-color:#eff0f4;border-color: #eff0f4;border: none;' ><h3><?php echo $lang['SYSTEM_INFO']; ?></h3></button>
+<div id="needToHide">
 <div class="form-inline">
 <input type="button" id="Sensor0" data-toggle="collapse" class="btn btn-success" value="" style='background-color: gray; width: 30px;' disabled="true"></input> 
 <input type="button" id="Sensor1" data-toggle="collapse" class="btn btn-success" value="" style='background-color: gray; width: 30px; ' disabled="true"></input> 
@@ -42,10 +43,14 @@ include_once 'common.php';
 	</div>
 </div>
 </div>
-
+</div>
 <script src="Libs/updateSensorInfo.js"></script>
 <script type="text/javascript">
-
+$(document).ready(function(){
+    $("#title_bt").click(function(){
+        $("#needToHide").toggle();
+    });
+});
 	window.onload = function() {
 		onLoadSensorInfo();
 	}
