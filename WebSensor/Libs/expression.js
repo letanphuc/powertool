@@ -101,9 +101,12 @@ function compute(equation) {
 		else {
 			ans = filter(KMfilter, ans)
 		}
-		ret.push(ans)
+		if (!isNaN(ans))
+      ret.push(math.round(ans,4))
 	}
-
+  ret.shift()
+  ret.shift()
+  ret.shift()
 	return ret
 
 }

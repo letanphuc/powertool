@@ -11,6 +11,10 @@
 		var last_record_id = 0
 
 		var chart = new CanvasJS.Chart("chartContainer", {
+			title : {
+				text : "Live View"
+			},
+      animationEnabled: false,
 			axisY : {
 				// interlacedColor: "#FFBFD5",
 				gridColor : "#ebebe0",
@@ -60,7 +64,7 @@
 		var xVal = 0;
 		var yVal = 100;
 		var updateInterval = 33.333;
-		var dataLength = 1000; // number of dataPoints visible at any point
+		var dataLength = 300; // number of dataPoints visible at any point
 		var updateChart = function(count) {
 			count = count || 1;
 			// count is number of times loop runs to generate random dataPoints.
@@ -199,5 +203,5 @@
 
 	}
 </script>
-<script type="text/javascript" src="Libs/canvasjs-1.8.1/canvasjs.min.js"></script>
+<script type="text/javascript" src="Libs/canvasjs-1.8.0/source/canvasjs.js"></script>
 <div id="chartContainer" style="height: 400px; width: 100%;"></div>

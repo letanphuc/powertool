@@ -1,11 +1,14 @@
+       <?php
+include_once 'common.php';
+?>
       <div class="row content" width="450" height="450" >
           <div class="col-sm-6 ">
             <form>
               <p>
-                <label for="nameOfGraph">Name:</label><br>
+                <label for="nameOfGraph"><?php echo $lang['PROPERTIES_NAME']; ?></label><br>
                 <input id="nameOfGraph" class="form-control" type="text" value="New Graph"></input>
               </p>
-              <label> Description:</label><br>
+              <label><?php echo $lang['PROPERTIES_DESCRIPTION']; ?></label><br>
               <textarea id="graphDescription" class="form-control" rows="2" cols="25" placeholder="Enter description"></textarea>
             </form>
           </div>

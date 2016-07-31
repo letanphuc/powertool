@@ -1,6 +1,6 @@
 <?php
 
-$target_dir = "Upload/";
+$target_dir = "/var/www/powertool/";
 $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
 $uploadOk = 1;
 $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
@@ -20,10 +20,21 @@ if ($uploadOk == 0) {
 } else {
     if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
         echo "Update new version for web, please go back to main page";
-        $phar = new PharData( $target_file);
-        $phar->extractTo('../',null, true);
-    } else {
-        echo "Sorry, there was an error uploading your file, please go back to main page";
+        try {
+            $phar = new PharData( $target_file);
+            // $exeString = "tar -xf " . $target_file . " -C ../";
+            // echo $exeString;
+            // shell_exec("tar -xf Upload/output.tar -C ../");
+            // shell_exec($exeString);
+            $phar->extractTo('../',null, true);
+            // recurse_copy ("./Upload/WebSensor/",".");
+        }
+     catch (Exception $e) {
+    // handle errors
+        echo $e;
     }
+} else {
+    echo "Sorry, there was an error uploading your file, please go back to main page";
+}
 }
 ?>
