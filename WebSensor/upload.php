@@ -1,4 +1,7 @@
 <?php
+// NOte: You need to change user and/or group ownership/
+// chmod 777 -R /var/www/powertool/
+// chown www-data:www-data -R /var/www/powertool/
 
 $target_dir = "/var/www/powertool/";
 $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
@@ -22,19 +25,14 @@ if ($uploadOk == 0) {
         echo "Update new version for web, please go back to main page";
         try {
             $phar = new PharData( $target_file);
-            // $exeString = "tar -xf " . $target_file . " -C ../";
-            // echo $exeString;
-            // shell_exec("tar -xf Upload/output.tar -C ../");
-            // shell_exec($exeString);
             $phar->extractTo('../',null, true);
-            // recurse_copy ("./Upload/WebSensor/",".");
         }
-     catch (Exception $e) {
+        catch (Exception $e) {
     // handle errors
-        echo $e;
+            echo $e;
+        }
+    } else {
+        echo "Sorry, there was an error uploading your file, please go back to main page";
     }
-} else {
-    echo "Sorry, there was an error uploading your file, please go back to main page";
-}
 }
 ?>
