@@ -93,6 +93,9 @@ th {
   </label>
 </form>
 </div>
+<div id="dialogDeleteConfirm">
+<label id="messageDelete"> </label>
+</div>
 <script type="text/javascript">
   $('#btnImport').click(function(){
     $('#my-file').click();
@@ -250,17 +253,35 @@ parent.recordId = [];
   $("#addColumnButton").click(function () {
     $("#dialog").dialog("open");
   });
-
+ $("#dialogDeleteConfirm").dialog({
+    autoOpen: false,
+    width: 500,
+    height: 200,
+    // modal: true,
+    title:"Delete confirm",
+    dialogClass: "dlg-no-close",
+    position: {
+      my: "right",
+      at: "top"
+    },
+    buttons: { 
+      Ok: function() {
+        deleteSelectColumn(selectCoulumnIndex);
+        selectCoulumnIndex = -1;
+        $(this).dialog("close");
+      },
+      Cancel: function () {
+        $(this).dialog("close");
+      }
+    }
+  });
   function deleteConfirmFunction() {
     if(selectCoulumnIndex > 0)
     {
-      var r = confirm("Are you sure you want to delete " + parent.tableLable[selectCoulumnIndex - 1] + " column? The relative graph will be deleted");
-      if (r == true) {
-        deleteSelectColumn(selectCoulumnIndex);
-        selectCoulumnIndex = -1;
-      } else {
-        txt = "You pressed Cancel!";
-      }
+      var r = "Are you sure you want to delete " + parent.tableLable[selectCoulumnIndex - 1] + " column? The relative graph will be deleted";
+      console.log(r);
+      $("#messageDelete").text(r);
+      $("#dialogDeleteConfirm").dialog("open");
     }
   }
 
