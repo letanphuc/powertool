@@ -1,5 +1,5 @@
 
-  <?php
+<?php
 include_once '../common.php';
 ?>
 
@@ -16,7 +16,7 @@ include_once '../common.php';
 
 
 <script src="../Libs/jquery.tabletoCSV.js" type="text/javascript" charset="utf-8"></script>
- <link rel="stylesheet"  href="../globarCss.css">
+<link rel="stylesheet"  href="../globarCss.css">
 <style type="text/css">
   tr {
     width: 100%;
@@ -44,7 +44,7 @@ td, th {
  text-align: center;
  word-wrap:break-word;
  position: static;
-outline: 0;
+ outline: 0;
 }
 th {
   color: red;
@@ -54,6 +54,7 @@ th {
 .highlight {
   background: #f4e092;
 }
+
 .rowHighlight {
   background: #f4e000;
 }
@@ -97,7 +98,7 @@ th {
 </form>
 </div>
 <div id="dialogDeleteConfirm">
-<label id="messageDelete"> </label>
+  <label id="messageDelete"> </label>
 </div>
 <script type="text/javascript">
   $('#btnImport').click(function(){
@@ -137,7 +138,7 @@ function getAsText(fileToRead) {
 parent.matrix = [];
 parent.recordId = [];
 
-    var htmlxxx= "<table  id =\"dataTableID\" class=\"table\">";
+var htmlxxx= "<table  id =\"dataTableID\" class=\"table\">";
     // split into lines
     var rows = data.split("\n");
     // parse lines
@@ -151,12 +152,12 @@ parent.recordId = [];
         htmlxxx+="<tr>";
         columns.forEach( function (item, index1){
           htmlxxx += "<th style='color: red;'>" + item.substring(1,item.length -1 ) + "</th>";
-           if(index1 != 0)
-           {
-             parent.tableLable[index1 -1] = item.substring(1,item.length -1 );
-             parent.matrix[index1 -1 ] = []
-           }
-        })
+          if(index1 != 0)
+          {
+           parent.tableLable[index1 -1] = item.substring(1,item.length -1 );
+           parent.matrix[index1 -1 ] = []
+         }
+       })
         htmlxxx += "</tr>";  
         console.log( parent.tableLable)
       } 
@@ -197,7 +198,8 @@ parent.recordId = [];
         ConstantArray: {},
       });
     }
-  setIndexAndHighlight();
+    setIndexAndHighlight();
+    setIndexAndHighlightRow();
   }
   //Export to EXCEL
   $(function(){
@@ -252,8 +254,7 @@ parent.recordId = [];
       });
     });
   }
-  $(document).ready(function() {
-    setIndexAndHighlight();
+  function setIndexAndHighlightRow(){
     $(".firstRow").click(function(){
       selectCoulumnIndex = -1;
       $('#dataTableID th').each(function(index) {
@@ -268,12 +269,16 @@ parent.recordId = [];
       console.log(" select row clicked selectRowIndex = " + selectRowIndex )
       $(this).addClass('rowHighlight').siblings().removeClass('rowHighlight');    
     });
+  };
+  $(document).ready(function() {
+    setIndexAndHighlight();
+    setIndexAndHighlightRow();
   });
 
   $("#addColumnButton").click(function () {
     $("#dialog").dialog("open");
   });
- $("#dialogDeleteConfirm").dialog({
+  $("#dialogDeleteConfirm").dialog({
     autoOpen: false,
     width: 500,
     height: 200,
@@ -339,36 +344,35 @@ parent.recordId = [];
      selectRow = document.getElementById("dataTableID").rows[0];
      selectRow.appendChild(newTH);
      newTH.innerHTML = parent.tableLable[parent.tableLable.length-1];
-      
-      for(var i = 1; i <= parent.totalValueRow; i++)
-      {
-        selectRow = document.getElementById("dataTableID").rows[i];
-        selectRow.insertCell(parent.tableLable.length).innerHTML =newColumnValues[i - 1];
-      }
-      
-        parent.matrix.push(newColumnValues);
-        parent.totalSensorAvailable++;
-        console.log(parent.columnInfo);
-        parent.columnInfo.push({
-        Name: nameOfNewColumn.value,
-        Type: "newColumn",
-        Average: getAverage(newColumnValues),
-        Max: getMax(newColumnValues),
-        Min: getMin(newColumnValues),
-        Absolute: getdelta(newColumnValues),
-        AbsoluteError: getPerDelta(newColumnValues),
-        Description: ColumnDescription.value,
-        Equalition: ColumnEqualition.value,
-        ConstantArray: listOfConst,
-        });
-        setIndexAndHighlight();
-    }
-    catch(e){
-      console.log(e)
-      alert("Syntax error : " + e.message);
-    }
-  }
 
+     for(var i = 1; i <= parent.totalValueRow; i++)
+     {
+      selectRow = document.getElementById("dataTableID").rows[i];
+      selectRow.insertCell(parent.tableLable.length).innerHTML =newColumnValues[i - 1];
+    }
+
+    parent.matrix.push(newColumnValues);
+    parent.totalSensorAvailable++;
+    console.log(parent.columnInfo);
+    parent.columnInfo.push({
+      Name: nameOfNewColumn.value,
+      Type: "newColumn",
+      Average: getAverage(newColumnValues),
+      Max: getMax(newColumnValues),
+      Min: getMin(newColumnValues),
+      Absolute: getdelta(newColumnValues),
+      AbsoluteError: getPerDelta(newColumnValues),
+      Description: ColumnDescription.value,
+      Equalition: ColumnEqualition.value,
+      ConstantArray: listOfConst,
+    });
+    setIndexAndHighlight();
+  }
+  catch(e){
+    console.log(e)
+    alert("Syntax error : " + e.message);
+  }
+}
 
 function deleteSelectRow (index){
   $("tr").eq(index).remove();
@@ -377,121 +381,114 @@ function deleteSelectRow (index){
   //Todo calculator columnInfo again
   // parent.columnInfo.splice(indexOfTable, 1);
   // parent.matrix.splice(indexOfTable,1);
-  parent.columnInfo =[];
+  // parent.columnInfo =[];
   parent.recordId.splice(indexOfTable,1);
   for( i = 0; i < parent.matrix.length; i++)
   {
     // console.log(parent.matrix[i])
-   parent.matrix[i].splice(indexOfTable,1);
-  parent.columnInfo.push({
-    Name: parent.localSensorInfo[i].sensorName,
-    Type: parent.localSensorInfo[i].sensorType,
-    Average: getAverage(parent.matrix[i]),
-    Max: getMax(parent.matrix[i]),
-    Min: getMin(parent.matrix[i]),
-    Absolute: getdelta(parent.matrix[i]),
-    AbsoluteError: getPerDelta(parent.matrix[i]),
-    Description: parent.localSensorInfo[i].sensorDescription,
-    Equalition: "",
-    ConstantArray: {},
-  });
- }
- parent.totalValueRow--;
- setIndexAndHighlight();
+    parent.matrix[i].splice(indexOfTable,1);
+    parent.columnInfo[i].Average = getAverage(parent.matrix[i])
+    parent.columnInfo[i].Max = getMax(parent.matrix[i])
+    parent.columnInfo[i].Min = getMin(parent.matrix[i])
+    parent.columnInfo[i].Absolute = getdelta(parent.matrix[i])
+    parent.columnInfo[i].AbsoluteError = getPerDelta(parent.matrix[i])
+  }
+  parent.totalValueRow--;
+  setIndexAndHighlight();
 }
 
-  function deleteSelectColumn (index){
-    var indexOfTable = index -1;
-    parent.tableLable.splice(indexOfTable, 1);
-    parent.columnInfo.splice(indexOfTable, 1);
-    parent.matrix.splice(indexOfTable,1);
-    var selectRow;
-    for(var i = 0; i <= parent.totalValueRow; i++)
+function deleteSelectColumn (index){
+  var indexOfTable = index -1;
+  parent.tableLable.splice(indexOfTable, 1);
+  parent.columnInfo.splice(indexOfTable, 1);
+  parent.matrix.splice(indexOfTable,1);
+  var selectRow;
+  for(var i = 0; i <= parent.totalValueRow; i++)
+  {
+    selectRow = document.getElementById("dataTableID").rows[i];
+    selectRow.deleteCell(index);
+  }
+  parent.totalSensorAvailable--;
+  setIndexAndHighlight();
+  parent.GraphInfo.forEach( function (item, index1){
+    if(item!=0)
     {
-      selectRow = document.getElementById("dataTableID").rows[i];
-      selectRow.deleteCell(index);
-    }
-    parent.totalSensorAvailable--;
-    setIndexAndHighlight();
-    parent.GraphInfo.forEach( function (item, index1){
-      if(item!=0)
-      {
-        if(item.X == indexOfTable){
-          parent.removeTabWithTabID(index1);
-        }
-        else if(item.X > indexOfTable)
-        { 
-          item.X --;
-        }
-        if(item.Y1 == indexOfTable){
-          parent.removeTabWithTabID(index1);
-        }
-        else if(item.Y1 > indexOfTable)
-        { 
-          item.Y1 --;
-        }
-        if(item.Y2 == indexOfTable){
-          parent.removeTabWithTabID(index1);
-        }
-        else if(item.Y2 > indexOfTable)
-        { 
-          item.Y2 --;
-        }
-        if(item.Y3 == indexOfTable){
-          parent.removeTabWithTabID(index1);
-        }
-        else if(item.Y3 > indexOfTable)
-        { 
-          item.Y3 --;
-        }
+      if(item.X == indexOfTable){
+        parent.removeTabWithTabID(index1);
       }
-    });
-  }
+      else if(item.X > indexOfTable)
+      { 
+        item.X --;
+      }
+      if(item.Y1 == indexOfTable){
+        parent.removeTabWithTabID(index1);
+      }
+      else if(item.Y1 > indexOfTable)
+      { 
+        item.Y1 --;
+      }
+      if(item.Y2 == indexOfTable){
+        parent.removeTabWithTabID(index1);
+      }
+      else if(item.Y2 > indexOfTable)
+      { 
+        item.Y2 --;
+      }
+      if(item.Y3 == indexOfTable){
+        parent.removeTabWithTabID(index1);
+      }
+      else if(item.Y3 > indexOfTable)
+      { 
+        item.Y3 --;
+      }
+    }
+  });
+}
 
-  function getAverage(array)
-  {
-    var total = 0;
-    array.forEach( function (item, index){
-      total+=item;
-    });
-    return parseFloat(total/array.length).toFixed(4);
-  }
+function getAverage(array)
+{
+  var total = 0;
+  array.forEach( function (item, index){
+    total+=item;
+  });
+  return parseFloat(total/array.length).toFixed(4);
+}
 
-  function getdelta(array)
-  {
-    var Average = getAverage(array);
-    var total = 0;
-    array.forEach( function (item, index){
-      total+=Math.abs(item -Average) ;
-    });
-    return parseFloat(total/array.length).toFixed(4);
-  }
+function getdelta(array)
+{
+  var Average = getAverage(array);
+  var total = 0;
+  array.forEach( function (item, index){
+    total+=Math.abs(item -Average) ;
+  });
+  return parseFloat(total/array.length).toFixed(4);
+}
 
-  function getPerDelta(array)
-  {
-    var perDalta = parseFloat(getdelta(array)*100/getAverage(array)).toFixed(2)
-    var returnValue = perDalta.toString() + "%"
-    return returnValue  
-  }
+function getPerDelta(array)
+{
+  var perDalta = parseFloat(getdelta(array)*100/getAverage(array)).toFixed(2)
+  var returnValue = perDalta.toString() + "%"
+  return returnValue  
+}
 
-  function getMax(array)
-  {
-    var max = array[0];
-    array.forEach( function (item, index){
-      if(max <item)
-        max=item;
-    });
-    return max;
-  }
-  function getMin(array)
-  {
-    var min = array[0];
-    array.forEach( function (item, index){
-      if(min > item)
-        min=item;
-    });
-    return min;
-  }
+function getMax(array)
+{
+  var max = array[0];
+  array.forEach( function (item, index){
+    if(max <item)
+      max=item;
+  });
+  return max;
+}
+function getMin(array)
+{
+  var min = array[0];
+  array.forEach( function (item, index){
+    if(min > item)
+      min=item;
+  });
+  return min;
+}
 // load data from global variable
 var myTable= "<table  id =\"dataTableID\" class=\"table \"><tr><th style='color: red;'>Time</th>";
 for (var i=0; i<parent.localSensorInfo.length; i++) {
