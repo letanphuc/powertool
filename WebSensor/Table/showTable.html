@@ -54,6 +54,9 @@ th {
 .highlight {
   background: #f4e092;
 }
+.rowHighlight {
+  background: #f4e000;
+}
 .colorButton {
   background-color: #938b8c;
   height:30px;
@@ -134,7 +137,7 @@ function getAsText(fileToRead) {
 parent.matrix = [];
 parent.recordId = [];
 
-    var htmlxxx= "<table  id =\"dataTableID\" class=\"table table-hover\">";
+    var htmlxxx= "<table  id =\"dataTableID\" class=\"table\">";
     // split into lines
     var rows = data.split("\n");
     // parse lines
@@ -159,7 +162,7 @@ parent.recordId = [];
       } 
       else
       {
-        htmlxxx+="<tr>";
+        htmlxxx+="<tr class=\"firstRow\">";
         columns.forEach( function (item, index1){
           if(index1 == 0){
             console.log("Update recordID")
@@ -226,16 +229,19 @@ parent.recordId = [];
   });
 
   var selectCoulumnIndex = -1;
+  var selectRowIndex = -1;
   function setIndexAndHighlight (){
     $('#dataTableID th').each(function(index) {
       $(this).click(function() {
         selectCoulumnIndex = index;
+        selectRowIndex = -1;
         if(index > 0){
           parent.columnSelected = selectCoulumnIndex -1;
           window.parent.reloadInfoColumn();
         }
         console.log(index);
         $('tr').each(function() {
+          $(this).removeClass('rowHighlight');  
           if(index > 0){
             $(this).find('td').not(':eq(index)').removeClass('highlight');
             $(this).find('th').not(':eq(index)').removeClass('highlight');
@@ -248,6 +254,20 @@ parent.recordId = [];
   }
   $(document).ready(function() {
     setIndexAndHighlight();
+    $(".firstRow").click(function(){
+      selectCoulumnIndex = -1;
+      $('#dataTableID th').each(function(index) {
+        $('tr').each(function() {
+          if(index > 0){
+            $(this).find('td').not(':eq(index)').removeClass('highlight');
+            $(this).find('th').not(':eq(index)').removeClass('highlight');
+          }
+        });
+      });
+      selectRowIndex = $(this).index();
+      console.log(" select row clicked selectRowIndex = " + selectRowIndex )
+      $(this).addClass('rowHighlight').siblings().removeClass('rowHighlight');    
+    });
   });
 
   $("#addColumnButton").click(function () {
@@ -266,8 +286,12 @@ parent.recordId = [];
     },
     buttons: { 
       Ok: function() {
-        deleteSelectColumn(selectCoulumnIndex);
+        if(selectCoulumnIndex != -1)
+          deleteSelectColumn(selectCoulumnIndex);
+        else if( selectRowIndex > 0)
+          deleteSelectRow (selectRowIndex);
         selectCoulumnIndex = -1;
+        selectRowIndex = -1;
         $(this).dialog("close");
       },
       Cancel: function () {
@@ -279,6 +303,13 @@ parent.recordId = [];
     if(selectCoulumnIndex > 0)
     {
       var r = "Are you sure you want to delete " + parent.tableLable[selectCoulumnIndex - 1] + " column? The relative graph will be deleted";
+      console.log(r);
+      $("#messageDelete").text(r);
+      $("#dialogDeleteConfirm").dialog("open");
+    }
+    else if(selectRowIndex > 0)
+    {
+      var r = "Are you sure you want to delete row = " + selectRowIndex + " ?";
       console.log(r);
       $("#messageDelete").text(r);
       $("#dialogDeleteConfirm").dialog("open");
@@ -308,37 +339,66 @@ parent.recordId = [];
      selectRow = document.getElementById("dataTableID").rows[0];
      selectRow.appendChild(newTH);
      newTH.innerHTML = parent.tableLable[parent.tableLable.length-1];
-			
-			for(var i = 1; i <= parent.totalValueRow; i++)
-			{
-				selectRow = document.getElementById("dataTableID").rows[i];
-				selectRow.insertCell(parent.tableLable.length).innerHTML =newColumnValues[i - 1];
-			}
       
-		    parent.matrix.push(newColumnValues);
-		    parent.totalSensorAvailable++;
-		    console.log(parent.columnInfo);
-		    parent.columnInfo.push({
-				Name: nameOfNewColumn.value,
-				Type: "newColumn",
-				Average: getAverage(newColumnValues),
-				Max: getMax(newColumnValues),
-				Min: getMin(newColumnValues),
+      for(var i = 1; i <= parent.totalValueRow; i++)
+      {
+        selectRow = document.getElementById("dataTableID").rows[i];
+        selectRow.insertCell(parent.tableLable.length).innerHTML =newColumnValues[i - 1];
+      }
+      
+        parent.matrix.push(newColumnValues);
+        parent.totalSensorAvailable++;
+        console.log(parent.columnInfo);
+        parent.columnInfo.push({
+        Name: nameOfNewColumn.value,
+        Type: "newColumn",
+        Average: getAverage(newColumnValues),
+        Max: getMax(newColumnValues),
+        Min: getMin(newColumnValues),
         Absolute: getdelta(newColumnValues),
         AbsoluteError: getPerDelta(newColumnValues),
-				Description: ColumnDescription.value,
-				Equalition: ColumnEqualition.value,
-				ConstantArray: listOfConst,
-		    });
-		    setIndexAndHighlight();
-		}
-		catch(e){
-			console.log(e)
-			alert("Syntax error : " + e.message);
-		}
-	}
+        Description: ColumnDescription.value,
+        Equalition: ColumnEqualition.value,
+        ConstantArray: listOfConst,
+        });
+        setIndexAndHighlight();
+    }
+    catch(e){
+      console.log(e)
+      alert("Syntax error : " + e.message);
+    }
+  }
 
 
+function deleteSelectRow (index){
+  $("tr").eq(index).remove();
+  var indexOfTable = index -1;
+  // parent.tableLable.splice(indexOfTable, 1);
+  //Todo calculator columnInfo again
+  // parent.columnInfo.splice(indexOfTable, 1);
+  // parent.matrix.splice(indexOfTable,1);
+  parent.columnInfo =[];
+  parent.recordId.splice(indexOfTable,1);
+  for( i = 0; i < parent.matrix.length; i++)
+  {
+    // console.log(parent.matrix[i])
+   parent.matrix[i].splice(indexOfTable,1);
+  parent.columnInfo.push({
+    Name: parent.localSensorInfo[i].sensorName,
+    Type: parent.localSensorInfo[i].sensorType,
+    Average: getAverage(parent.matrix[i]),
+    Max: getMax(parent.matrix[i]),
+    Min: getMin(parent.matrix[i]),
+    Absolute: getdelta(parent.matrix[i]),
+    AbsoluteError: getPerDelta(parent.matrix[i]),
+    Description: parent.localSensorInfo[i].sensorDescription,
+    Equalition: "",
+    ConstantArray: {},
+  });
+ }
+ parent.totalValueRow--;
+ setIndexAndHighlight();
+}
 
   function deleteSelectColumn (index){
     var indexOfTable = index -1;
@@ -433,7 +493,7 @@ parent.recordId = [];
     return min;
   }
 // load data from global variable
-var myTable= "<table  id =\"dataTableID\" class=\"table table-hover\"><tr><th style='color: red;'>Time</th>";
+var myTable= "<table  id =\"dataTableID\" class=\"table \"><tr><th style='color: red;'>Time</th>";
 for (var i=0; i<parent.localSensorInfo.length; i++) {
   parent.tableLable[i] = parent.localSensorInfo[i].sensorName;
   myTable+= "<th style='color: red;'>" + parent.tableLable[i] +"</th>";
@@ -441,7 +501,7 @@ for (var i=0; i<parent.localSensorInfo.length; i++) {
 myTable +="</tr>";
 
 for (var j=0; j<parent.totalValueRow; j++) {
-  myTable+="<tr id=\""+parent.recordId[j] +"\">";
+  myTable+="<tr class=\"firstRow\"  id=\""+parent.recordId[j] +"\">";
   parent.recordId[j] = parseFloat(parent.recordId[j]/30).toFixed(4); 
   myTable+="<td>" +parent.recordId[j] + "</td>";
   for (i=0; i<parent.totalSensorAvailable; i++) {

@@ -64,21 +64,17 @@
 				print "totalSensor = " . $total . ";";
 
 
-				foreach($result as $row)
-				{
-					
-				}
-
 				$result = $db->query('SELECT * FROM data');
 				foreach($result as $row)
 				{
 					echo "recordId.push(".$row['recordID'].");"; 
-					for($i = 0; $i < 4; $i++)
+					for($i = 0; $i < $totalSensorAvailable; $i++)
 					{
 						$j = $i + 1;
 						$value = "value".$j;
 						echo "value".$i.".push(parseFloat((".$row[$value]."- maginData[".$i."]).toFixed(4)));";
 					}
+
 					$totalValueRow++;
 				}
 				echo "totalSensorAvailable = ".$totalSensorAvailable.";";

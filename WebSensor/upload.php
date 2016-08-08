@@ -3,7 +3,7 @@
 // chmod 777 -R /var/www/powertool/
 // chown www-data:www-data -R /var/www/powertool/
 
-$target_dir = "/var/www/powertool/";
+$target_dir = "/var/www/powertool/WebSensor/Upload/";
 $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
 $uploadOk = 1;
 $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);

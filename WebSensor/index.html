@@ -211,18 +211,19 @@ $("#btn-about").click(function () {
             this.style.backgroundColor = "#938b8c";
             count = 0;
             this.value = <?php echo json_encode($lang['BUTTON_START_COLLECTING']); ?>;
+            needToReloadTable = true;
             clearInterval(timerCounter);
 
 
 
             $.post( "recordControl.php",  { name: nameOfDb, action:"stop"} )
             .done(function( data ) {
-		      console.log(data)
-		      /* Update matrix then redraw */
-		      var f = Function(data)
-		      f()
+          //console.log(data)
+          /* Update matrix then redraw */
+          var f = Function(data)
+          f()
 
-              document.getElementById('showData').src += '';
+              // document.getElementById('showData').src += '';
             });
 
           }
@@ -272,6 +273,12 @@ $("#btn-about").click(function () {
         else if (y.indexOf("DataTable") > -1){
           focusTab = 1;
           console.log ("load infoColumn");
+          //reload table
+          if(needToReloadTable)
+          {
+            document.getElementById('showData').src += '';
+            needToReloadTable = false;
+          }
           $( "#infoLiveView" ).load( "Table/infoColumn.html" );
         }
       });
