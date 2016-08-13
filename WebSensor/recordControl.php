@@ -45,38 +45,38 @@
 
 
 				/* sensorInfo */
-				print "sensorInfo = [];";
+				echo "sensorInfo = [];";
 				foreach ( $result as $row ) {
 					$total ++;
-					print "sensorInfo.push({
+					$sensorID = $row ['sensorID'];
+					echo "sensorInfo.push({
 						sensorID: ". $row ['sensorID'] .",
 						sensorName: \"" . $row ['sensorName'] . "\",
 						sensorType: \"" . $row ['sensorType'] . "\",
 						sensorDescription: \"\",
 						});";
 
-					echo "var value".$totalSensorAvailable." = new Array();";
-
-					echo "matrix[".$totalSensorAvailable."] = value".$totalSensorAvailable.";";
-					$sensorIDarray[$totalSensorAvailable]=$row['sensorID'];
+					echo "var value".$sensorID." = new Array();";
 					$totalSensorAvailable++;
-				}
-				print "totalSensor = " . $total . ";";
 
 
-				$result = $db->query('SELECT * FROM data');
-				foreach($result as $row)
-				{
-					echo "recordId.push(".$row['recordTime'].");"; 
-					for($i = 0; $i < $totalSensorAvailable; $i++)
+					$result2 = $db->query('SELECT * FROM data');
+					$totalValueRow = 0;
+					foreach($result2 as $row)
 					{
-						$j = $i + 1;
+						echo "recordId.push(".$row['recordTime'].");"; 
+						$j = $sensorID + 1;
 						$value = "value".$j;
-						echo "value".$i.".push(parseFloat((".$row[$value]."- maginData[".$sensorIDarray[$i]."]).toFixed(4)));";
+						echo "value".$sensorID.".push(parseFloat((".$row[$value]."- maginData[".$sensorID."]).toFixed(4)));";
+
+						$totalValueRow++;
 					}
 
-					$totalValueRow++;
+					echo "matrix.push(value".$sensorID.");";
+
+
 				}
+				echo "totalSensor = " . $total . ";";
 				echo "totalSensorAvailable = ".$totalSensorAvailable.";";
 				echo "totalValueRow = ".$totalValueRow.";";
 

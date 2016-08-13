@@ -69,7 +69,7 @@ function onLoadSensorInfo(){
 				{
 					realtimeSensorInfo.push({
 						sensorID: parseInt(data[0]),
-						sensorName: "Sensor"+i,
+						sensorName: "Sensor"+parseInt(data[0]),
 						sensorType: data[1],
 						sensorDescription: ""
 					})

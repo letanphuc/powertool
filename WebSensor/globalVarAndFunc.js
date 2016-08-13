@@ -18,7 +18,7 @@
     var MAX_AVAILABLE_SENSORS = 4
         //init value
         for (i = 0; i < MAX_AVAILABLE_SENSORS; i++) { 
-          liveViewSelected[i] = true;
+          liveViewSelected[i] = false;
         }
         function updateLiveViewValues () {
           for (i = 0; i < realtimeSensorInfo.length; i++) { 

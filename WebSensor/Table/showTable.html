@@ -499,7 +499,7 @@ myTable +="</tr>";
 
 for (var j=0; j<parent.totalValueRow; j++) {
   myTable+="<tr class=\"firstRow\"  id=\""+parent.recordId[j] +"\">";
-  parent.recordId[j] = parseFloat(parent.recordId[j]/30).toFixed(4); 
+  parent.recordId[j] = parseFloat(parent.recordId[j]).toFixed(4); 
   myTable+="<td>" +parent.recordId[j] + "</td>";
   for (i=0; i<parent.totalSensorAvailable; i++) {
     myTable+="<td>" + parent.matrix[i][j] + "</td>";
