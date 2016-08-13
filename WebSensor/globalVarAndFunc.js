@@ -15,13 +15,14 @@
     var GraphInfo = [];       // show info of graph
     var tabIndex = 0;
     var totalSensor = 0
+    var MAX_AVAILABLE_SENSORS = 4
         //init value
-        for (i = 0; i < totalSensor; i++) { 
+        for (i = 0; i < MAX_AVAILABLE_SENSORS; i++) { 
           liveViewSelected[i] = true;
         }
         function updateLiveViewValues () {
           for (i = 0; i < realtimeSensorInfo.length; i++) { 
-            liveViewSelected[i] = document.getElementById('liveViewCheckBox'+i).checked;
+            liveViewSelected[realtimeSensorInfo[i].sensorID] = document.getElementById('liveViewCheckBox'+i).checked;
           }
         }
     function resizeIframe(obj) {
