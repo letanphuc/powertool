@@ -67,12 +67,12 @@
 				$result = $db->query('SELECT * FROM data');
 				foreach($result as $row)
 				{
-					echo "recordId.push(".$row['recordID'].");"; 
+					echo "recordId.push(".$row['recordTime'].");"; 
 					for($i = 0; $i < $totalSensorAvailable; $i++)
 					{
 						$j = $i + 1;
 						$value = "value".$j;
-						echo "value".$i.".push(parseFloat((".$row[$value]."- maginData[".$i."]).toFixed(4)));";
+						echo "value".$i.".push(parseFloat((".$row[$value]."- maginData[".$sensorIDarray[$i]."]).toFixed(4)));";
 					}
 
 					$totalValueRow++;
