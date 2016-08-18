@@ -34,7 +34,7 @@ include_once '../common.php';
  }
  tbody{
   overflow-y: scroll;
-  height: 450px;
+  height: 400px;
   /*width: 100%;*/
   position: absolute;
 }
@@ -217,7 +217,7 @@ var htmlxxx= "<table  id =\"dataTableID\" class=\"table\">";
     dialogClass: "dlg-no-close",
     position: {
       my: "right",
-      at: "center"
+      at: "top"
     },
     buttons: { 
       Ok: function() {
@@ -230,15 +230,15 @@ var htmlxxx= "<table  id =\"dataTableID\" class=\"table\">";
     }
   });
 
-  var selectCoulumnIndex = -1;
+  var selectColumnIndex = -1;
   var selectRowIndex = -1;
   function setIndexAndHighlight (){
     $('#dataTableID th').each(function(index) {
       $(this).click(function() {
-        selectCoulumnIndex = index;
+        selectColumnIndex = index;
         selectRowIndex = -1;
         if(index > 0){
-          parent.columnSelected = selectCoulumnIndex -1;
+          parent.columnSelected = selectColumnIndex -1;
           window.parent.reloadInfoColumn();
         }
         console.log(index);
@@ -256,7 +256,7 @@ var htmlxxx= "<table  id =\"dataTableID\" class=\"table\">";
   }
   function setIndexAndHighlightRow(){
     $(".firstRow").click(function(){
-      selectCoulumnIndex = -1;
+      selectColumnIndex = -1;
       $('#dataTableID th').each(function(index) {
         $('tr').each(function() {
           if(index > 0){
@@ -271,6 +271,13 @@ var htmlxxx= "<table  id =\"dataTableID\" class=\"table\">";
     });
   };
   $(document).ready(function() {
+    window.addEventListener('focus', function() {
+        console.log(" table focus ")
+    });
+
+  window.addEventListener('blur', function() {
+        console.log(" table blur ")
+    });
     setIndexAndHighlight();
     setIndexAndHighlightRow();
   });
@@ -291,11 +298,11 @@ var htmlxxx= "<table  id =\"dataTableID\" class=\"table\">";
     },
     buttons: { 
       Ok: function() {
-        if(selectCoulumnIndex != -1)
-          deleteSelectColumn(selectCoulumnIndex);
+        if(selectColumnIndex != -1)
+          deleteSelectColumn(selectColumnIndex);
         else if( selectRowIndex > 0)
           deleteSelectRow (selectRowIndex);
-        selectCoulumnIndex = -1;
+        selectColumnIndex = -1;
         selectRowIndex = -1;
         $(this).dialog("close");
       },
@@ -305,9 +312,9 @@ var htmlxxx= "<table  id =\"dataTableID\" class=\"table\">";
     }
   });
   function deleteConfirmFunction() {
-    if(selectCoulumnIndex > 0)
+    if(selectColumnIndex > 0)
     {
-      var r = "Are you sure you want to delete " + parent.tableLable[selectCoulumnIndex - 1] + " column? The relative graph will be deleted";
+      var r = "Are you sure you want to delete " + parent.tableLable[selectColumnIndex - 1] + " column? The relative graph will be deleted";
       console.log(r);
       $("#messageDelete").text(r);
       $("#dialogDeleteConfirm").dialog("open");
