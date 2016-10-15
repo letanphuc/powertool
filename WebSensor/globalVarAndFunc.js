@@ -15,6 +15,7 @@
     var GraphInfo = [];       // show info of graph
     var tabIndex = 0;
     var totalSensor = 0
+    var needToReloadTable = false;
     var MAX_AVAILABLE_SENSORS = 4
         //init value
         for (i = 0; i < MAX_AVAILABLE_SENSORS; i++) { 
