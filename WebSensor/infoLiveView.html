@@ -16,7 +16,7 @@ include_once 'common.php';
 		document.getElementById("liveViewProperties").innerHTML = liveViewContent;
 		for (i = 0; i < localSensorInfo.length; i++) {
 			document.getElementById("liveViewCheckBox" + i).checked = liveViewSelected[localSensorInfo[i].sensorID];
-			if(maginData[i]!= 0)
+			if(maginData[localSensorInfo[i].sensorID]!= 0)
 				$("#SetZero"+i).val("Reset");
 		}
 		$('.btn-info')
@@ -26,6 +26,7 @@ include_once 'common.php';
 							var index = idname.substr(idname.length - 1);
 							var total = 0;
 							console.log(index);
+							index = localSensorInfo[index].sensorID
 							if ($(this).val() == "SetZero") {
 								console.log("Set to Zero");
 								if (dpsForLiveView[index].length != 0) {
