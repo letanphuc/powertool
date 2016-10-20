@@ -21,6 +21,11 @@ function updateRealtimeSensorInfo(){
 		document.getElementById("sensorName").value = localSensorInfo[tmpIndex].sensorName;
 		document.getElementById("sensorType").value = localSensorInfo[tmpIndex].sensorType;
 		document.getElementById("sensorDescription").value = localSensorInfo[tmpIndex].sensorDescription;
+		//reset live view
+		for (i = 0; i < MAX_AVAILABLE_SENSORS; i++) { 
+          	liveViewSelected[i] = false;
+		    liveViewSelectedOld[i] = false;
+        }
 	}
 
 

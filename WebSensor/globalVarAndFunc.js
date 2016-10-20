@@ -22,7 +22,7 @@
         //init value
         for (i = 0; i < MAX_AVAILABLE_SENSORS; i++) { 
           liveViewSelected[i] = false;
-		  liveViewSelectedOld[i] = false;
+		      liveViewSelectedOld[i] = false;
         }
         function updateLiveViewValues () {
           if(window.lastFocusStatus)
