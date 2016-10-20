@@ -291,6 +291,7 @@ $("#btn-about").click(function () {
          if(y =="#LiveView"){
           focusTab = 0;
           $( "#infoLiveView" ).load( "infoLiveView.html" );
+          setHideSystemInfo()
           $( "#infoSensor" ).show();
           $("#btn-add-tab").hide();
         }
