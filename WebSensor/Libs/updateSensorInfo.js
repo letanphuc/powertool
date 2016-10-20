@@ -1,6 +1,7 @@
 var realtimeSensorInfo = []
 var localSensorInfo = []
-var hightlightIndex = 0;
+var hightlightIndex = 0
+var tmpIndex = 0
 var foundHighligh = false
 var MAX_AVAILABLE_SENSORS = 4
 
@@ -16,28 +17,31 @@ function updateRealtimeSensorInfo(){
 		for (i = 0; i < realtimeSensorInfo.length ; i++) {
 			localSensorInfo.push(realtimeSensorInfo[i])
 		}
-		document.getElementById("sensorName").value = localSensorInfo[hightlightIndex].sensorName;
-		document.getElementById("sensorType").value = localSensorInfo[hightlightIndex].sensorType;
-		document.getElementById("sensorDescription").value = localSensorInfo[hightlightIndex].sensorDescription;
+		hightlightIndex = localSensorInfo[tmpIndex].sensorID
+		document.getElementById("sensorName").value = localSensorInfo[tmpIndex].sensorName;
+		document.getElementById("sensorType").value = localSensorInfo[tmpIndex].sensorType;
+		document.getElementById("sensorDescription").value = localSensorInfo[tmpIndex].sensorDescription;
 	}
 
 
 	foundHighligh = false
-
-	for (i = 0; i < realtimeSensorInfo.length ; i++) {
-		document.getElementById("Sensor" + i).style.backgroundColor = "blue";
-		document.getElementById("Sensor" + i).disabled = false
-		document.getElementById("Sensor" + i).value = "" + realtimeSensorInfo[i].sensorID;
-		
-		// Set red colour for highligh sensor
-		if (hightlightIndex == i){
-			document.getElementById("Sensor" + i).style.backgroundColor = "red";
-		}
-	}
+	
 	for (i; i < MAX_AVAILABLE_SENSORS ; i++) {
 		document.getElementById("Sensor" + i).style.backgroundColor = "gray";
 		document.getElementById("Sensor" + i).disabled = true
 		document.getElementById("Sensor" + i).value = ""
+	}
+
+	for (i = 0; i < realtimeSensorInfo.length ; i++) {
+		index = localSensorInfo[i].sensorID
+		document.getElementById("Sensor" + index).style.backgroundColor = "blue";
+		document.getElementById("Sensor" + index).disabled = false
+		document.getElementById("Sensor" + index).value = "" + index;
+		
+		// Set red colour for highligh sensor
+		if (hightlightIndex == index){
+			document.getElementById("Sensor" + hightlightIndex).style.backgroundColor = "red";
+		}
 	}
 	if(focusTab == 0)
 		$( "#infoLiveView" ).load( "infoLiveView.html");
@@ -102,24 +106,29 @@ function onLoadSensorInfo(){
 			$(".collapse").collapse('show');
 			this.style.backgroundColor = "red";
 			hightlightIndex = parseInt($(this).attr('id')[$(this).attr('id').length - 1],10);
+			for (tmpIndex = 0; i < localSensorInfo.length ; tmpIndex++) {
+				if (localSensorInfo[tmpIndex].sensorID == hightlightIndex)
+					break
+			}
+			hightlightIndex = localSensorInfo[hightlightIndex].sensorID
 			updateRealtimeSensorInfo()
 			// Set red colour for highligh sensor
 			document.getElementById("Sensor" + hightlightIndex).style.backgroundColor = "red";
-			document.getElementById("sensorName").value = localSensorInfo[hightlightIndex].sensorName;
-			document.getElementById("sensorType").value = localSensorInfo[hightlightIndex].sensorType;
-			document.getElementById("sensorDescription").value = localSensorInfo[hightlightIndex].sensorDescription;
+			document.getElementById("sensorName").value = localSensorInfo[tmpIndex].sensorName;
+			document.getElementById("sensorType").value = localSensorInfo[tmpIndex].sensorType;
+			document.getElementById("sensorDescription").value = localSensorInfo[tmpIndex].sensorDescription;
 			console.log(localSensorInfo)
 		});
 		$("#sensorName").change(function() {
 			console.log(" call change event");
-			localSensorInfo[hightlightIndex].sensorName= $(this).val();
-			console.log(hightlightIndex)
+			localSensorInfo[tmpIndex].sensorName= $(this).val();
+			console.log(tmpIndex)
 			$( "#infoLiveView" ).load( "infoLiveView.html");
 		});
 		$("#sensorDescription").change(function() {
 			console.log(" description changed");
 			console.log($(this).val());
-			localSensorInfo[hightlightIndex].sensorDescription = $(this).val();
+			localSensorInfo[tmpIndex].sensorDescription = $(this).val();
 		});
 		
 	});
