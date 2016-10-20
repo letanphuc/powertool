@@ -3,20 +3,6 @@
 include_once '../common.php';
 ?>
 
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="../Libs/jquery-ui-1.11.4/jquery-ui.css" rel="stylesheet">
-<link rel="stylesheet" href="../Libs/bootstrap/css/bootstrap.min.css">
-<script src="../Libs/jquery/jquery-1.12.3.min.js"></script>
-<script src="../Libs/bootstrap/js/bootstrap.min.js"></script>
-<script src="../Libs/jquery-ui-1.11.4/jquery-ui.js"></script>
-
-<script src="../Libs/expression.js"></script>
-<script src="../Libs/math.min.js"></script>
-
-
-<script src="../Libs/jquery.tabletoCSV.js" type="text/javascript" charset="utf-8"></script>
-<link rel="stylesheet"  href="../globarCss.css">
 <style type="text/css">
   tr {
     width: 100%;
@@ -80,26 +66,10 @@ th {
     <button id ="btnExport" class="btn btn-success colorButton" ><?php echo $lang['BUTTON_EXPORT_DATA']; ?></button>
   </div>
 </div>
-<div id="dialog">
-  <form>
-    <p>
-      <label for="nameOfNewColumn"><?php echo $lang['PROPERTIES_NAME']; ?></label>
-      <input id="nameOfNewColumn" type="text">
-    </p>
-    <p>
-      <label> <?php echo $lang['COLUMN_PROPERTIES_EQUATION']; ?></label><br>
-      <textarea id="ColumnEqualition" rows="2" cols="60" placeholder="Enter equation"></textarea>
-    </p>
-    <label> <?php echo $lang['PROPERTIES_DESCRIPTION']; ?></label><br>
-    <textarea id="ColumnDescription" rows="2" cols="60" placeholder="Enter description"></textarea>
-    <br><label> <?php echo $lang['PROPERTIES_NOTE']; ?>
-    <pre><?php echo $lang['ADD_COLUMN_NOTE']; ?></pre>
-  </label>
-</form>
-</div>
 <div id="dialogDeleteConfirm">
-  <label id="messageDelete"> </label>
+<label id="messageDelete"> </label>
 </div>
+<div id="dialog" > </div>
 <script type="text/javascript">
   $('#btnImport').click(function(){
     $('#my-file').click();
@@ -135,8 +105,8 @@ function getAsText(fileToRead) {
     {
 
 //init Value
-parent.matrix = [];
-parent.recordId = [];
+matrix = [];
+recordId = [];
 
 var htmlxxx= "<table  id =\"dataTableID\" class=\"table\">";
     // split into lines
@@ -147,19 +117,19 @@ var htmlxxx= "<table  id =\"dataTableID\" class=\"table\">";
       // split line into columns
       var columns = ourrow.split(",");
       if(index == 0){
-        parent.totalSensorAvailable = columns.length -1;
-        console.log("parent.totalSensorAvailable = " + parent.totalSensorAvailable)
+        totalSensorAvailable = columns.length -1;
+        console.log("totalSensorAvailable = " + totalSensorAvailable)
         htmlxxx+="<tr>";
         columns.forEach( function (item, index1){
           htmlxxx += "<th style='color: red;'>" + item.substring(1,item.length -1 ) + "</th>";
           if(index1 != 0)
           {
-           parent.tableLable[index1 -1] = item.substring(1,item.length -1 );
-           parent.matrix[index1 -1 ] = []
+           tableLable[index1 -1] = item.substring(1,item.length -1 );
+           matrix[index1 -1 ] = []
          }
        })
         htmlxxx += "</tr>";  
-        console.log( parent.tableLable)
+        console.log( tableLable)
       } 
       else
       {
@@ -167,10 +137,10 @@ var htmlxxx= "<table  id =\"dataTableID\" class=\"table\">";
         columns.forEach( function (item, index1){
           if(index1 == 0){
             console.log("Update recordID")
-            parent.recordId.push( parseFloat(item.substring(1,item.length -1)) )
+            recordId.push( parseFloat(item.substring(1,item.length -1)) )
           }
           else{
-            parent.matrix[index1 -1].push(parseFloat(item.substring(1,item.length -1)))
+            matrix[index1 -1].push(parseFloat(item.substring(1,item.length -1)))
             console.log(parseFloat(item.substring(1,item.length -1)))
           }
           htmlxxx += "<td>" + item.substring(1,item.length -1 ) + "</td>";
@@ -179,20 +149,20 @@ var htmlxxx= "<table  id =\"dataTableID\" class=\"table\">";
       }
       // close row
     })
-    parent.totalValueRow = parent.recordId.length;
+    totalValueRow = recordId.length;
     // close table
     htmlxxx += "</table>";
     document.getElementById("showTable").innerHTML = htmlxxx;
-    parent.columnInfo =[];
-    for (var i=0; i<parent.totalSensorAvailable; i++) {
-      parent.columnInfo.push({
-        Name: parent.tableLable[i],
+    columnInfo =[];
+    for (var i=0; i<totalSensorAvailable; i++) {
+      columnInfo.push({
+        Name: tableLable[i],
         Type: "",
-        Average: getAverage(parent.matrix[i]),
-        Max: getMax(parent.matrix[i]),
-        Min: getMin(parent.matrix[i]),
-        Absolute: getdelta(parent.matrix[i]),
-        AbsoluteError: getPerDelta(parent.matrix[i]),
+        Average: getAverage(matrix[i]),
+        Max: getMax(matrix[i]),
+        Min: getMin(matrix[i]),
+        Absolute: getdelta(matrix[i]),
+        AbsoluteError: getPerDelta(matrix[i]),
         Description:"",
         Equalition: "",
         ConstantArray: {},
@@ -211,13 +181,13 @@ var htmlxxx= "<table  id =\"dataTableID\" class=\"table\">";
   $("#dialog").dialog({
     autoOpen: false,
     width: 500,
-    height: 450,
-    // modal: true,
+    height: 500,
+    modal: true,
     title: <?php echo json_encode($lang['BUTTON_ADD_COLUMN']); ?>,
     dialogClass: "dlg-no-close",
     position: {
-      my: "right",
-      at: "top"
+      my: "center",
+      at: "center"
     },
     buttons: { 
       Ok: function() {
@@ -230,60 +200,21 @@ var htmlxxx= "<table  id =\"dataTableID\" class=\"table\">";
     }
   });
 
-  var selectColumnIndex = -1;
-  var selectRowIndex = -1;
-  function setIndexAndHighlight (){
-    $('#dataTableID th').each(function(index) {
-      $(this).click(function() {
-        selectColumnIndex = index;
-        selectRowIndex = -1;
-        if(index > 0){
-          parent.columnSelected = selectColumnIndex -1;
-          window.parent.reloadInfoColumn();
-        }
-        console.log(index);
-        $('tr').each(function() {
-          $(this).removeClass('rowHighlight');  
-          if(index > 0){
-            $(this).find('td').not(':eq(index)').removeClass('highlight');
-            $(this).find('th').not(':eq(index)').removeClass('highlight');
-            $(this).find('td').eq(index).toggleClass('highlight');
-            $(this).find('th').eq(index).toggleClass('highlight');
-          }
-        });
-      });
-    });
-  }
-  function setIndexAndHighlightRow(){
-    $(".firstRow").click(function(){
-      selectColumnIndex = -1;
-      $('#dataTableID th').each(function(index) {
-        $('tr').each(function() {
-          if(index > 0){
-            $(this).find('td').not(':eq(index)').removeClass('highlight');
-            $(this).find('th').not(':eq(index)').removeClass('highlight');
-          }
-        });
-      });
-      selectRowIndex = $(this).index();
-      console.log(" select row clicked selectRowIndex = " + selectRowIndex )
-      $(this).addClass('rowHighlight').siblings().removeClass('rowHighlight');    
-    });
-  };
   $(document).ready(function() {
     window.addEventListener('focus', function() {
-        console.log(" table focus ")
+      console.log(" table focus ")
     });
 
-  window.addEventListener('blur', function() {
-        console.log(" table blur ")
+    window.addEventListener('blur', function() {
+      console.log(" table blur ")
     });
     setIndexAndHighlight();
     setIndexAndHighlightRow();
   });
 
   $("#addColumnButton").click(function () {
-    $("#dialog").dialog("open");
+  $("#dialog" ).load( "Table/addColumn.html" );
+  $("#dialog").dialog("open");
   });
   $("#dialogDeleteConfirm").dialog({
     autoOpen: false,
@@ -312,9 +243,10 @@ var htmlxxx= "<table  id =\"dataTableID\" class=\"table\">";
     }
   });
   function deleteConfirmFunction() {
+    console.log("deleteConfirmFunction is called")
     if(selectColumnIndex > 0)
     {
-      var r = "Are you sure you want to delete " + parent.tableLable[selectColumnIndex - 1] + " column? The relative graph will be deleted";
+      var r = "Are you sure you want to delete " + tableLable[selectColumnIndex - 1] + " column? The relative graph will be deleted";
       console.log(r);
       $("#messageDelete").text(r);
       $("#dialogDeleteConfirm").dialog("open");
@@ -331,11 +263,11 @@ var htmlxxx= "<table  id =\"dataTableID\" class=\"table\">";
   function addNewColumn (){
     listOfSymbol = {}
     listOfConst = {}
-    LENGHT = parent.totalValueRow
-    parent.tableLable.forEach(function myFunction(item, index) {
-     listOfSymbol[item.replace(/\s/g, '')] = parent.matrix[index]
+    LENGHT = totalValueRow
+    tableLable.forEach(function myFunction(item, index) {
+     listOfSymbol[item.replace(/\s/g, '')] = matrix[index]
    })
-    listOfSymbol['time'] = parent.recordId;
+    listOfSymbol['time'] = recordId;
 
 
     try{
@@ -345,23 +277,23 @@ var htmlxxx= "<table  id =\"dataTableID\" class=\"table\">";
      newColumnValues = compute(ex)
      console.log(newColumnValues)
 
-     parent.tableLable.push(nameOfNewColumn.value);
+     tableLable.push(nameOfNewColumn.value);
      var selectRow;
      var newTH = document.createElement('th');
      selectRow = document.getElementById("dataTableID").rows[0];
      selectRow.appendChild(newTH);
-     newTH.innerHTML = parent.tableLable[parent.tableLable.length-1];
+     newTH.innerHTML = tableLable[tableLable.length-1];
 
-     for(var i = 1; i <= parent.totalValueRow; i++)
+     for(var i = 1; i <= totalValueRow; i++)
      {
       selectRow = document.getElementById("dataTableID").rows[i];
-      selectRow.insertCell(parent.tableLable.length).innerHTML =newColumnValues[i - 1];
+      selectRow.insertCell(tableLable.length).innerHTML =newColumnValues[i - 1];
     }
 
-    parent.matrix.push(newColumnValues);
-    parent.totalSensorAvailable++;
-    console.log(parent.columnInfo);
-    parent.columnInfo.push({
+    matrix.push(newColumnValues);
+    totalSensorAvailable++;
+    console.log(columnInfo);
+    columnInfo.push({
       Name: nameOfNewColumn.value,
       Type: "newColumn",
       Average: getAverage(newColumnValues),
@@ -384,65 +316,65 @@ var htmlxxx= "<table  id =\"dataTableID\" class=\"table\">";
 function deleteSelectRow (index){
   $("tr").eq(index).remove();
   var indexOfTable = index -1;
-  // parent.tableLable.splice(indexOfTable, 1);
+  // tableLable.splice(indexOfTable, 1);
   //Todo calculator columnInfo again
-  // parent.columnInfo.splice(indexOfTable, 1);
-  // parent.matrix.splice(indexOfTable,1);
-  // parent.columnInfo =[];
-  parent.recordId.splice(indexOfTable,1);
-  for( i = 0; i < parent.matrix.length; i++)
+  // columnInfo.splice(indexOfTable, 1);
+  // matrix.splice(indexOfTable,1);
+  // columnInfo =[];
+  recordId.splice(indexOfTable,1);
+  for( i = 0; i < matrix.length; i++)
   {
-    // console.log(parent.matrix[i])
-    parent.matrix[i].splice(indexOfTable,1);
-    parent.columnInfo[i].Average = getAverage(parent.matrix[i])
-    parent.columnInfo[i].Max = getMax(parent.matrix[i])
-    parent.columnInfo[i].Min = getMin(parent.matrix[i])
-    parent.columnInfo[i].Absolute = getdelta(parent.matrix[i])
-    parent.columnInfo[i].AbsoluteError = getPerDelta(parent.matrix[i])
+    // console.log(matrix[i])
+    matrix[i].splice(indexOfTable,1);
+    columnInfo[i].Average = getAverage(matrix[i])
+    columnInfo[i].Max = getMax(matrix[i])
+    columnInfo[i].Min = getMin(matrix[i])
+    columnInfo[i].Absolute = getdelta(matrix[i])
+    columnInfo[i].AbsoluteError = getPerDelta(matrix[i])
   }
-  parent.totalValueRow--;
+  totalValueRow--;
   setIndexAndHighlight();
 }
 
 function deleteSelectColumn (index){
   var indexOfTable = index -1;
-  parent.tableLable.splice(indexOfTable, 1);
-  parent.columnInfo.splice(indexOfTable, 1);
-  parent.matrix.splice(indexOfTable,1);
+  tableLable.splice(indexOfTable, 1);
+  columnInfo.splice(indexOfTable, 1);
+  matrix.splice(indexOfTable,1);
   var selectRow;
-  for(var i = 0; i <= parent.totalValueRow; i++)
+  for(var i = 0; i <= totalValueRow; i++)
   {
     selectRow = document.getElementById("dataTableID").rows[i];
     selectRow.deleteCell(index);
   }
-  parent.totalSensorAvailable--;
+  totalSensorAvailable--;
   setIndexAndHighlight();
-  parent.GraphInfo.forEach( function (item, index1){
+  GraphInfo.forEach( function (item, index1){
     if(item!=0)
     {
       if(item.X == indexOfTable){
-        parent.removeTabWithTabID(index1);
+        removeTabWithTabID(index1);
       }
       else if(item.X > indexOfTable)
       { 
         item.X --;
       }
       if(item.Y1 == indexOfTable){
-        parent.removeTabWithTabID(index1);
+        removeTabWithTabID(index1);
       }
       else if(item.Y1 > indexOfTable)
       { 
         item.Y1 --;
       }
       if(item.Y2 == indexOfTable){
-        parent.removeTabWithTabID(index1);
+        removeTabWithTabID(index1);
       }
       else if(item.Y2 > indexOfTable)
       { 
         item.Y2 --;
       }
       if(item.Y3 == indexOfTable){
-        parent.removeTabWithTabID(index1);
+        removeTabWithTabID(index1);
       }
       else if(item.Y3 > indexOfTable)
       { 
@@ -498,37 +430,39 @@ function getMin(array)
 }
 // load data from global variable
 var myTable= "<table  id =\"dataTableID\" class=\"table \"><tr><th style='color: red;'>Time</th>";
-for (var i=0; i<parent.localSensorInfo.length; i++) {
-  parent.tableLable[i] = parent.localSensorInfo[i].sensorName;
-  myTable+= "<th style='color: red;'>" + parent.tableLable[i] +"</th>";
+for (var i=0; i<localSensorInfo.length; i++) {
+  tableLable[i] = localSensorInfo[i].sensorName;
+  myTable+= "<th style='color: red;'>" + tableLable[i] +"</th>";
 } 
 myTable +="</tr>";
 
-for (var j=0; j<parent.totalValueRow; j++) {
-  myTable+="<tr class=\"firstRow\"  id=\""+parent.recordId[j] +"\">";
-  parent.recordId[j] = parseFloat(parent.recordId[j]).toFixed(4); 
-  myTable+="<td>" +parent.recordId[j] + "</td>";
-  for (i=0; i<parent.totalSensorAvailable; i++) {
-    myTable+="<td>" + parent.matrix[i][j] + "</td>";
+for (var j=0; j<totalValueRow; j++) {
+  myTable+="<tr class=\"firstRow\"  id=\""+recordId[j] +"\">";
+  recordId[j] = parseFloat(recordId[j]).toFixed(4); 
+  myTable+="<td>" +recordId[j] + "</td>";
+  for (i=0; i<totalSensorAvailable; i++) {
+    myTable+="<td>" + matrix[i][j] + "</td>";
   }
   myTable+="</tr>";
 }  
 myTable+="</table>";
 document.getElementById("showTable").innerHTML = myTable;
 // reset value of column Info when F5.
-parent.columnInfo =[];
-for (var i=0; i<parent.totalSensorAvailable; i++) {
-  parent.columnInfo.push({
-    Name: parent.localSensorInfo[i].sensorName,
-    Type: parent.localSensorInfo[i].sensorType,
-    Average: getAverage(parent.matrix[i]),
-    Max: getMax(parent.matrix[i]),
-    Min: getMin(parent.matrix[i]),
-    Absolute: getdelta(parent.matrix[i]),
-    AbsoluteError: getPerDelta(parent.matrix[i]),
-    Description: parent.localSensorInfo[i].sensorDescription,
+columnInfo =[];
+for (var i=0; i<totalSensorAvailable; i++) {
+  columnInfo.push({
+    Name: localSensorInfo[i].sensorName,
+    Type: localSensorInfo[i].sensorType,
+    Average: getAverage(matrix[i]),
+    Max: getMax(matrix[i]),
+    Min: getMin(matrix[i]),
+    Absolute: getdelta(matrix[i]),
+    AbsoluteError: getPerDelta(matrix[i]),
+    Description: localSensorInfo[i].sensorDescription,
     Equalition: "",
     ConstantArray: {},
   });
 }
+setIndexAndHighlight()
+setIndexAndHighlightRow()
 </script>

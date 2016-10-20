@@ -15,7 +15,10 @@ include_once 'common.php';
 		}
 		document.getElementById("liveViewProperties").innerHTML = liveViewContent;
 		for (i = 0; i < localSensorInfo.length; i++) {
-			document.getElementById("liveViewCheckBox" + i).checked = liveViewSelected[localSensorInfo[i].sensorID];
+			if(window.lastFocusStatus)
+				document.getElementById("liveViewCheckBox" + i).checked = liveViewSelected[localSensorInfo[i].sensorID];
+			else
+				document.getElementById("liveViewCheckBox" + i).checked = liveViewSelectedOld[localSensorInfo[i].sensorID];
 			if(maginData[localSensorInfo[i].sensorID]!= 0)
 				$("#SetZero"+i).val("Reset");
 		}

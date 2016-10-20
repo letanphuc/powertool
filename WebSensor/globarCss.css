@@ -144,3 +144,13 @@
     .increase {
 
     }
+    .displayValue {
+      font-weight: bold;
+      background-color: #ffffff;
+    }
+
+    .labelInfo {
+      display: inline-block;
+      width: 45px;
+      text-align: right;
+    }
