@@ -31,15 +31,15 @@ include_once '../common.php';
     <label class="labelInfo"> <?php echo $lang['COLUMN_PROPERTIES_RE_ER']; ?></label>
     <input id="InfoAbsoluteErrorOfColumn" class="form-control" readonly="true" ></input>
     </div>
-    <label   class="labelInfo" id="lableOfDescriptionOfColumn"> <?php echo $lang['PROPERTIES_DESCRIPTION']; ?></label>
+    <label   class="labelInfo" id="lableOfDescriptionOfColumn" style="display: none;"> <?php echo $lang['PROPERTIES_DESCRIPTION']; ?></label>
     <div class="form-inline">
     <label class="labelInfo" ></label>
-    <textarea  id="descriptionOfColumn"  class="form-control"  readonly="true" rows="2" cols="22" ></textarea>
+    <textarea  id="descriptionOfColumn"  class="form-control"  readonly="true" rows="2" cols="22" style="display: none;"></textarea>
     </div>
-    <label  class="labelInfo" id="lableOfequationOfColumn"> <?php echo $lang['COLUMN_PROPERTIES_EQUATION']; ?></label>
+    <label  class="labelInfo" id="lableOfequationOfColumn" style="display: none;"> <?php echo $lang['COLUMN_PROPERTIES_EQUATION']; ?></label>
     <div class="form-inline">
     <label class="labelInfo" ></label>
-    <textarea  id="equationOfColumn" class="form-control" readonly="true" rows="2" cols="22" ></textarea>
+    <textarea  id="equationOfColumn" class="form-control" readonly="true" rows="2" cols="22" style="display: none;"></textarea>
     </div>
 
   	<div id="ConstantDisplay"></div>
