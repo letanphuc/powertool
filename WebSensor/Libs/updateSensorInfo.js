@@ -4,7 +4,7 @@ var hightlightIndex = 0
 var tmpIndex = 0
 var foundHighligh = false
 var MAX_AVAILABLE_SENSORS = 4
-
+var needReset = true
 
 function updateRealtimeSensorInfo(){
 	
@@ -16,22 +16,39 @@ function updateRealtimeSensorInfo(){
 		localSensorInfo.length = 0
 		for (i = 0; i < realtimeSensorInfo.length ; i++) {
 			localSensorInfo.push(realtimeSensorInfo[i])
+			if (hightlightIndex == realtimeSensorInfo[i].sensorID)
+			{
+				foundHighligh = true
+				tmpIndex = i
+			}
 		}
-		hightlightIndex = localSensorInfo[tmpIndex].sensorID
+		//reset live view
+		for (i = 0; i < MAX_AVAILABLE_SENSORS; i++) { 
+			for (j = 0; j < realtimeSensorInfo.length ; j++) {
+				if(i == localSensorInfo[j].sensorID) {
+					needReset = false
+		    	}
+			}
+			if(needReset)
+			{
+				liveViewSelected[i] = false;
+			    liveViewSelectedOld[i] = false;
+			}
+			needReset = true
+        }
+        if(!foundHighligh)
+        {
+        	tmpIndex = 0
+        	hightlightIndex = localSensorInfo[tmpIndex].sensorID
+        }
+        foundHighligh = false
 		document.getElementById("sensorName").value = localSensorInfo[tmpIndex].sensorName;
 		document.getElementById("sensorType").value = localSensorInfo[tmpIndex].sensorType;
 		document.getElementById("sensorDescription").value = localSensorInfo[tmpIndex].sensorDescription;
-		//reset live view
-		for (i = 0; i < MAX_AVAILABLE_SENSORS; i++) { 
-          	liveViewSelected[i] = false;
-		    liveViewSelectedOld[i] = false;
-        }
 	}
 
-
-	foundHighligh = false
 	
-	for (i; i < MAX_AVAILABLE_SENSORS ; i++) {
+	for (i = 0; i < MAX_AVAILABLE_SENSORS ; i++) {
 		document.getElementById("Sensor" + i).style.backgroundColor = "gray";
 		document.getElementById("Sensor" + i).disabled = true
 		document.getElementById("Sensor" + i).value = ""
@@ -111,12 +128,13 @@ function onLoadSensorInfo(){
 			$(".collapse").collapse('show');
 			this.style.backgroundColor = "red";
 			hightlightIndex = parseInt($(this).attr('id')[$(this).attr('id').length - 1],10);
-			for (tmpIndex = 0; i < localSensorInfo.length ; tmpIndex++) {
+			for (tmpIndex = 0; tmpIndex < localSensorInfo.length ; tmpIndex++) {
 				if (localSensorInfo[tmpIndex].sensorID == hightlightIndex)
 					break
 			}
-			hightlightIndex = localSensorInfo[hightlightIndex].sensorID
 			updateRealtimeSensorInfo()
+			console.log("Show sensor changed " + hightlightIndex);
+			console.log(localSensorInfo[tmpIndex]);
 			// Set red colour for highligh sensor
 			document.getElementById("Sensor" + hightlightIndex).style.backgroundColor = "red";
 			document.getElementById("sensorName").value = localSensorInfo[tmpIndex].sensorName;
