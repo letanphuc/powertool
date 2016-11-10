@@ -80,13 +80,6 @@ function compute(equation) {
 	});
 
 	var ret = []
-	var KMfilter = {
-		q:1.0,
-		r:15.0,
-		x:0.0,
-		p:1.0,
-		k:0.0,
-	}
 	for (var i = 0; i < LENGHT; i++) {
 		var scope = {}
 		filtered.forEach(function myFunction(item, index) {
@@ -95,18 +88,12 @@ function compute(equation) {
 
 		var ans = node.eval(scope)
 		ans = parseFloat(ans.toFixed(4))
-		if (i == 0){
-			KMfilter.x = ans
-		}
-		else {
-			ans = filter(KMfilter, ans)
-		}
 		if (!isNaN(ans))
-      ret.push(math.round(ans,4))
+      		ret.push(math.round(ans,4))
 	}
-  ret.shift()
-  ret.shift()
-  ret.shift()
+  // ret.shift()
+  // ret.shift()
+  // ret.shift()
 	return ret
 
 }

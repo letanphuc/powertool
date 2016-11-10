@@ -22,7 +22,7 @@
         //init value
         for (i = 0; i < MAX_AVAILABLE_SENSORS; i++) { 
           liveViewSelected[i] = false;
-		      liveViewSelectedOld[i] = false;
+		  liveViewSelectedOld[i] = false;
         }
         function updateLiveViewValues () {
           if(window.lastFocusStatus)
@@ -33,6 +33,8 @@
     function resizeIframe(obj) {
       obj.style.height = obj.contentWindow.document.body.scrollHeight + 'px';
     }
+
+
 	function reCompute(index){
 		var newColumnValues = []
 		listOfSymbol = {}
@@ -134,11 +136,10 @@
     			/* Found zero */
     			if (firsrZero != -1){
     				secondZero = i;
-    				B = 2.0* math.PI / (secondZero - firsrZero);
+    				B = 2.0* math.PI / (recordId[secondZero] - recordId[firsrZero]);
     				A = (max - min) / 2.0
     				D = (max + min) / 2.0;
-    				C = math.asin(0) - B*i;
-                    B = B*30;
+    				C = math.asin(0) - B*recordId[secondZero];
 
     				break;
     			}

@@ -40,7 +40,7 @@ include_once 'common.php';
                 comboContent+="<option value=\""+i+"\">" + parent.tableLable[i] +"</option>";
               }
               comboContent+="</select>";
-              comboContent+= "<input id =\"colorForY" + j+ "\"type=\"color\" value=\"#0000ff\"/></div></p>";
+              comboContent+= "<input id =\"colorForY" + j+ "\"type=\"color\" value=\"" + parent.arrayColorForLiveView[j-1] + "\"/></div></p>";
             }
             document.getElementById("comboBox").innerHTML = comboContent;
           </script>
