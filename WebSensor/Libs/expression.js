@@ -3,6 +3,51 @@ var x = []
 var listOfSymbol = {}
 var listOfConst = {}
 
+function dis(x0, x1, x2, t0, t1, t2) {
+	a0 = (t0 * t1 * x2 * (t0 - t1) - t0 * t2 * x1 * (t0 - t2) + t1 * t2 * x0 * (t1 - t2)) / (t0 ** 2 * t1 - t0 ** 2 * t2 - t0 * t1 ** 2 + t0 * t2 ** 2 + t1 ** 2 * t2 - t1 * t2 ** 2)
+    a2 = (x0 * (t1 - t2) - x1 * (t0 - t2) + x2 * (t0 - t1)) / (t0 ** 2 * t1 - t0 ** 2 * t2 - t0 * t1 ** 2 + t0 * t2 ** 2 + t1 ** 2 * t2 - t1 * t2 ** 2)
+    a1 = (-x0 * (t1 ** 2 - t2 ** 2) + x1 * (t0 ** 2 - t2 ** 2) - x2 * (t0 ** 2 - t1 ** 2)) / (t0 ** 2 * t1 - t0 ** 2 * t2 - t0 * t1 ** 2 + t0 * t2 ** 2 + t1 ** 2 * t2 - t1 * t2 ** 2)
+    d = (a1 + 2 * a2 * t1)
+    return d
+}
+
+function dis3(x0, x1, x2, x3, t0, t1, t2, t3) {
+	    a1 = (x0 * (
+    t1 ** 3 * t2 ** 2 - t1 ** 3 * t3 ** 2 - t1 ** 2 * t2 ** 3 + t1 ** 2 * t3 ** 3 + t2 ** 3 * t3 ** 2 - t2 ** 2 * t3 ** 3) - x1 * (
+          t0 ** 3 * t2 ** 2 - t0 ** 3 * t3 ** 2 - t0 ** 2 * t2 ** 3 + t0 ** 2 * t3 ** 3 + t2 ** 3 * t3 ** 2 - t2 ** 2 * t3 ** 3) + x2 * (
+          t0 ** 3 * t1 ** 2 - t0 ** 3 * t3 ** 2 - t0 ** 2 * t1 ** 3 + t0 ** 2 * t3 ** 3 + t1 ** 3 * t3 ** 2 - t1 ** 2 * t3 ** 3) - x3 * (
+          t0 ** 3 * t1 ** 2 - t0 ** 3 * t2 ** 2 - t0 ** 2 * t1 ** 3 + t0 ** 2 * t2 ** 3 + t1 ** 3 * t2 ** 2 - t1 ** 2 * t2 ** 3)) / (
+         t0 ** 3 * t1 ** 2 * t2 - t0 ** 3 * t1 ** 2 * t3 - t0 ** 3 * t1 * t2 ** 2 + t0 ** 3 * t1 * t3 ** 2 + t0 ** 3 * t2 ** 2 * t3 - t0 ** 3 * t2 * t3 ** 2 - t0 ** 2 * t1 ** 3 * t2 + t0 ** 2 * t1 ** 3 * t3 + t0 ** 2 * t1 * t2 ** 3 - t0 ** 2 * t1 * t3 ** 3 - t0 ** 2 * t2 ** 3 * t3 + t0 ** 2 * t2 * t3 ** 3 + t0 * t1 ** 3 * t2 ** 2 - t0 * t1 ** 3 * t3 ** 2 - t0 * t1 ** 2 * t2 ** 3 + t0 * t1 ** 2 * t3 ** 3 + t0 * t2 ** 3 * t3 ** 2 - t0 * t2 ** 2 * t3 ** 3 - t1 ** 3 * t2 ** 2 * t3 + t1 ** 3 * t2 * t3 ** 2 + t1 ** 2 * t2 ** 3 * t3 - t1 ** 2 * t2 * t3 ** 3 - t1 * t2 ** 3 * t3 ** 2 + t1 * t2 ** 2 * t3 ** 3)
+    a2 = (-x0 * (t1 ** 3 * t2 - t1 ** 3 * t3 - t1 * t2 ** 3 + t1 * t3 ** 3 + t2 ** 3 * t3 - t2 * t3 ** 3) + x1 * (
+    t0 ** 3 * t2 - t0 ** 3 * t3 - t0 * t2 ** 3 + t0 * t3 ** 3 + t2 ** 3 * t3 - t2 * t3 ** 3) - x2 * (
+          t0 ** 3 * t1 - t0 ** 3 * t3 - t0 * t1 ** 3 + t0 * t3 ** 3 + t1 ** 3 * t3 - t1 * t3 ** 3) + x3 * (
+          t0 ** 3 * t1 - t0 ** 3 * t2 - t0 * t1 ** 3 + t0 * t2 ** 3 + t1 ** 3 * t2 - t1 * t2 ** 3)) / (
+         t0 ** 3 * t1 ** 2 * t2 - t0 ** 3 * t1 ** 2 * t3 - t0 ** 3 * t1 * t2 ** 2 + t0 ** 3 * t1 * t3 ** 2 + t0 ** 3 * t2 ** 2 * t3 - t0 ** 3 * t2 * t3 ** 2 - t0 ** 2 * t1 ** 3 * t2 + t0 ** 2 * t1 ** 3 * t3 + t0 ** 2 * t1 * t2 ** 3 - t0 ** 2 * t1 * t3 ** 3 - t0 ** 2 * t2 ** 3 * t3 + t0 ** 2 * t2 * t3 ** 3 + t0 * t1 ** 3 * t2 ** 2 - t0 * t1 ** 3 * t3 ** 2 - t0 * t1 ** 2 * t2 ** 3 + t0 * t1 ** 2 * t3 ** 3 + t0 * t2 ** 3 * t3 ** 2 - t0 * t2 ** 2 * t3 ** 3 - t1 ** 3 * t2 ** 2 * t3 + t1 ** 3 * t2 * t3 ** 2 + t1 ** 2 * t2 ** 3 * t3 - t1 ** 2 * t2 * t3 ** 3 - t1 * t2 ** 3 * t3 ** 2 + t1 * t2 ** 2 * t3 ** 3)
+    a3 = (x0 * (t1 ** 2 * t2 - t1 ** 2 * t3 - t1 * t2 ** 2 + t1 * t3 ** 2 + t2 ** 2 * t3 - t2 * t3 ** 2) - x1 * (
+    t0 ** 2 * t2 - t0 ** 2 * t3 - t0 * t2 ** 2 + t0 * t3 ** 2 + t2 ** 2 * t3 - t2 * t3 ** 2) + x2 * (
+          t0 ** 2 * t1 - t0 ** 2 * t3 - t0 * t1 ** 2 + t0 * t3 ** 2 + t1 ** 2 * t3 - t1 * t3 ** 2) - x3 * (
+          t0 ** 2 * t1 - t0 ** 2 * t2 - t0 * t1 ** 2 + t0 * t2 ** 2 + t1 ** 2 * t2 - t1 * t2 ** 2)) / (
+         t0 ** 3 * t1 ** 2 * t2 - t0 ** 3 * t1 ** 2 * t3 - t0 ** 3 * t1 * t2 ** 2 + t0 ** 3 * t1 * t3 ** 2 + t0 ** 3 * t2 ** 2 * t3 - t0 ** 3 * t2 * t3 ** 2 - t0 ** 2 * t1 ** 3 * t2 + t0 ** 2 * t1 ** 3 * t3 + t0 ** 2 * t1 * t2 ** 3 - t0 ** 2 * t1 * t3 ** 3 - t0 ** 2 * t2 ** 3 * t3 + t0 ** 2 * t2 * t3 ** 3 + t0 * t1 ** 3 * t2 ** 2 - t0 * t1 ** 3 * t3 ** 2 - t0 * t1 ** 2 * t2 ** 3 + t0 * t1 ** 2 * t3 ** 3 + t0 * t2 ** 3 * t3 ** 2 - t0 * t2 ** 2 * t3 ** 3 - t1 ** 3 * t2 ** 2 * t3 + t1 ** 3 * t2 * t3 ** 2 + t1 ** 2 * t2 ** 3 * t3 - t1 ** 2 * t2 * t3 ** 3 - t1 * t2 ** 3 * t3 ** 2 + t1 * t2 ** 2 * t3 ** 3)
+    a0 = (t0 * t1 * t2 * x3 * (
+    t0 ** 2 * t1 - t0 ** 2 * t2 - t0 * t1 ** 2 + t0 * t2 ** 2 + t1 ** 2 * t2 - t1 * t2 ** 2) - t0 * t1 * t3 * x2 * (
+          t0 ** 2 * t1 - t0 ** 2 * t3 - t0 * t1 ** 2 + t0 * t3 ** 2 + t1 ** 2 * t3 - t1 * t3 ** 2) + t0 * t2 * t3 * x1 * (
+          t0 ** 2 * t2 - t0 ** 2 * t3 - t0 * t2 ** 2 + t0 * t3 ** 2 + t2 ** 2 * t3 - t2 * t3 ** 2) - t1 * t2 * t3 * x0 * (
+          t1 ** 2 * t2 - t1 ** 2 * t3 - t1 * t2 ** 2 + t1 * t3 ** 2 + t2 ** 2 * t3 - t2 * t3 ** 2)) / (
+         t0 ** 3 * t1 ** 2 * t2 - t0 ** 3 * t1 ** 2 * t3 - t0 ** 3 * t1 * t2 ** 2 + t0 ** 3 * t1 * t3 ** 2 + t0 ** 3 * t2 ** 2 * t3 - t0 ** 3 * t2 * t3 ** 2 - t0 ** 2 * t1 ** 3 * t2 + t0 ** 2 * t1 ** 3 * t3 + t0 ** 2 * t1 * t2 ** 3 - t0 ** 2 * t1 * t3 ** 3 - t0 ** 2 * t2 ** 3 * t3 + t0 ** 2 * t2 * t3 ** 3 + t0 * t1 ** 3 * t2 ** 2 - t0 * t1 ** 3 * t3 ** 2 - t0 * t1 ** 2 * t2 ** 3 + t0 * t1 ** 2 * t3 ** 3 + t0 * t2 ** 3 * t3 ** 2 - t0 * t2 ** 2 * t3 ** 3 - t1 ** 3 * t2 ** 2 * t3 + t1 ** 3 * t2 * t3 ** 2 + t1 ** 2 * t2 ** 3 * t3 - t1 ** 2 * t2 * t3 ** 3 - t1 * t2 ** 3 * t3 ** 2 + t1 * t2 ** 2 * t3 ** 3)
+
+    d = (a1 + 2 * a2 * t1 + 3 * a3 * t1 ** 2)
+    return d
+}
+
+function smooth(data, i) {
+	if ((i > 2) && (i < (data.length - 2))){
+        d = (data[i-2] + 2*data[i-1] + 3*data[i] + 2*data[i+1] + data[i+2]) / 9.0
+	}
+    else {
+        d = data[i]
+    }
+    return d
+}
 function value(symbol, index) {
 
 	/** variables */
@@ -30,9 +75,14 @@ function value(symbol, index) {
 			}
 
 			else if (fun == 'dis') {
-				if (index == 0)
-					index = 1
-				return (listOfSymbol[symbol][index] - listOfSymbol[symbol][index - 1])
+				listOfSymbol[symbol][index] = smooth(listOfSymbol[symbol],index)
+				if (index == 0) {
+					index = 1 
+				}
+				else if (index == LENGHT) {
+					index = LENGHT - 1
+				}
+				return dis(listOfSymbol[symbol][index-1], listOfSymbol[symbol][index], listOfSymbol[symbol][index+1], recordId[index-1], recordId[index], recordId[index+1])
 
 			}
 
@@ -87,13 +137,10 @@ function compute(equation) {
 		})
 
 		var ans = node.eval(scope)
-		ans = parseFloat(ans.toFixed(4))
+		ans = parseFloat(ans)
 		if (!isNaN(ans))
-      		ret.push(math.round(ans,4))
+      		ret.push(ans)
 	}
-  // ret.shift()
-  // ret.shift()
-  // ret.shift()
 	return ret
 
 }
