@@ -1,4 +1,4 @@
-var LENGHT = 100
+var LENGHT = 10000
 var x = []
 var listOfSymbol = {}
 var listOfConst = {}
@@ -79,8 +79,8 @@ function value(symbol, index) {
 				if (index == 0) {
 					index = 1 
 				}
-				else if (index == LENGHT) {
-					index = LENGHT - 1
+				else if (index == (LENGHT-1)) {
+					index = LENGHT - 2
 				}
 				return dis(listOfSymbol[symbol][index-1], listOfSymbol[symbol][index], listOfSymbol[symbol][index+1], recordId[index-1], recordId[index], recordId[index+1])
 

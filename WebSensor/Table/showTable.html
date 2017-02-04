@@ -264,7 +264,7 @@ var htmlxxx= "<table  id =\"dataTableID\" class=\"table\">";
   function addNewColumn (){
     listOfSymbol = {}
     listOfConst = {}
-    LENGHT = totalValueRow
+    LENGHT = recordId.length
     tableLable.forEach(function myFunction(item, index) {
      listOfSymbol[item.replace(/\s/g, '')] = matrix[index]
    })
@@ -285,7 +285,7 @@ var htmlxxx= "<table  id =\"dataTableID\" class=\"table\">";
      selectRow.appendChild(newTH);
      newTH.innerHTML = tableLable[tableLable.length-1];
 
-     for(var i = 1; i <= totalValueRow; i++)
+     for(var i = 1; i <= recordId.length; i++)
      {
       selectRow = document.getElementById("dataTableID").rows[i];
       //Add to the last
@@ -344,7 +344,7 @@ function deleteSelectColumn (index){
   columnInfo.splice(indexOfTable, 1);
   matrix.splice(indexOfTable,1);
   var selectRow;
-  for(var i = 0; i <= totalValueRow; i++)
+  for(var i = 0; i <= recordId.length; i++)
   {
     selectRow = document.getElementById("dataTableID").rows[i];
     selectRow.deleteCell(index);
@@ -438,7 +438,7 @@ for (var i=0; i<localSensorInfo.length; i++) {
 } 
 myTable +="</tr>";
 
-for (var j=0; j<totalValueRow; j++) {
+for (var j=0; j<recordId.length; j++) {
   myTable+="<tr class=\"firstRow\"  id=\""+recordId[j] +"\">";
   recordId[j] = parseFloat(recordId[j]).toFixed(4); 
   myTable+="<td>" +recordId[j] + "</td>";

@@ -23,9 +23,9 @@ include_once 'common.php';
           <div id="comboBox"></div>
           <script type="text/javascript">
           var comboBoxXContent ="<div class=\"form-inline\"><label for=\"X\">X :</label><select id=\"ComboBoxValueForX\"><option value=\"-1\">time</option>";
-          for(var i=0; i<parent.totalSensorAvailable; i++)
+          for(var i=0; i<totalSensorAvailable; i++)
           {
-            comboBoxXContent+="<option value=\""+i+"\">" + parent.tableLable[i] +"</option>";
+            comboBoxXContent+="<option value=\""+i+"\">" + tableLable[i] +"</option>";
           }
           comboBoxXContent+="</select></div>";
 		  document.getElementById("comboBoxForX").innerHTML = comboBoxXContent;
@@ -35,12 +35,12 @@ include_once 'common.php';
             {
               comboContent+="<p><div class=\"form-inline\"><label for=\"Value\"" + j + ">Y" + j + " :</label><select id=\"ComboBoxValue" +j+"\">";
               comboContent+="<option value=\""+(-1)+"\">None</option>";
-              for(var i=0; i<parent.totalSensorAvailable; i++)
+              for(var i=0; i<totalSensorAvailable; i++)
               {
-                comboContent+="<option value=\""+i+"\">" + parent.tableLable[i] +"</option>";
+                comboContent+="<option value=\""+i+"\">" + tableLable[i] +"</option>";
               }
               comboContent+="</select>";
-              comboContent+= "<input id =\"colorForY" + j+ "\"type=\"color\" value=\"" + parent.arrayColorForLiveView[j-1] + "\"/></div></p>";
+              comboContent+= "<input id =\"colorForY" + j+ "\"type=\"color\" value=\"" + arrayColorForLiveView[j-1] + "\"/></div></p>";
             }
             document.getElementById("comboBox").innerHTML = comboContent;
           </script>

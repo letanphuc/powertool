@@ -23,7 +23,7 @@ include_once 'common.php';
 		console.log(xValue);
 		console.log(parent.GraphInfo);
 		if( xValue==-1){
-			for (var i=0; i<parent.totalValueRow; i++) {
+			for (var i=0; i<parent.recordId.length; i++) {
 				if(parent.GraphInfo[parent.tabIndex].Y1!= -1)
 				{
 					dps[0].push({
@@ -52,7 +52,7 @@ include_once 'common.php';
 		}
 		else
 		{
-			for (var i=0; i<parent.totalValueRow; i++) {
+			for (var i=0; i<parent.recordId.length; i++) {
 				if(parent.GraphInfo[parent.tabIndex].Y1!= -1)
 				{
 					dps[0].push({
@@ -85,10 +85,12 @@ include_once 'common.php';
 				var nameOfX;
 		var nameOfY =[];
 		var valueOfshowInLegend =[];
-		if(xValue == -1)
+		if(xValue == -1){
 			nameOfX = "Time"
-		else
+		}
+		else{
 			nameOfX = parent.tableLable[xValue]
+		}
 		if(parent.GraphInfo[parent.tabIndex].Y1!=-1)
 		{
 			nameOfY.push(parent.tableLable[parent.GraphInfo[parent.tabIndex].Y1])
@@ -134,17 +136,15 @@ include_once 'common.php';
 			},
 			exportEnabled: true,
 			zoomEnabled: true, 
-			includeZero: false,
 			axisY:{
-	        // interlacedColor: "#FFBFD5",
 	        gridColor: "#f5f5f0",
 	        lineColor: "#0f0f0a",
 	        tickColor: "#0f0f0a",
 	        labelFontColor:"#0f0f0a",
+	       	includeZero: false,
 	    },
 	    axisX:{
-	        // interlacedColor: "#FFBFD5",
-	        title: nameOfX,
+	    	title: nameOfX,
 	        lineColor: "#0f0f0a",
 	        tickColor: "#0f0f0a",
 	        labelFontColor:"#0f0f0a",
@@ -215,7 +215,6 @@ include_once 'common.php';
 		parent.GraphInfo[parent.tabIndex].EndPoint = chart.getEndPoint()
 	}
 </script>
-<script type="text/javascript" src="Libs/canvasjs-1.8.0/source/canvasjs.js"></script>
 <div id="chartContainer2" style="height: 400px; width: 100%;"></div>
 <button class="btn btn-success" style="height:30px; width:100px"  onclick="openCompareForm()">Compare</button><br>
 <div style="height: 50px"></div>
@@ -254,7 +253,7 @@ include_once 'common.php';
 	{
 		listOfSymbol = {}
 		listOfConst = {}
-		LENGHT = parent.totalValueRow
+		LENGHT = parent.recordId.length
 		parent.tableLable.forEach(function myFunction(item, index) {
 			listOfSymbol[item.replace(/\s/g, '')] = parent.matrix[index]
 		})
@@ -364,3 +363,4 @@ include_once 'common.php';
 	});
 
 </script>
+<script type="text/javascript" src="Libs/canvasjs-1.8.1/source/canvasjs.js"></script>
