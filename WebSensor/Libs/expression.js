@@ -3,50 +3,74 @@ var x = []
 var listOfSymbol = {}
 var listOfConst = {}
 
-function dis(x0, x1, x2, t0, t1, t2) {
-	a0 = (t0 * t1 * x2 * (t0 - t1) - t0 * t2 * x1 * (t0 - t2) + t1 * t2 * x0 * (t1 - t2)) / (t0 ** 2 * t1 - t0 ** 2 * t2 - t0 * t1 ** 2 + t0 * t2 ** 2 + t1 ** 2 * t2 - t1 * t2 ** 2)
+
+// function dis(x0, x1, x2, t0, t1, t2) {
+// 	a0 = (t0 * t1 * x2 * (t0 - t1) - t0 * t2 * x1 * (t0 - t2) + t1 * t2 * x0 * (t1 - t2)) / (t0 ** 2 * t1 - t0 ** 2 * t2 - t0 * t1 ** 2 + t0 * t2 ** 2 + t1 ** 2 * t2 - t1 * t2 ** 2)
+//     a2 = (x0 * (t1 - t2) - x1 * (t0 - t2) + x2 * (t0 - t1)) / (t0 ** 2 * t1 - t0 ** 2 * t2 - t0 * t1 ** 2 + t0 * t2 ** 2 + t1 ** 2 * t2 - t1 * t2 ** 2)
+//     a1 = (-x0 * (t1 ** 2 - t2 ** 2) + x1 * (t0 ** 2 - t2 ** 2) - x2 * (t0 ** 2 - t1 ** 2)) / (t0 ** 2 * t1 - t0 ** 2 * t2 - t0 * t1 ** 2 + t0 * t2 ** 2 + t1 ** 2 * t2 - t1 * t2 ** 2)
+//     d = (a1 + 2 * a2 * t1)
+//     return d
+// }
+
+// function smooth(data, i) {
+// 	if ((i > 2) && (i < (data.length - 2))){
+//         d = (data[i-2] + 2*data[i-1] + 3*data[i] + 2*data[i+1] + data[i+2]) / 9.0
+// 	}
+//     else {
+//         d = data[i]
+//     }
+//     return d
+// }
+
+function dis_sub(x0, x1, x2, t0, t1, t2){
     a2 = (x0 * (t1 - t2) - x1 * (t0 - t2) + x2 * (t0 - t1)) / (t0 ** 2 * t1 - t0 ** 2 * t2 - t0 * t1 ** 2 + t0 * t2 ** 2 + t1 ** 2 * t2 - t1 * t2 ** 2)
     a1 = (-x0 * (t1 ** 2 - t2 ** 2) + x1 * (t0 ** 2 - t2 ** 2) - x2 * (t0 ** 2 - t1 ** 2)) / (t0 ** 2 * t1 - t0 ** 2 * t2 - t0 * t1 ** 2 + t0 * t2 ** 2 + t1 ** 2 * t2 - t1 * t2 ** 2)
     d = (a1 + 2 * a2 * t1)
     return d
 }
 
-function dis3(x0, x1, x2, x3, t0, t1, t2, t3) {
-	    a1 = (x0 * (
-    t1 ** 3 * t2 ** 2 - t1 ** 3 * t3 ** 2 - t1 ** 2 * t2 ** 3 + t1 ** 2 * t3 ** 3 + t2 ** 3 * t3 ** 2 - t2 ** 2 * t3 ** 3) - x1 * (
-          t0 ** 3 * t2 ** 2 - t0 ** 3 * t3 ** 2 - t0 ** 2 * t2 ** 3 + t0 ** 2 * t3 ** 3 + t2 ** 3 * t3 ** 2 - t2 ** 2 * t3 ** 3) + x2 * (
-          t0 ** 3 * t1 ** 2 - t0 ** 3 * t3 ** 2 - t0 ** 2 * t1 ** 3 + t0 ** 2 * t3 ** 3 + t1 ** 3 * t3 ** 2 - t1 ** 2 * t3 ** 3) - x3 * (
-          t0 ** 3 * t1 ** 2 - t0 ** 3 * t2 ** 2 - t0 ** 2 * t1 ** 3 + t0 ** 2 * t2 ** 3 + t1 ** 3 * t2 ** 2 - t1 ** 2 * t2 ** 3)) / (
-         t0 ** 3 * t1 ** 2 * t2 - t0 ** 3 * t1 ** 2 * t3 - t0 ** 3 * t1 * t2 ** 2 + t0 ** 3 * t1 * t3 ** 2 + t0 ** 3 * t2 ** 2 * t3 - t0 ** 3 * t2 * t3 ** 2 - t0 ** 2 * t1 ** 3 * t2 + t0 ** 2 * t1 ** 3 * t3 + t0 ** 2 * t1 * t2 ** 3 - t0 ** 2 * t1 * t3 ** 3 - t0 ** 2 * t2 ** 3 * t3 + t0 ** 2 * t2 * t3 ** 3 + t0 * t1 ** 3 * t2 ** 2 - t0 * t1 ** 3 * t3 ** 2 - t0 * t1 ** 2 * t2 ** 3 + t0 * t1 ** 2 * t3 ** 3 + t0 * t2 ** 3 * t3 ** 2 - t0 * t2 ** 2 * t3 ** 3 - t1 ** 3 * t2 ** 2 * t3 + t1 ** 3 * t2 * t3 ** 2 + t1 ** 2 * t2 ** 3 * t3 - t1 ** 2 * t2 * t3 ** 3 - t1 * t2 ** 3 * t3 ** 2 + t1 * t2 ** 2 * t3 ** 3)
-    a2 = (-x0 * (t1 ** 3 * t2 - t1 ** 3 * t3 - t1 * t2 ** 3 + t1 * t3 ** 3 + t2 ** 3 * t3 - t2 * t3 ** 3) + x1 * (
-    t0 ** 3 * t2 - t0 ** 3 * t3 - t0 * t2 ** 3 + t0 * t3 ** 3 + t2 ** 3 * t3 - t2 * t3 ** 3) - x2 * (
-          t0 ** 3 * t1 - t0 ** 3 * t3 - t0 * t1 ** 3 + t0 * t3 ** 3 + t1 ** 3 * t3 - t1 * t3 ** 3) + x3 * (
-          t0 ** 3 * t1 - t0 ** 3 * t2 - t0 * t1 ** 3 + t0 * t2 ** 3 + t1 ** 3 * t2 - t1 * t2 ** 3)) / (
-         t0 ** 3 * t1 ** 2 * t2 - t0 ** 3 * t1 ** 2 * t3 - t0 ** 3 * t1 * t2 ** 2 + t0 ** 3 * t1 * t3 ** 2 + t0 ** 3 * t2 ** 2 * t3 - t0 ** 3 * t2 * t3 ** 2 - t0 ** 2 * t1 ** 3 * t2 + t0 ** 2 * t1 ** 3 * t3 + t0 ** 2 * t1 * t2 ** 3 - t0 ** 2 * t1 * t3 ** 3 - t0 ** 2 * t2 ** 3 * t3 + t0 ** 2 * t2 * t3 ** 3 + t0 * t1 ** 3 * t2 ** 2 - t0 * t1 ** 3 * t3 ** 2 - t0 * t1 ** 2 * t2 ** 3 + t0 * t1 ** 2 * t3 ** 3 + t0 * t2 ** 3 * t3 ** 2 - t0 * t2 ** 2 * t3 ** 3 - t1 ** 3 * t2 ** 2 * t3 + t1 ** 3 * t2 * t3 ** 2 + t1 ** 2 * t2 ** 3 * t3 - t1 ** 2 * t2 * t3 ** 3 - t1 * t2 ** 3 * t3 ** 2 + t1 * t2 ** 2 * t3 ** 3)
-    a3 = (x0 * (t1 ** 2 * t2 - t1 ** 2 * t3 - t1 * t2 ** 2 + t1 * t3 ** 2 + t2 ** 2 * t3 - t2 * t3 ** 2) - x1 * (
-    t0 ** 2 * t2 - t0 ** 2 * t3 - t0 * t2 ** 2 + t0 * t3 ** 2 + t2 ** 2 * t3 - t2 * t3 ** 2) + x2 * (
-          t0 ** 2 * t1 - t0 ** 2 * t3 - t0 * t1 ** 2 + t0 * t3 ** 2 + t1 ** 2 * t3 - t1 * t3 ** 2) - x3 * (
-          t0 ** 2 * t1 - t0 ** 2 * t2 - t0 * t1 ** 2 + t0 * t2 ** 2 + t1 ** 2 * t2 - t1 * t2 ** 2)) / (
-         t0 ** 3 * t1 ** 2 * t2 - t0 ** 3 * t1 ** 2 * t3 - t0 ** 3 * t1 * t2 ** 2 + t0 ** 3 * t1 * t3 ** 2 + t0 ** 3 * t2 ** 2 * t3 - t0 ** 3 * t2 * t3 ** 2 - t0 ** 2 * t1 ** 3 * t2 + t0 ** 2 * t1 ** 3 * t3 + t0 ** 2 * t1 * t2 ** 3 - t0 ** 2 * t1 * t3 ** 3 - t0 ** 2 * t2 ** 3 * t3 + t0 ** 2 * t2 * t3 ** 3 + t0 * t1 ** 3 * t2 ** 2 - t0 * t1 ** 3 * t3 ** 2 - t0 * t1 ** 2 * t2 ** 3 + t0 * t1 ** 2 * t3 ** 3 + t0 * t2 ** 3 * t3 ** 2 - t0 * t2 ** 2 * t3 ** 3 - t1 ** 3 * t2 ** 2 * t3 + t1 ** 3 * t2 * t3 ** 2 + t1 ** 2 * t2 ** 3 * t3 - t1 ** 2 * t2 * t3 ** 3 - t1 * t2 ** 3 * t3 ** 2 + t1 * t2 ** 2 * t3 ** 3)
-    a0 = (t0 * t1 * t2 * x3 * (
-    t0 ** 2 * t1 - t0 ** 2 * t2 - t0 * t1 ** 2 + t0 * t2 ** 2 + t1 ** 2 * t2 - t1 * t2 ** 2) - t0 * t1 * t3 * x2 * (
-          t0 ** 2 * t1 - t0 ** 2 * t3 - t0 * t1 ** 2 + t0 * t3 ** 2 + t1 ** 2 * t3 - t1 * t3 ** 2) + t0 * t2 * t3 * x1 * (
-          t0 ** 2 * t2 - t0 ** 2 * t3 - t0 * t2 ** 2 + t0 * t3 ** 2 + t2 ** 2 * t3 - t2 * t3 ** 2) - t1 * t2 * t3 * x0 * (
-          t1 ** 2 * t2 - t1 ** 2 * t3 - t1 * t2 ** 2 + t1 * t3 ** 2 + t2 ** 2 * t3 - t2 * t3 ** 2)) / (
-         t0 ** 3 * t1 ** 2 * t2 - t0 ** 3 * t1 ** 2 * t3 - t0 ** 3 * t1 * t2 ** 2 + t0 ** 3 * t1 * t3 ** 2 + t0 ** 3 * t2 ** 2 * t3 - t0 ** 3 * t2 * t3 ** 2 - t0 ** 2 * t1 ** 3 * t2 + t0 ** 2 * t1 ** 3 * t3 + t0 ** 2 * t1 * t2 ** 3 - t0 ** 2 * t1 * t3 ** 3 - t0 ** 2 * t2 ** 3 * t3 + t0 ** 2 * t2 * t3 ** 3 + t0 * t1 ** 3 * t2 ** 2 - t0 * t1 ** 3 * t3 ** 2 - t0 * t1 ** 2 * t2 ** 3 + t0 * t1 ** 2 * t3 ** 3 + t0 * t2 ** 3 * t3 ** 2 - t0 * t2 ** 2 * t3 ** 3 - t1 ** 3 * t2 ** 2 * t3 + t1 ** 3 * t2 * t3 ** 2 + t1 ** 2 * t2 ** 3 * t3 - t1 ** 2 * t2 * t3 ** 3 - t1 * t2 ** 3 * t3 ** 2 + t1 * t2 ** 2 * t3 ** 3)
-
-    d = (a1 + 2 * a2 * t1 + 3 * a3 * t1 ** 2)
-    return d
+var return_dis = []
+function smooth(data){
+	var return_value =[]
+	for (var i = 0; i < data.length; i++) {
+        if (i > 2 && (i < (data.length - 2))){
+            d = (data[i - 2] + 2 * data[i - 1] + 3 * data[i] + 2 * data[i + 1] + data[i + 2]) / 9.0
+        }
+        else if (i > 1 && (i < (data.length - 1))){
+            d = (data[i - 1] + 2 * data[i] + data[i + 1]) / 4.0
+        }
+        else{
+            d = data[i]
+        }
+        return_value.push(d)
+    }
+    return return_value
 }
 
-function smooth(data, i) {
-	if ((i > 2) && (i < (data.length - 2))){
-        d = (data[i-2] + 2*data[i-1] + 3*data[i] + 2*data[i+1] + data[i+2]) / 9.0
+
+function dis(x, t, index){
+    var temp = 0
+    if(index == 0) {
+    	return_dis = []
+	    for (var i = 0; i < x.length; i++) {
+	        if( i == 0 && x.length > 0){
+	            temp = (x[1] - x[0]) / (t[1] - t[0])
+	        }
+	        else if ( i == (x.length -1)){
+	            temp = (x[x.length - 1] - x[x.length - 2]) / (t[x.length - 1] - t[x.length - 2])
+	        }
+	        else{
+	            temp = dis_sub(x[i - 1], x[i], x[i + 1], t[i - 1], t[i], t[i + 1])
+	        }
+			return_dis.push(temp)
+	    }
+	    console.log("before smooths : ")
+	    console.log(return_dis)
+	    return_dis = smooth(return_dis)
+	    console.log("after smooths: ")
+	    console.log(return_dis)
 	}
-    else {
-        d = data[i]
-    }
-    return d
+	return return_dis[index]
 }
 function value(symbol, index) {
 
@@ -75,14 +99,7 @@ function value(symbol, index) {
 			}
 
 			else if (fun == 'dis') {
-				listOfSymbol[symbol][index] = smooth(listOfSymbol[symbol],index)
-				if (index == 0) {
-					index = 1 
-				}
-				else if (index == (LENGHT-1)) {
-					index = LENGHT - 2
-				}
-				return dis(listOfSymbol[symbol][index-1], listOfSymbol[symbol][index], listOfSymbol[symbol][index+1], recordId[index-1], recordId[index], recordId[index+1])
+				return dis(listOfSymbol[symbol], recordId,index)
 
 			}
 
