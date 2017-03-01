@@ -44,6 +44,30 @@ include_once 'common.php';
 	</label>
 </form>
 </div>
-<script type="text/javascript" src="Libs/canvasjs-1.8.1/source/canvasjs.js"></script>
+<script type="text/javascript">
+		$("#compareDialog").dialog({
+		autoOpen: false,
+		width: 500,
+		height: 450,
+
+    // modal: true,
+    title: <?php echo json_encode($lang['COMPARE_TITLE']); ?> ,
+    dialogClass: "dlg-no-close",
+    position: {
+    	my: "right",
+    	at: "center"
+    },
+    buttons: { 
+    	Ok: function() {
+    		addFunctionCompare();
+    		$(this).dialog("close");
+    	},
+    	Cancel: function () {
+    		$(this).dialog("close");
+    	}
+    }
+});
+</script>
 <!-- manager compare feature -->
 <script src="Libs/compareFeature.js"></script>
+<script type="text/javascript" src="Libs/canvasjs-1.8.1/source/canvasjs.js"></script>

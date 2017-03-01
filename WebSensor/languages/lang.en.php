@@ -22,6 +22,7 @@ $lang['INFORMATION_CHOOSE_FILE'] = 'Choose xxxxfile';
 //System information
 $lang['SYSTEM_INFO'] = 'System Infos';
 $lang['SYSTEM_INFO_TYPE'] = 'Type:';
+$lang['SYSTEM_INFO_UNIT'] = 'Unit:';
 
 //Live View Properties
 $lang['LIVE_VIEW_PROPERTIES'] = 'Live view properties';

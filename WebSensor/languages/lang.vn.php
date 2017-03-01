@@ -22,6 +22,7 @@ $lang['INFORMATION_CHOOSE_FILE'] = 'Choose file';
 //System information
 $lang['SYSTEM_INFO'] = 'System Infos';
 $lang['SYSTEM_INFO_TYPE'] = 'Loại:';
+$lang['SYSTEM_INFO_UNIT'] = 'Đơn vị:';
 
 //Live View Properties
 $lang['LIVE_VIEW_PROPERTIES'] = 'Live view properties';

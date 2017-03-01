@@ -3,25 +3,6 @@ var x = []
 var listOfSymbol = {}
 var listOfConst = {}
 
-
-// function dis(x0, x1, x2, t0, t1, t2) {
-// 	a0 = (t0 * t1 * x2 * (t0 - t1) - t0 * t2 * x1 * (t0 - t2) + t1 * t2 * x0 * (t1 - t2)) / (t0 ** 2 * t1 - t0 ** 2 * t2 - t0 * t1 ** 2 + t0 * t2 ** 2 + t1 ** 2 * t2 - t1 * t2 ** 2)
-//     a2 = (x0 * (t1 - t2) - x1 * (t0 - t2) + x2 * (t0 - t1)) / (t0 ** 2 * t1 - t0 ** 2 * t2 - t0 * t1 ** 2 + t0 * t2 ** 2 + t1 ** 2 * t2 - t1 * t2 ** 2)
-//     a1 = (-x0 * (t1 ** 2 - t2 ** 2) + x1 * (t0 ** 2 - t2 ** 2) - x2 * (t0 ** 2 - t1 ** 2)) / (t0 ** 2 * t1 - t0 ** 2 * t2 - t0 * t1 ** 2 + t0 * t2 ** 2 + t1 ** 2 * t2 - t1 * t2 ** 2)
-//     d = (a1 + 2 * a2 * t1)
-//     return d
-// }
-
-// function smooth(data, i) {
-// 	if ((i > 2) && (i < (data.length - 2))){
-//         d = (data[i-2] + 2*data[i-1] + 3*data[i] + 2*data[i+1] + data[i+2]) / 9.0
-// 	}
-//     else {
-//         d = data[i]
-//     }
-//     return d
-// }
-
 function dis_sub(x0, x1, x2, t0, t1, t2){
     a2 = (x0 * (t1 - t2) - x1 * (t0 - t2) + x2 * (t0 - t1)) / (t0 ** 2 * t1 - t0 ** 2 * t2 - t0 * t1 ** 2 + t0 * t2 ** 2 + t1 ** 2 * t2 - t1 * t2 ** 2)
     a1 = (-x0 * (t1 ** 2 - t2 ** 2) + x1 * (t0 ** 2 - t2 ** 2) - x2 * (t0 ** 2 - t1 ** 2)) / (t0 ** 2 * t1 - t0 ** 2 * t2 - t0 * t1 ** 2 + t0 * t2 ** 2 + t1 ** 2 * t2 - t1 * t2 ** 2)

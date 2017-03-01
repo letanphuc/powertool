@@ -1,32 +1,31 @@
 
+function addFunctionCompare()
+{
+	listOfSymbol = {}
+	listOfConst = {}
+	LENGHT = parent.recordId.length
+	parent.tableLable.forEach(function myFunction(item, index) {
+		listOfSymbol[item.replace(/\s/g, '')] = parent.matrix[index]
+	})
+	listOfSymbol['time'] = parent.recordId;
 
-	function addFunctionCompare()
-	{
-		listOfSymbol = {}
-		listOfConst = {}
-		LENGHT = parent.recordId.length
-		parent.tableLable.forEach(function myFunction(item, index) {
-			listOfSymbol[item.replace(/\s/g, '')] = parent.matrix[index]
-		})
-		listOfSymbol['time'] = parent.recordId;
 
-
-		try{
-			if(useSuggestion)
-			{
-				listOfConst['A'] = 	document.getElementById("constAValue").value 
-				listOfConst['B'] = 	document.getElementById("constBValue").value 
-				listOfConst['C'] = 	document.getElementById("constCValue").value 
-				listOfConst['D'] = 	document.getElementById("constDValue").value 
-			}
-			var ex = formatExpression(NewGraphEquation.value)
-			console.log(ex)
-			console.log(listOfConst)
-			newColumnValues = compute(ex)
-			console.log(newColumnValues)
-			parent.GraphInfo[parent.tabIndex].funtionCompare = NewGraphEquation.value
-			parent.GraphInfo[parent.tabIndex].valueCompare = newColumnValues
-			parent.GraphInfo[parent.tabIndex].constantCompare = listOfConst
+	try{
+		if(useSuggestion)
+		{
+			listOfConst['A'] = 	document.getElementById("constAValue").value 
+			listOfConst['B'] = 	document.getElementById("constBValue").value 
+			listOfConst['C'] = 	document.getElementById("constCValue").value 
+			listOfConst['D'] = 	document.getElementById("constDValue").value 
+		}
+		var ex = formatExpression(NewGraphEquation.value)
+		console.log(ex)
+		console.log(listOfConst)
+		newColumnValues = compute(ex)
+		console.log(newColumnValues)
+		parent.GraphInfo[parent.tabIndex].funtionCompare = NewGraphEquation.value
+		parent.GraphInfo[parent.tabIndex].valueCompare = newColumnValues
+		parent.GraphInfo[parent.tabIndex].constantCompare = listOfConst
 			// document.location.href = document.location.href;
 			initData()
 			chartRender()
@@ -65,28 +64,6 @@
 		suggestionSinFun(parent.matrix[parent.GraphInfo[parent.tabIndex].Y3])
 	}
 
-	$("#compareDialog").dialog({
-		autoOpen: false,
-		width: 500,
-		height: 450,
-
-    // modal: true,
-    title: <?php echo json_encode($lang['COMPARE_TITLE']); ?> ,
-    dialogClass: "dlg-no-close",
-    position: {
-    	my: "right",
-    	at: "center"
-    },
-    buttons: { 
-    	Ok: function() {
-    		addFunctionCompare();
-    		$(this).dialog("close");
-    	},
-    	Cancel: function () {
-    		$(this).dialog("close");
-    	}
-    }
-});
 	var useSuggestion = false
 	function openCompareForm()
 	{

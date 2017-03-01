@@ -42,6 +42,7 @@
 				$totalValueRow = 0;
 				echo "matrix = []; ";
 				echo "recordId = [];";
+				echo "tableLable = [];";
 
 
 				/* sensorInfo */

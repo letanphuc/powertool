@@ -2,7 +2,7 @@
   <?php
 include_once 'common.php';
 ?>
-<div id="infoSensor" class="infoSensor">
+<div id="infoSensor" class="infoArea">
 <button id="title_bt" style='background-color:#eff0f4;border-color: #eff0f4;border: none;' ><h3><?php echo $lang['SYSTEM_INFO']; ?></h3></button>
 <div id="needToHide">
 <div class="form-inline">
@@ -17,15 +17,19 @@ include_once 'common.php';
 	<label class="labelInfo"><?php echo $lang['PROPERTIES_NAME']; ?></label> 
 	<input id="sensorName" 	class="form-control"></input><br> 
   </div>
-    <div class="form-inline">
+  <div class="form-inline">
 	<label class="labelInfo"><?php echo $lang['SYSTEM_INFO_TYPE']; ?></label> 
 	<input id="sensorType" class="form-control" readonly="true"></input><br> 
-	</div>
+  </div>
+  <div class="form-inline">
+	<label class="labelInfo"><?php echo $lang['SYSTEM_INFO_UNIT']; ?></label> 
+	<input id="sensorUnit" class="form-control" readonly="true"></input><br> 
+  </div>
 	<label class="labelInfo"><?php echo $lang['PROPERTIES_DESCRIPTION']; ?></label>
-	  <div class="form-inline">
-	  <label class="labelInfo"></label>
+  <div class="form-inline">
+	<label class="labelInfo"></label>
 	<textarea id="sensorDescription" rows="2" cols="22" class="form-control" ></textarea><br>
-	</div>
+</div>
 </div>
 </div>
 </div>
