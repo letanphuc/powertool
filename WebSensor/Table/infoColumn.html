@@ -12,6 +12,10 @@ include_once '../common.php';
   	<input id="InfoTypeOfColumn"  class="form-control" readonly="true" ></input>
     </div>
     <div class="form-inline">
+  	<label class="labelInfo"> <?php echo $lang['COLUMN_PROPERTIES_UNIT']; ?></label>
+  	<input id="InfoUnitOfColumn"  class="form-control" readonly="true" ></input>
+    </div>
+    <div class="form-inline">
   	<label class="labelInfo"> <?php echo $lang['COLUMN_PROPERTIES_AVG']; ?></label>
   	<input id="InfoAverageOfColumn" class="form-control" readonly="true" ></input>
     </div>
@@ -51,6 +55,7 @@ include_once '../common.php';
     // document.getElementById("titleName").value = columnInfo[columnSelected].Name + " Property";
     document.getElementById("InfoNameOfColumn").value = columnInfo[columnSelected].Name;
     document.getElementById("InfoTypeOfColumn").value = columnInfo[columnSelected].Type;
+    document.getElementById("InfoUnitOfColumn").value = columnInfo[columnSelected].Unit;
     document.getElementById("InfoAverageOfColumn").value = columnInfo[columnSelected].Average;
     document.getElementById("InfoMaxOfColumn").value = columnInfo[columnSelected].Max;
     document.getElementById("InfoMinOfColumn").value = columnInfo[columnSelected].Min;

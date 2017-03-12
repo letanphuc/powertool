@@ -73,14 +73,14 @@
 		var nameOfY =[];
 		var valueOfshowInLegend =[];
 		if(xValue == -1){
-			nameOfX = "Time"
+			nameOfX = "time(ms)"
 		}
 		else{
 			nameOfX = parent.tableLable[xValue]
 		}
 		if(parent.GraphInfo[parent.tabIndex].Y1!=-1)
 		{
-			nameOfY.push(parent.tableLable[parent.GraphInfo[parent.tabIndex].Y1])
+			nameOfY.push(parent.tableLable[parent.GraphInfo[parent.tabIndex].Y1] + "(" + parent.columnInfo[parent.GraphInfo[parent.tabIndex].Y1].Unit +")")
 			valueOfshowInLegend.push(true)
 		}
 		else
@@ -90,7 +90,7 @@
 		}
 		if(parent.GraphInfo[parent.tabIndex].Y2!=-1)
 		{
-			nameOfY.push(parent.tableLable[parent.GraphInfo[parent.tabIndex].Y2])
+			nameOfY.push(parent.tableLable[parent.GraphInfo[parent.tabIndex].Y2]+"(" + parent.columnInfo[parent.GraphInfo[parent.tabIndex].Y2].Unit +")")
 			valueOfshowInLegend.push(true)
 		}
 		else
@@ -100,7 +100,7 @@
 		}
 		if(parent.GraphInfo[parent.tabIndex].Y3!=-1)
 		{
-			nameOfY.push(parent.tableLable[parent.GraphInfo[parent.tabIndex].Y3])
+			nameOfY.push(parent.tableLable[parent.GraphInfo[parent.tabIndex].Y3]+"(" + parent.columnInfo[parent.GraphInfo[parent.tabIndex].Y3].Unit +")")
 			valueOfshowInLegend.push(true)
 		}
 		else

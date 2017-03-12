@@ -11,6 +11,7 @@ $lang['PAGE_TITLE'] = 'ViLabs';
 
 //General:
 $lang['PROPERTIES_NAME'] = 'Tên:';
+$lang['PROPERTIES_UNIT'] = 'Đơn vị:';
 $lang['PROPERTIES_DESCRIPTION'] = 'Miêu Tả:';
 $lang['PROPERTIES_NOTE'] = 'Chú Thích:';
 
@@ -29,7 +30,8 @@ $lang['LIVE_VIEW_PROPERTIES'] = 'Live view properties';
 
 //Column Properties
 $lang['COLUMN_PROPERTIES'] = 'Column Properties';
-$lang['COLUMN_PROPERTIES_TYPE'] = 'Type:';
+$lang['COLUMN_PROPERTIES_TYPE'] = 'Loại:';
+$lang['COLUMN_PROPERTIES_UNIT'] = 'Đơn vị:';
 $lang['COLUMN_PROPERTIES_AVG'] = 'Avg:';
 $lang['COLUMN_PROPERTIES_MAX'] = 'Max:';
 $lang['COLUMN_PROPERTIES_MIN'] = 'Min:';

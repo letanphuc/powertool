@@ -19,6 +19,7 @@
     var totalSensor = 0;
     var needToReloadTable = false;
     var MAX_AVAILABLE_SENSORS = 4
+    var TOFIXEDVALUE = 12;
         //init value
         for (i = 0; i < MAX_AVAILABLE_SENSORS; i++) { 
           liveViewSelected[i] = false;

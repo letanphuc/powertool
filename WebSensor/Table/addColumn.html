@@ -1,0 +1,22 @@
+<?php
+include_once '../common.php';
+?>
+<div width="450" height="450">
+  <form>
+    <p>
+      <label for="nameOfNewColumn"><?php echo $lang['PROPERTIES_NAME']; ?></label>
+      <input id="nameOfNewColumn" type="text">
+      <label for="UnitNewColumn"><?php echo $lang['PROPERTIES_UNIT']; ?></label>
+      <input id="UnitNewColumn" type="text">
+    </p>
+    <p>
+      <label> <?php echo $lang['COLUMN_PROPERTIES_EQUATION']; ?></label><br>
+      <textarea id="ColumnEqualition" rows="2" cols="60" placeholder="Enter equation"></textarea>
+    </p>
+    <label> <?php echo $lang['PROPERTIES_DESCRIPTION']; ?></label><br>
+    <textarea id="ColumnDescription" rows="2" cols="60" placeholder="Enter description"></textarea>
+    <br>
+    <label> <?php echo $lang['PROPERTIES_NOTE']; ?> </label>
+    <pre ><?php echo $lang['ADD_COLUMN_NOTE']; ?></pre>
+</form>
+</div>

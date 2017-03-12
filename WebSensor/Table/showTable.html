@@ -12,25 +12,25 @@ include_once '../common.php';
   }
 
   table{
-   height:300px; 
    table-layout: fixed;
    overflow-y: scroll;
    width: 80px;
-   /*border: 1px solid black;*/
+   border-collapse: collapse;
  }
  tbody{
   overflow-y: scroll;
   height: 400px;
-  /*width: 100%;*/
   position: absolute;
 }
 td, th {
- border: 1px solid black;
+ border: 1px solid ;
+ border-color: #d7dce2;
  width: 80px;
  text-align: center;
  word-wrap:break-word;
  position: static;
  outline: 0;
+ border-collapse: collapse;
 }
 th {
   color: red;
@@ -109,7 +109,7 @@ matrix = [];
 recordId = [];
 tableLable = [];
 
-var htmlxxx= "<table  id =\"dataTableID\" class=\"table\">";
+var htmlImport= "<table  id =\"dataTableID\" class=\"table\">";
     // split into lines
     var rows = data.split("\n");
     // parse lines
@@ -120,45 +120,46 @@ var htmlxxx= "<table  id =\"dataTableID\" class=\"table\">";
       if(index == 0){
         totalSensorAvailable = columns.length -1;
         console.log("totalSensorAvailable = " + totalSensorAvailable)
-        htmlxxx+="<tr>";
+        htmlImport+="<tr>";
         columns.forEach( function (item, index1){
-          htmlxxx += "<th style='color: red;'>" + item.substring(1,item.length -1 ) + "</th>";
+          htmlImport += "<th style='color: red;'>" + item + "</th>";
           if(index1 != 0)
           {
-           tableLable[index1 -1] = item.substring(1,item.length -1 );
+           tableLable[index1 -1] = item;
            matrix[index1 -1 ] = []
          }
        })
-        htmlxxx += "</tr>";  
+        htmlImport += "</tr>";  
         console.log( tableLable)
       } 
       else
       {
-        htmlxxx+="<tr class=\"firstRow\">";
+        htmlImport+="<tr class=\"firstRow\">";
         columns.forEach( function (item, index1){
           if(index1 == 0){
             console.log("Update recordID")
-            recordId.push( parseFloat(item.substring(1,item.length -1)) )
+            recordId.push( parseFloat(item))
           }
           else{
-            matrix[index1 -1].push(parseFloat(item.substring(1,item.length -1)))
-            console.log(parseFloat(item.substring(1,item.length -1)))
+            matrix[index1 -1].push(parseFloat(item))
+            console.log(parseFloat(item))
           }
-          htmlxxx += "<td>" + item.substring(1,item.length -1 ) + "</td>";
+          htmlImport += "<td>" + parseFloat(item) + "</td>";
         })
-        htmlxxx += "</tr>";  
+        htmlImport += "</tr>";  
       }
       // close row
     })
     totalValueRow = recordId.length;
     // close table
-    htmlxxx += "</table>";
-    document.getElementById("showTable").innerHTML = htmlxxx;
+    htmlImport += "</table>";
+    document.getElementById("showTable").innerHTML = htmlImport;
     columnInfo =[];
     for (var i=0; i<totalSensorAvailable; i++) {
       columnInfo.push({
         Name: tableLable[i],
         Type: "",
+        Unit: "",
         Average: getAverage(matrix[i]),
         Max: getMax(matrix[i]),
         Min: getMin(matrix[i]),
@@ -298,6 +299,7 @@ var htmlxxx= "<table  id =\"dataTableID\" class=\"table\">";
     columnInfo.push({
       Name: nameOfNewColumn.value,
       Type: "newColumn",
+      Unit: UnitNewColumn.value,
       Average: getAverage(newColumnValues),
       Max: getMax(newColumnValues),
       Min: getMin(newColumnValues),
@@ -318,15 +320,9 @@ var htmlxxx= "<table  id =\"dataTableID\" class=\"table\">";
 function deleteSelectRow (index){
   $("tr").eq(index).remove();
   var indexOfTable = index -1;
-  // tableLable.splice(indexOfTable, 1);
-  //Todo calculator columnInfo again
-  // columnInfo.splice(indexOfTable, 1);
-  // matrix.splice(indexOfTable,1);
-  // columnInfo =[];
   recordId.splice(indexOfTable,1);
   for( i = 0; i < matrix.length; i++)
   {
-    // console.log(matrix[i])
     matrix[i].splice(indexOfTable,1);
     columnInfo[i].Average = getAverage(matrix[i])
     columnInfo[i].Max = getMax(matrix[i])
@@ -392,7 +388,7 @@ function getAverage(array)
   array.forEach( function (item, index){
     total+=item;
   });
-  return parseFloat(total/array.length).toFixed(4);
+  return parseFloat((total/array.length).toFixed(4));
 }
 
 function getdelta(array)
@@ -402,12 +398,12 @@ function getdelta(array)
   array.forEach( function (item, index){
     total+=Math.abs(item -Average) ;
   });
-  return parseFloat(total/array.length).toFixed(4);
+  return parseFloat((total/array.length).toFixed(4));
 }
 
 function getPerDelta(array)
 {
-  var perDalta = parseFloat(getdelta(array)*100/getAverage(array)).toFixed(2)
+  var perDalta = parseFloat((getdelta(array)*100/getAverage(array)).toFixed(2))
   var returnValue = perDalta.toString() + "%"
   return returnValue  
 }
@@ -440,10 +436,10 @@ myTable +="</tr>";
 
 for (var j=0; j<recordId.length; j++) {
   myTable+="<tr class=\"firstRow\"  id=\""+recordId[j] +"\">";
-  recordId[j] = parseFloat(recordId[j]).toFixed(4); 
+  recordId[j] = parseFloat(recordId[j].toFixed(4)); 
   myTable+="<td>" +recordId[j] + "</td>";
   for (i=0; i<totalSensorAvailable; i++) {
-    myTable+="<td>" + matrix[i][j] + "</td>";
+    myTable+="<td>" + parseFloat(matrix[i][j].toFixed(TOFIXEDVALUE)) + "</td>";
   }
   myTable+="</tr>";
 }  
@@ -455,6 +451,7 @@ for (var i=0; i<totalSensorAvailable; i++) {
   columnInfo.push({
     Name: localSensorInfo[i].sensorName,
     Type: localSensorInfo[i].sensorType,
+    Unit: localSensorInfo[i].sensorUnit,
     Average: getAverage(matrix[i]),
     Max: getMax(matrix[i]),
     Min: getMin(matrix[i]),

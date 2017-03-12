@@ -1,8 +1,10 @@
 jQuery.fn.tableToCSV = function() {
     
     var clean_text = function(text){
-        text = text.replace(/"/g, '""');
-        return '"'+text+'"';
+        // text = text.replace(/"/g, '""');
+        text = text.replace(/"/g, "");
+        text = text.replace("\n", "");
+        return text;
     };
     
 	$(this).each(function(){

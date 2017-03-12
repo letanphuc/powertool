@@ -11,6 +11,7 @@ $lang['PAGE_TITLE'] = 'ViLabs';
 
 //General:
 $lang['PROPERTIES_NAME'] = 'Name:';
+$lang['PROPERTIES_UNIT'] = 'Unit:';
 $lang['PROPERTIES_DESCRIPTION'] = 'Description:';
 $lang['PROPERTIES_NOTE'] = 'Note:';
 
@@ -30,6 +31,7 @@ $lang['LIVE_VIEW_PROPERTIES'] = 'Live view properties';
 //Column Properties
 $lang['COLUMN_PROPERTIES'] = 'Column Properties';
 $lang['COLUMN_PROPERTIES_TYPE'] = 'Type:';
+$lang['COLUMN_PROPERTIES_UNIT'] = 'Unit:';
 $lang['COLUMN_PROPERTIES_AVG'] = 'Avg:';
 $lang['COLUMN_PROPERTIES_MAX'] = 'Max:';
 $lang['COLUMN_PROPERTIES_MIN'] = 'Min:';

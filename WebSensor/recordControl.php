@@ -68,7 +68,7 @@
 						echo "recordId.push(".$row['recordTime'].");"; 
 						$j = $sensorID + 1;
 						$value = "value".$j;
-						echo "value".$sensorID.".push(parseFloat((".$row[$value]."- maginData[".$sensorID."]).toFixed(4)));";
+						echo "value".$sensorID.".push(parseFloat((".$row[$value]."- maginData[".$sensorID."]).toFixed(6)));";
 
 						$totalValueRow++;
 					}

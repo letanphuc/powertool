@@ -100,7 +100,7 @@ function onLoadSensorInfo(){
 						sensorID: parseInt(data[0]),
 						sensorName: "Sensor"+parseInt(displayIndex),
 						sensorType: data[1],
-						sensorUnit: data[1],//Need change to 2
+						sensorUnit: "Unit" +parseInt(displayIndex) ,//Need change to 2
 						sensorDescription: ""
 					})
 				}

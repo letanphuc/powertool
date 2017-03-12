@@ -1,4 +1,5 @@
 var LENGHT = 10000
+var TOFIXEDVALUE = 12
 var x = []
 var listOfSymbol = {}
 var listOfConst = {}
@@ -135,7 +136,8 @@ function compute(equation) {
 		})
 
 		var ans = node.eval(scope)
-		ans = parseFloat(ans)
+		//value after calculator
+		ans = parseFloat(ans.toFixed(TOFIXEDVALUE))
 		if (!isNaN(ans))
       		ret.push(ans)
 	}
