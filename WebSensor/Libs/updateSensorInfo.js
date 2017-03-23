@@ -93,14 +93,14 @@ function onLoadSensorInfo(){
 			for (var i = 0; i < res.length; i ++)
 			{
 				var data = res[i].split(",")
-				if (data.length == 2)
+				if (data.length == 3)
 				{
 					var displayIndex = parseInt(data[0]) + 1
 					realtimeSensorInfo.push({
 						sensorID: parseInt(data[0]),
 						sensorName: "Sensor"+parseInt(displayIndex),
 						sensorType: data[1],
-						sensorUnit: "Unit" +parseInt(displayIndex) ,//Need change to 2
+						sensorUnit: data[2],
 						sensorDescription: ""
 					})
 				}
